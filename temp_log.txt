@@ -1,0 +1,1305 @@
+﻿commit d3fa2904f063621e7f4005b990c583bc33c7a830
+Author: karthik26-hub-lab <mrvkarthik2007@gmail.com>
+Date:   Sat Aug 8 19:24:28 2026 +0530
+
+    V3 Enterprise Release: High-End Apple UI and Masterclass Curriculum
+
+diff --git a/curriculum.js b/curriculum.js
+new file mode 100644
+index 0000000..124512c
+--- /dev/null
++++ b/curriculum.js
+@@ -0,0 +1,125 @@
++const curriculum = {
++    "Phase 1: Python Fundamentals": [
++        {
++            title: "1. Installing Python & IDE Setup",
++            theory: "An Integrated Development Environment (IDE) is a software suite that consolidates basic tools required to write and test software. Think of it like a fully equipped kitchen. Without an IDE, you are cooking on a campfire (Notepad).",
++            theory_examples: [
++                "Real World Case: Professional developers use IDEs like VS Code or PyCharm because they include syntax highlighting (coloring code), auto-completion, and live error checking, which saves hours of debugging."
++            ],
++            code: "print('Hello World')",
++            code_breakdown: [
++                "print(): This is a built-in Python function that outputs data to your screen.",
++                "'Hello World': A string (text) passed into the function as an argument."
++            ],
++            interviews: [
++                { q: "What is an IDE and why use it over a basic text editor?", a: "An IDE provides tools like debuggers, version control integration, and intellisense which drastically improve developer velocity.", example: "VS Code, PyCharm, IntelliJ" },
++                { q: "What is the difference between a compiler and an interpreter?", a: "A compiler translates the entire code into machine code before running. Python uses an interpreter, which translates and executes the code line-by-line." }
++            ],
++            quizzes: [
++                { q: "Which of the following is NOT an IDE?", options: ["A) VS Code", "B) PyCharm", "C) Microsoft Word"], ans: 2 }
++            ],
++            exercise: "Print your name to the terminal.",
++            starter_code: "print('Player 1')"
++        },
++        {
++            title: "2. Variables and Data Types",
++            theory: "A variable is a labeled container in the computer's RAM. When you assign data to it, Python allocates memory and attaches your label to that memory address.",
++            theory_examples: [
++                "Game Dev Case: In a video game, variables store player state. `health = 100` allows the game to constantly read and modify the player's health over time."
++            ],
++            code: "score = 50\nname = 'Karthik'\nis_active = True",
++            code_breakdown: [
++                "score = 50: Initializes an Integer variable. The single '=' is the assignment operator.",
++                "name = 'Karthik': Initializes a String variable (enclosed in quotes).",
++                "is_active = True: Initializes a Boolean variable. Note the capital 'T' in Python."
++            ],
++            interviews: [
++                { q: "Is Python statically or dynamically typed?", a: "Dynamically typed. You do not need to declare variable types (e.g., `int x = 5`). Python infers the type at runtime.", example: "You can do `x = 5` and then `x = 'hello'` without crashing." },
++                { q: "What are the rules for naming variables?", a: "Must start with a letter or underscore. Cannot start with a number. Cannot use reserved keywords (like 'for', 'if')." }
++            ],
++            quizzes: [
++                { q: "Which variable name is invalid in Python?", options: ["A) _score", "B) 1st_player", "C) player_one"], ans: 1 },
++                { q: "What data type is the value 3.14?", options: ["A) String", "B) Integer", "C) Float"], ans: 2 }
++            ],
++            exercise: "Create a float variable called 'price' and set it to 9.99.",
++            starter_code: "price = 9.99\nprint(price)"
++        },
++        {
++            title: "3. Conditionals & Loops",
++            theory: "Control flow dictates the order in which code executes. Conditionals (if/else) act as decision forks, while Loops (for/while) allow repetitive execution of code blocks without rewriting them.",
++            theory_examples: [
++                "E-Commerce Case: When checking out on Amazon, an `if` statement checks `if user.balance >= item.price`. If True, purchase goes through. Else, it returns 'Insufficient Funds'."
++            ],
++            code: "for num in range(3):\n    if num % 2 == 0:\n        print('Even')\n    else:\n        print('Odd')",
++            code_breakdown: [
++                "for num in range(3): Loops exactly 3 times (num becomes 0, 1, 2).",
++                "if num % 2 == 0: The modulo operator (%) returns the remainder of division. If remainder is 0, the number is Even.",
++                "print('Even'): Code blocks in Python are defined by indentation (4 spaces). This runs if the condition is True."
++            ],
++            interviews: [
++                { q: "What is an infinite loop?", a: "A loop whose exit condition is never met. Often occurs in `while` loops if you forget to increment the counter.", example: "while True: pass" },
++                { q: "What is the difference between `break` and `continue`?", a: "`break` completely escapes and destroys the loop. `continue` immediately skips the rest of the current iteration and jumps to the next one." }
++            ],
++            quizzes: [
++                { q: "What does the modulo (%) operator do?", options: ["A) Calculates percentage", "B) Returns the remainder of division", "C) Divides two numbers"], ans: 1 },
++                { q: "Which keyword skips the current loop iteration?", options: ["A) stop", "B) break", "C) continue"], ans: 2 }
++            ],
++            exercise: "Write a for loop that prints the numbers 0 to 4.",
++            starter_code: "for i in range(5):\n    print(i)"
++        }
++    ],
++    "Phase 1.5: Intermediate Python ($500 Masterclass)": [
++        {
++            title: "18.1 List Comprehension Mastery",
++            theory: "List Comprehensions provide a concise way to create lists. Common applications are to make new lists where each element is the result of some operations applied to each member of another sequence or iterable. They are considered highly 'Pythonic'.",
++            theory_examples: [
++                "Data Science Case: You have a database dump of user ages as strings ['18', '21', '35']. You need them as Integers to do math. A List Comprehension handles this transformation in milliseconds."
++            ],
++            code: "# The Old Way (Slow)\nnums = [1, 2, 3, 4]\ndoubled = []\nfor x in nums:\n    if x % 2 == 0:\n        doubled.append(x * 2)\n\n# The Pythonic Way (Fast)\npythonic_doubled = [x * 2 for x in nums if x % 2 == 0]",
++            code_breakdown: [
++                "[ ... ]: The brackets indicate we are building a new List.",
++                "x * 2: The 'Expression' or 'Output'. This is what gets saved into the new list.",
++                "for x in nums: The 'Iterable'. We are looping through the existing list.",
++                "if x % 2 == 0: The optional 'Condition'. Only items that pass this test are processed."
++            ],
++            interviews: [
++                { q: "Why use List Comprehension over a traditional For Loop?", a: "List comprehensions are generally faster under the hood (written in C) and make the code more readable by reducing 4 lines of logic into 1.", example: "[name.upper() for name in users]" },
++                { q: "Can you have nested loops in a List Comprehension?", a: "Yes, though it can become hard to read. Example: [x*y for x in range(3) for y in range(3)]" },
++                { q: "What happens if you use parentheses () instead of brackets []?", a: "It creates a Generator Expression instead of a List Comprehension, which is highly memory efficient." }
++            ],
++            quizzes: [
++                { q: "What is the primary output of a List Comprehension?", options: ["A) A Dictionary", "B) A new List", "C) A Tuple"], ans: 1 },
++                { q: "Which syntax is used for the condition in a List Comprehension?", options: ["A) while condition:", "B) filter(condition)", "C) if condition"], ans: 2 },
++                { q: "True or False: List comprehensions are generally faster than standard for-loops in Python.", options: ["A) True", "B) False", "C) Only for floats"], ans: 0 }
++            ],
++            exercise: "Create a list comprehension that converts all names in the list to uppercase.",
++            starter_code: "names = ['karthik', 'john', 'doe']\n# Your code here:\nupper_names = [n.upper() for n in names]\nprint(upper_names)"
++        },
++        {
++            title: "18.2 *args and **kwargs Deep Dive",
++            theory: "When building enterprise functions, you often don't know how many arguments a user will pass. The unpacking operators `*` (args) and `**` (kwargs) act as dynamic nets, catching unlimited arguments and packing them into Tuples and Dictionaries.",
++            theory_examples: [
++                "Web Dev Case: A logging function needs to accept any number of variables to print them to the server console. By using `*args`, the logger can accept 1 string or 50 strings without crashing."
++            ],
++            code: "def server_log(timestamp, *args, **kwargs):\n    print(f'Time: {timestamp}')\n    \n    for msg in args:\n        print(f'Log: {msg}')\n        \n    for key, val in kwargs.items():\n        print(f'Meta - {key}: {val}')\n\nserver_log('10:00', 'DB Failed', 'Retrying', user_id=405, server='AWS')",
++            code_breakdown: [
++                "timestamp: A standard, required positional argument.",
++                "*args: Catches 'DB Failed' and 'Retrying' and packs them into a Tuple.",
++                "**kwargs: Catches the keyword arguments user_id=405 and server='AWS' and packs them into a Dictionary.",
++                "kwargs.items(): Used to loop over both the Keys and Values of a dictionary."
++            ],
++            interviews: [
++                { q: "Does the variable have to be named 'args'?", a: "No, the magic is in the `*` symbol. You could name it `*toppings` or `*data`. However, `*args` is the industry standard convention." },
++                { q: "What is the mandatory order of arguments in a function definition?", a: "Standard Args -> *args -> Default/Keyword Args -> **kwargs." },
++                { q: "How do you unpack a list into a function?", a: "By putting a `*` in front of the list when calling the function. e.g., `func(*my_list)`." }
++            ],
++            quizzes: [
++                { q: "What data type does **kwargs compile into?", options: ["A) Tuple", "B) List", "C) Dictionary"], ans: 2 },
++                { q: "What data type does *args compile into?", options: ["A) Tuple", "B) List", "C) Dictionary"], ans: 0 },
++                { q: "Which is the correct order for parameters in a function signature?", options: ["A) *args, normal, **kwargs", "B) normal, *args, **kwargs", "C) **kwargs, *args, normal"], ans: 1 }
++            ],
++            exercise: "Write a function using *args that adds an unlimited amount of numbers together and returns the sum.",
++            starter_code: "def add_all(*args):\n    return sum(args)\n\nprint(add_all(10, 20, 30, 40))"
++        }
++    ]
++};
+
+commit e9ee3390e141daea454277c516d7f0c82e3e83a4
+Author: karthik26-hub-lab <mrvkarthik2007@gmail.com>
+Date:   Sat Aug 8 19:33:16 2026 +0530
+
+    V4: Cinematic Intro and Output Verification
+
+diff --git a/curriculum.js b/curriculum.js
+index 124512c..7d5091e 100644
+--- a/curriculum.js
++++ b/curriculum.js
+@@ -18,8 +18,9 @@ const curriculum = {
+             quizzes: [
+                 { q: "Which of the following is NOT an IDE?", options: ["A) VS Code", "B) PyCharm", "C) Microsoft Word"], ans: 2 }
+             ],
+-            exercise: "Print your name to the terminal.",
+-            starter_code: "print('Player 1')"
++            exercise: "Use the print function to output exactly: 'Player 1 Ready'",
++            starter_code: "print('Player 1 Ready')",
++            expected_output: "Player 1 Ready"
+         },
+         {
+             title: "2. Variables and Data Types",
+@@ -41,8 +42,9 @@ const curriculum = {
+                 { q: "Which variable name is invalid in Python?", options: ["A) _score", "B) 1st_player", "C) player_one"], ans: 1 },
+                 { q: "What data type is the value 3.14?", options: ["A) String", "B) Integer", "C) Float"], ans: 2 }
+             ],
+-            exercise: "Create a float variable called 'price' and set it to 9.99.",
+-            starter_code: "price = 9.99\nprint(price)"
++            exercise: "Create a variable called 'price' and set it to 9.99. Print it.",
++            starter_code: "price = 9.99\nprint(price)",
++            expected_output: "9.99"
+         },
+         {
+             title: "3. Conditionals & Loops",
+@@ -64,8 +66,9 @@ const curriculum = {
+                 { q: "What does the modulo (%) operator do?", options: ["A) Calculates percentage", "B) Returns the remainder of division", "C) Divides two numbers"], ans: 1 },
+                 { q: "Which keyword skips the current loop iteration?", options: ["A) stop", "B) break", "C) continue"], ans: 2 }
+             ],
+-            exercise: "Write a for loop that prints the numbers 0 to 4.",
+-            starter_code: "for i in range(5):\n    print(i)"
++            exercise: "Write a loop that adds 0, 1, 2, 3, and 4 together. Print the final sum.",
++            starter_code: "total = 0\nfor i in range(5):\n    total += i\nprint(total)",
++            expected_output: "10"
+         }
+     ],
+     "Phase 1.5: Intermediate Python ($500 Masterclass)": [
+@@ -92,8 +95,9 @@ const curriculum = {
+                 { q: "Which syntax is used for the condition in a List Comprehension?", options: ["A) while condition:", "B) filter(condition)", "C) if condition"], ans: 2 },
+                 { q: "True or False: List comprehensions are generally faster than standard for-loops in Python.", options: ["A) True", "B) False", "C) Only for floats"], ans: 0 }
+             ],
+-            exercise: "Create a list comprehension that converts all names in the list to uppercase.",
+-            starter_code: "names = ['karthik', 'john', 'doe']\n# Your code here:\nupper_names = [n.upper() for n in names]\nprint(upper_names)"
++            exercise: "Create a list comprehension that converts all names to uppercase. Print only the first name in the new list.",
++            starter_code: "names = ['karthik', 'john', 'doe']\n# Your code here:\nupper_names = [n.upper() for n in names]\nprint(upper_names[0])",
++            expected_output: "KARTHIK"
+         },
+         {
+             title: "18.2 *args and **kwargs Deep Dive",
+@@ -118,8 +122,9 @@ const curriculum = {
+                 { q: "What data type does *args compile into?", options: ["A) Tuple", "B) List", "C) Dictionary"], ans: 0 },
+                 { q: "Which is the correct order for parameters in a function signature?", options: ["A) *args, normal, **kwargs", "B) normal, *args, **kwargs", "C) **kwargs, *args, normal"], ans: 1 }
+             ],
+-            exercise: "Write a function using *args that adds an unlimited amount of numbers together and returns the sum.",
+-            starter_code: "def add_all(*args):\n    return sum(args)\n\nprint(add_all(10, 20, 30, 40))"
++            exercise: "Write a function using *args that adds an unlimited amount of numbers together and returns the sum. Print the result of passing 10, 20, 30, and 40 into it.",
++            starter_code: "def add_all(*args):\n    return sum(args)\n\nprint(add_all(10, 20, 30, 40))",
++            expected_output: "100"
+         }
+     ]
+ };
+
+commit 86dc9ddfbacdf8bf8a7dfd8b8eff98c464c8cd40
+Author: karthik26-hub-lab <mrvkarthik2007@gmail.com>
+Date:   Sat Aug 8 19:40:43 2026 +0530
+
+    V5: Complete Masterclass Curriculum Expansion
+
+diff --git a/curriculum.js b/curriculum.js
+index 7d5091e..2986fab 100644
+--- a/curriculum.js
++++ b/curriculum.js
+@@ -1,130 +1,250 @@
+ const curriculum = {
+     "Phase 1: Python Fundamentals": [
+         {
+-            title: "1. Installing Python & IDE Setup",
+-            theory: "An Integrated Development Environment (IDE) is a software suite that consolidates basic tools required to write and test software. Think of it like a fully equipped kitchen. Without an IDE, you are cooking on a campfire (Notepad).",
+-            theory_examples: [
+-                "Real World Case: Professional developers use IDEs like VS Code or PyCharm because they include syntax highlighting (coloring code), auto-completion, and live error checking, which saves hours of debugging."
+-            ],
++            title: "1. Python IDE Setup",
++            theory: "An Integrated Development Environment (IDE) consolidates basic tools required to write and test software. Without an IDE, you're coding on a campfire.",
++            theory_examples: ["Real World Case: Developers use IDEs like VS Code because syntax highlighting and live error checking save hours of debugging."],
+             code: "print('Hello World')",
+-            code_breakdown: [
+-                "print(): This is a built-in Python function that outputs data to your screen.",
+-                "'Hello World': A string (text) passed into the function as an argument."
+-            ],
+-            interviews: [
+-                { q: "What is an IDE and why use it over a basic text editor?", a: "An IDE provides tools like debuggers, version control integration, and intellisense which drastically improve developer velocity.", example: "VS Code, PyCharm, IntelliJ" },
+-                { q: "What is the difference between a compiler and an interpreter?", a: "A compiler translates the entire code into machine code before running. Python uses an interpreter, which translates and executes the code line-by-line." }
+-            ],
+-            quizzes: [
+-                { q: "Which of the following is NOT an IDE?", options: ["A) VS Code", "B) PyCharm", "C) Microsoft Word"], ans: 2 }
+-            ],
+-            exercise: "Use the print function to output exactly: 'Player 1 Ready'",
+-            starter_code: "print('Player 1 Ready')",
+-            expected_output: "Player 1 Ready"
+-        },
+-        {
+-            title: "2. Variables and Data Types",
+-            theory: "A variable is a labeled container in the computer's RAM. When you assign data to it, Python allocates memory and attaches your label to that memory address.",
+-            theory_examples: [
+-                "Game Dev Case: In a video game, variables store player state. `health = 100` allows the game to constantly read and modify the player's health over time."
+-            ],
+-            code: "score = 50\nname = 'Karthik'\nis_active = True",
+-            code_breakdown: [
+-                "score = 50: Initializes an Integer variable. The single '=' is the assignment operator.",
+-                "name = 'Karthik': Initializes a String variable (enclosed in quotes).",
+-                "is_active = True: Initializes a Boolean variable. Note the capital 'T' in Python."
+-            ],
+-            interviews: [
+-                { q: "Is Python statically or dynamically typed?", a: "Dynamically typed. You do not need to declare variable types (e.g., `int x = 5`). Python infers the type at runtime.", example: "You can do `x = 5` and then `x = 'hello'` without crashing." },
+-                { q: "What are the rules for naming variables?", a: "Must start with a letter or underscore. Cannot start with a number. Cannot use reserved keywords (like 'for', 'if')." }
+-            ],
+-            quizzes: [
+-                { q: "Which variable name is invalid in Python?", options: ["A) _score", "B) 1st_player", "C) player_one"], ans: 1 },
+-                { q: "What data type is the value 3.14?", options: ["A) String", "B) Integer", "C) Float"], ans: 2 }
+-            ],
+-            exercise: "Create a variable called 'price' and set it to 9.99. Print it.",
+-            starter_code: "price = 9.99\nprint(price)",
+-            expected_output: "9.99"
+-        },
+-        {
+-            title: "3. Conditionals & Loops",
+-            theory: "Control flow dictates the order in which code executes. Conditionals (if/else) act as decision forks, while Loops (for/while) allow repetitive execution of code blocks without rewriting them.",
+-            theory_examples: [
+-                "E-Commerce Case: When checking out on Amazon, an `if` statement checks `if user.balance >= item.price`. If True, purchase goes through. Else, it returns 'Insufficient Funds'."
+-            ],
+-            code: "for num in range(3):\n    if num % 2 == 0:\n        print('Even')\n    else:\n        print('Odd')",
+-            code_breakdown: [
+-                "for num in range(3): Loops exactly 3 times (num becomes 0, 1, 2).",
+-                "if num % 2 == 0: The modulo operator (%) returns the remainder of division. If remainder is 0, the number is Even.",
+-                "print('Even'): Code blocks in Python are defined by indentation (4 spaces). This runs if the condition is True."
+-            ],
+-            interviews: [
+-                { q: "What is an infinite loop?", a: "A loop whose exit condition is never met. Often occurs in `while` loops if you forget to increment the counter.", example: "while True: pass" },
+-                { q: "What is the difference between `break` and `continue`?", a: "`break` completely escapes and destroys the loop. `continue` immediately skips the rest of the current iteration and jumps to the next one." }
+-            ],
+-            quizzes: [
+-                { q: "What does the modulo (%) operator do?", options: ["A) Calculates percentage", "B) Returns the remainder of division", "C) Divides two numbers"], ans: 1 },
+-                { q: "Which keyword skips the current loop iteration?", options: ["A) stop", "B) break", "C) continue"], ans: 2 }
+-            ],
+-            exercise: "Write a loop that adds 0, 1, 2, 3, and 4 together. Print the final sum.",
+-            starter_code: "total = 0\nfor i in range(5):\n    total += i\nprint(total)",
+-            expected_output: "10"
++            code_breakdown: ["print(): Built-in function to output data.", "'Hello World': A string argument."],
++            interviews: [{ q: "What is an IDE?", a: "A software suite offering code editing, debugging, and execution tools.", example: "VS Code, PyCharm" }],
++            quizzes: [{ q: "Which is an IDE?", options: ["A) Terminal", "B) VS Code", "C) Python"], ans: 1 }],
++            exercise: "Print 'Ready' to the terminal.",
++            starter_code: "print('Ready')",
++            expected_output: "Ready"
++        },
++        {
++            title: "2. Variables & Data Types",
++            theory: "A variable is a labeled container in memory. Data types tell Python how to handle that memory (Text, Numbers, Decimals).",
++            theory_examples: ["Game Dev: `health = 100` allows the game to modify player state over time."],
++            code: "name = 'Karthik'\nage = 19\nprice = 9.99",
++            code_breakdown: ["name: String variable.", "age: Integer variable.", "price: Float variable."],
++            interviews: [{ q: "Is Python statically typed?", a: "No, dynamically typed. You don't declare types upfront." }],
++            quizzes: [{ q: "What data type is 3.14?", options: ["A) Integer", "B) String", "C) Float"], ans: 2 }],
++            exercise: "Create a variable `x` set to 50, and print it.",
++            starter_code: "x = 50\nprint(x)",
++            expected_output: "50"
++        },
++        {
++            title: "3. Input and Output",
++            theory: "Input() pauses the program to capture keystrokes from the user. It always returns a string, so math requires casting (int() or float()).",
++            theory_examples: ["E-Commerce: Asking a user for their credit card requires capturing input and converting it securely."],
++            code: "age_str = input('Age? ')\nage = int(age_str)",
++            code_breakdown: ["input(): Halts execution to read terminal text.", "int(): Converts the string text into a math-ready integer."],
++            interviews: [{ q: "What does input() return?", a: "Always returns a String type." }],
++            quizzes: [{ q: "How do you convert string '5' to a math number?", options: ["A) str('5')", "B) int('5')", "C) float('5')"], ans: 1 }],
++            exercise: "Print exactly: 'Input Accepted'",
++            starter_code: "# Normally we do name = input()\nprint('Input Accepted')",
++            expected_output: "Input Accepted"
++        },
++        {
++            title: "4. Operators",
++            theory: "Operators are verbs. Arithmetic operators do math (+, -, %, /). Comparison operators evaluate Truth (==, !=, >, <).",
++            theory_examples: ["Banking App: `if withdrawal <= balance:` uses a comparison operator to allow/deny funds."],
++            code: "a = 10\nb = 3\nprint(a % b)",
++            code_breakdown: ["a % b: Modulo. Divides 10 by 3 and returns the remainder (1)."],
++            interviews: [{ q: "Difference between = and ==?", a: "= assigns a value. == compares two values." }],
++            quizzes: [{ q: "What does 10 % 3 output?", options: ["A) 3.33", "B) 1", "C) 3"], ans: 1 }],
++            exercise: "Print the remainder of 10 divided by 3.",
++            starter_code: "print(10 % 3)",
++            expected_output: "1"
++        },
++        {
++            title: "5. Conditionals (If/Else)",
++            theory: "Conditionals act as decision forks. `if` a condition is True, a block runs. `elif` chains conditions. `else` is the final fallback.",
++            theory_examples: ["Authentication: `if password == db_password:` unlocks the account."],
++            code: "hp = 0\nif hp > 0:\n    print('Alive')\nelse:\n    print('Dead')",
++            code_breakdown: ["if hp > 0: Evaluates to False (0 is not > 0).", "else:: Catches all False conditions."],
++            interviews: [{ q: "Can you use else without if?", a: "No, else must immediately follow an if or elif block." }],
++            quizzes: [{ q: "When does 'else' trigger?", options: ["A) Always", "B) When preceding 'if' is False", "C) When an error occurs"], ans: 1 }],
++            exercise: "Write an if/else block that prints 'Pass' if score is 50. I set score to 50 for you.",
++            starter_code: "score = 50\nif score >= 50:\n    print('Pass')\nelse:\n    print('Fail')",
++            expected_output: "Pass"
++        },
++        {
++            title: "6. Loops (For / While)",
++            theory: "Loops automate repetition. A `for` loop iterates a specific number of times. A `while` loop runs endlessly until a condition becomes False.",
++            theory_examples: ["Game Engine: A `while True:` loop keeps the game running frame-by-frame until the user hits Quit."],
++            code: "for i in range(3):\n    print(i)",
++            code_breakdown: ["range(3): Generates a sequence 0, 1, 2.", "print(i): Executes 3 times."],
++            interviews: [{ q: "What is `break` vs `continue`?", a: "`break` exits the loop permanently. `continue` skips the current iteration and moves to the next." }],
++            quizzes: [{ q: "Which loop is best for running code exactly 5 times?", options: ["A) While Loop", "B) For Loop", "C) Infinite Loop"], ans: 1 }],
++            exercise: "Write a for loop that adds 0, 1, and 2 together. Print the final sum.",
++            starter_code: "total = 0\nfor i in range(3):\n    total += i\nprint(total)",
++            expected_output: "3"
++        },
++        {
++            title: "7. Functions",
++            theory: "Functions are reusable machines. You pass raw materials (arguments), it executes isolated code, and spits out a product (return).",
++            theory_examples: ["Banking: `calculate_tax(salary)` can be reused for every employee without copying the math 10,000 times."],
++            code: "def add(a, b):\n    return a + b\n\nresult = add(5, 5)",
++            code_breakdown: ["def: Keyword to define a function.", "return: Hands data back to the global scope. Ends the function instantly."],
++            interviews: [{ q: "Print vs Return?", a: "Print is just for humans to read. Return actually saves the data into memory for the computer to use." }],
++            quizzes: [{ q: "What keyword sends data back from a function?", options: ["A) yield", "B) return", "C) output"], ans: 1 }],
++            exercise: "Write a function `multiply(x, y)` that returns the product. Print multiply(4, 5).",
++            starter_code: "def multiply(x, y):\n    return x * y\nprint(multiply(4, 5))",
++            expected_output: "20"
++        },
++        {
++            title: "8. Lists",
++            theory: "Lists are mutable, ordered arrays. They store multiple items in a single variable. Accessible via 0-based indexing.",
++            theory_examples: ["Social Media: A user's timeline is a List of post objects, ordered by time."],
++            code: "cart = ['Apple', 'Banana']\ncart.append('Orange')\nprint(cart[0])",
++            code_breakdown: [".append(): Method that adds an item to the end of the list in memory.", "cart[0]: Retrieves the 1st item (Apple)."],
++            interviews: [{ q: "How do you get the last item in a list?", a: "Use `my_list[-1]`." }],
++            quizzes: [{ q: "What index is the first item in a Python list?", options: ["A) 1", "B) -1", "C) 0"], ans: 2 }],
++            exercise: "Print the 2nd item in this list.",
++            starter_code: "names = ['John', 'Karthik', 'Bob']\nprint(names[1])",
++            expected_output: "Karthik"
++        },
++        {
++            title: "9. Tuples",
++            theory: "Tuples are identical to Lists, but they are IMMUTABLE. Once created, they can never be modified. They use less memory.",
++            theory_examples: ["Database: SQL query results are returned as Tuples to prevent the app from accidentally changing the raw database data."],
++            code: "coords = (10, 20)\n# coords[0] = 15  <-- Crashes!",
++            code_breakdown: ["(10, 20): Parentheses define a Tuple. Brackets define a List."],
++            interviews: [{ q: "Why use a Tuple over a List?", a: "To ensure data integrity (read-only) and for slight performance gains." }],
++            quizzes: [{ q: "Are Tuples mutable?", options: ["A) Yes", "B) No"], ans: 1 }],
++            exercise: "Create a tuple `t` with values 1 and 2. Print the first value.",
++            starter_code: "t = (1, 2)\nprint(t[0])",
++            expected_output: "1"
++        },
++        {
++            title: "10. Dictionaries",
++            theory: "Dictionaries store Key-Value pairs. They are optimized for instant O(1) lookups by Key.",
++            theory_examples: ["Web APIs: Almost all web traffic (JSON) translates directly into Python dictionaries (e.g. `user['email']`)."],
++            code: "user = {'id': 5, 'name': 'Karthik'}\nprint(user['name'])",
++            code_breakdown: ["{'id': 5}: Curly braces define a dictionary. 'id' is the Key, 5 is the Value."],
++            interviews: [{ q: "What happens if you access a missing key?", a: "Throws a KeyError. Use `dict.get('key')` to return None safely instead." }],
++            quizzes: [{ q: "What is the lookup speed of a dictionary key?", options: ["A) O(1) Instant", "B) O(N) Linear", "C) O(N^2)"], ans: 0 }],
++            exercise: "Print the value of the 'age' key.",
++            starter_code: "data = {'name': 'Karthik', 'age': 19}\nprint(data['age'])",
++            expected_output: "19"
++        },
++        {
++            title: "11. Sets",
++            theory: "Sets are unordered collections of UNIQUE items. They are built on Hash Tables, making checking `if item in set` lightning fast.",
++            theory_examples: ["Analytics: Finding unique visitors to a website. Add all IP addresses to a Set, and duplicates vanish instantly."],
++            code: "ids = {1, 2, 2, 3}\nprint(ids) # {1, 2, 3}",
++            code_breakdown: ["{1, 2, 2}: Defines a Set. The second '2' is instantly destroyed."],
++            interviews: [{ q: "Do sets maintain order?", a: "No. You cannot use indexing like `my_set[0]` on a set." }],
++            quizzes: [{ q: "Which structure automatically destroys duplicate items?", options: ["A) List", "B) Tuple", "C) Set"], ans: 2 }],
++            exercise: "Convert the list to a set to remove duplicates, then print the length.",
++            starter_code: "nums = [1, 1, 2, 2, 3]\nclean = set(nums)\nprint(len(clean))",
++            expected_output: "3"
++        },
++        {
++            title: "12. Strings",
++            theory: "Strings are actually just immutable Lists of characters under the hood. You can slice them `name[0:3]` and loop through them.",
++            theory_examples: ["Data Cleaning: Strip whitespace from user inputs `email.strip().lower()` before saving to database."],
++            code: "text = ' Hello '\nclean = text.strip()",
++            code_breakdown: [".strip(): Built-in method that destroys leading/trailing whitespace."],
++            interviews: [{ q: "Are strings mutable?", a: "No. `text.replace()` creates a brand new string in memory." }],
++            quizzes: [{ q: "What does .upper() do?", options: ["A) Makes text bold", "B) Converts text to UPPERCASE", "C) Deletes vowels"], ans: 1 }],
++            exercise: "Print the string in uppercase.",
++            starter_code: "print('python'.upper())",
++            expected_output: "PYTHON"
++        },
++        {
++            title: "13. OOP (Classes)",
++            theory: "Object-Oriented Programming (OOP) allows you to bundle Data (variables) and Behaviors (functions) into a single Custom Object.",
++            theory_examples: ["Enterprise Architecture: Everything in an app is an Object. `User`, `Invoice`, `DatabaseConnection`."],
++            code: "class Dog:\n    def __init__(self, name):\n        self.name = name\n\nd = Dog('Rex')\nprint(d.name)",
++            code_breakdown: ["class Dog:: Defines the blueprint.", "__init__: The constructor. Runs automatically when a new Dog is created.", "self: References the specific object being instantiated."],
++            interviews: [{ q: "What is `self`?", a: "A reference to the current instance of the class, allowing access to its specific attributes." }],
++            quizzes: [{ q: "What method acts as the constructor in Python?", options: ["A) __build__", "B) __init__", "C) start()"], ans: 1 }],
++            exercise: "Print the name of the Car object.",
++            starter_code: "class Car:\n    def __init__(self, brand):\n        self.brand = brand\nc = Car('Tesla')\nprint(c.brand)",
++            expected_output: "Tesla"
+         }
+     ],
+-    "Phase 1.5: Intermediate Python ($500 Masterclass)": [
+-        {
+-            title: "18.1 List Comprehension Mastery",
+-            theory: "List Comprehensions provide a concise way to create lists. Common applications are to make new lists where each element is the result of some operations applied to each member of another sequence or iterable. They are considered highly 'Pythonic'.",
+-            theory_examples: [
+-                "Data Science Case: You have a database dump of user ages as strings ['18', '21', '35']. You need them as Integers to do math. A List Comprehension handles this transformation in milliseconds."
+-            ],
+-            code: "# The Old Way (Slow)\nnums = [1, 2, 3, 4]\ndoubled = []\nfor x in nums:\n    if x % 2 == 0:\n        doubled.append(x * 2)\n\n# The Pythonic Way (Fast)\npythonic_doubled = [x * 2 for x in nums if x % 2 == 0]",
+-            code_breakdown: [
+-                "[ ... ]: The brackets indicate we are building a new List.",
+-                "x * 2: The 'Expression' or 'Output'. This is what gets saved into the new list.",
+-                "for x in nums: The 'Iterable'. We are looping through the existing list.",
+-                "if x % 2 == 0: The optional 'Condition'. Only items that pass this test are processed."
+-            ],
+-            interviews: [
+-                { q: "Why use List Comprehension over a traditional For Loop?", a: "List comprehensions are generally faster under the hood (written in C) and make the code more readable by reducing 4 lines of logic into 1.", example: "[name.upper() for name in users]" },
+-                { q: "Can you have nested loops in a List Comprehension?", a: "Yes, though it can become hard to read. Example: [x*y for x in range(3) for y in range(3)]" },
+-                { q: "What happens if you use parentheses () instead of brackets []?", a: "It creates a Generator Expression instead of a List Comprehension, which is highly memory efficient." }
+-            ],
+-            quizzes: [
+-                { q: "What is the primary output of a List Comprehension?", options: ["A) A Dictionary", "B) A new List", "C) A Tuple"], ans: 1 },
+-                { q: "Which syntax is used for the condition in a List Comprehension?", options: ["A) while condition:", "B) filter(condition)", "C) if condition"], ans: 2 },
+-                { q: "True or False: List comprehensions are generally faster than standard for-loops in Python.", options: ["A) True", "B) False", "C) Only for floats"], ans: 0 }
+-            ],
+-            exercise: "Create a list comprehension that converts all names to uppercase. Print only the first name in the new list.",
+-            starter_code: "names = ['karthik', 'john', 'doe']\n# Your code here:\nupper_names = [n.upper() for n in names]\nprint(upper_names[0])",
+-            expected_output: "KARTHIK"
+-        },
+-        {
+-            title: "18.2 *args and **kwargs Deep Dive",
+-            theory: "When building enterprise functions, you often don't know how many arguments a user will pass. The unpacking operators `*` (args) and `**` (kwargs) act as dynamic nets, catching unlimited arguments and packing them into Tuples and Dictionaries.",
+-            theory_examples: [
+-                "Web Dev Case: A logging function needs to accept any number of variables to print them to the server console. By using `*args`, the logger can accept 1 string or 50 strings without crashing."
+-            ],
+-            code: "def server_log(timestamp, *args, **kwargs):\n    print(f'Time: {timestamp}')\n    \n    for msg in args:\n        print(f'Log: {msg}')\n        \n    for key, val in kwargs.items():\n        print(f'Meta - {key}: {val}')\n\nserver_log('10:00', 'DB Failed', 'Retrying', user_id=405, server='AWS')",
+-            code_breakdown: [
+-                "timestamp: A standard, required positional argument.",
+-                "*args: Catches 'DB Failed' and 'Retrying' and packs them into a Tuple.",
+-                "**kwargs: Catches the keyword arguments user_id=405 and server='AWS' and packs them into a Dictionary.",
+-                "kwargs.items(): Used to loop over both the Keys and Values of a dictionary."
+-            ],
+-            interviews: [
+-                { q: "Does the variable have to be named 'args'?", a: "No, the magic is in the `*` symbol. You could name it `*toppings` or `*data`. However, `*args` is the industry standard convention." },
+-                { q: "What is the mandatory order of arguments in a function definition?", a: "Standard Args -> *args -> Default/Keyword Args -> **kwargs." },
+-                { q: "How do you unpack a list into a function?", a: "By putting a `*` in front of the list when calling the function. e.g., `func(*my_list)`." }
+-            ],
+-            quizzes: [
+-                { q: "What data type does **kwargs compile into?", options: ["A) Tuple", "B) List", "C) Dictionary"], ans: 2 },
+-                { q: "What data type does *args compile into?", options: ["A) Tuple", "B) List", "C) Dictionary"], ans: 0 },
+-                { q: "Which is the correct order for parameters in a function signature?", options: ["A) *args, normal, **kwargs", "B) normal, *args, **kwargs", "C) **kwargs, *args, normal"], ans: 1 }
+-            ],
+-            exercise: "Write a function using *args that adds an unlimited amount of numbers together and returns the sum. Print the result of passing 10, 20, 30, and 40 into it.",
+-            starter_code: "def add_all(*args):\n    return sum(args)\n\nprint(add_all(10, 20, 30, 40))",
+-            expected_output: "100"
++    "Phase 1.5: Intermediate Python": [
++        {
++            title: "14. List Comprehension",
++            theory: "A highly optimized, 'Pythonic' way to construct new lists from iterables in a single line of code.",
++            theory_examples: ["Data Engineering: Parsing millions of rows. List comprehensions are written in C under the hood, running much faster than normal Python loops."],
++            code: "evens = [x for x in range(10) if x % 2 == 0]",
++            code_breakdown: ["x: The output value.", "for x in range: The loop.", "if x % 2 == 0: The condition filter."],
++            interviews: [{ q: "Why use list comprehension?", a: "Performance speed and code readability." }],
++            quizzes: [{ q: "Is list comprehension faster than a standard for-loop?", options: ["A) Yes", "B) No"], ans: 0 }],
++            exercise: "Print a list of numbers 0,1,2 using list comprehension.",
++            starter_code: "nums = [x for x in range(3)]\nprint(nums)",
++            expected_output: "[0, 1, 2]"
++        },
++        {
++            title: "15. *args and **kwargs",
++            theory: "Allows a function to accept a dynamic, unlimited number of arguments. *args packs them into a Tuple, **kwargs packs keyword args into a Dict.",
++            theory_examples: ["Logging: `def log(*args)` can accept 1 message or 50 messages dynamically."],
++            code: "def add(*args):\n    return sum(args)",
++            code_breakdown: ["*args: The asterisk unpacks unlimited positional arguments into a single Tuple."],
++            interviews: [{ q: "What data type is **kwargs?", a: "A Dictionary." }],
++            quizzes: [{ q: "What data type is *args?", options: ["A) Tuple", "B) List", "C) Dictionary"], ans: 0 }],
++            exercise: "Use the add function to sum 10 and 20. Print the result.",
++            starter_code: "def add(*args):\n    return sum(args)\nprint(add(10, 20))",
++            expected_output: "30"
++        },
++        {
++            title: "16. Enumerate & Zip",
++            theory: "Enumerate tracks the index while looping. Zip perfectly combines two parallel lists together like a jacket zipper.",
++            theory_examples: ["Data Science: Zipping a list of 'Column_Names' with a list of 'Data_Values' to create a Dictionary."],
++            code: "names = ['A', 'B']\nfor idx, name in enumerate(names):\n    print(idx)",
++            code_breakdown: ["enumerate(): Yields a tuple of (index, value) on each iteration."],
++            interviews: [{ q: "Why use enumerate instead of range(len())?", a: "It's cleaner, more Pythonic, and prevents off-by-one errors." }],
++            quizzes: [{ q: "What function pairs two lists together?", options: ["A) combine()", "B) zip()", "C) join()"], ans: 1 }],
++            exercise: "Print the index of the first enumerate loop.",
++            starter_code: "for idx, val in enumerate(['Apple']):\n    print(idx)",
++            expected_output: "0"
++        },
++        {
++            title: "17. Big O Notation",
++            theory: "Big O measures how algorithm performance degrades as data scales to infinity. O(1) is instant. O(N) takes linear time.",
++            theory_examples: ["System Design: If you have 1 Billion users, an O(N) list search takes 10 seconds. An O(1) Hash Map lookup takes 1 millisecond."],
++            code: "# O(1) Dictionary Lookup\ndata = {'id': 55}\nprint(data['id'])",
++            code_breakdown: ["data['id']: Python calculates the hash of 'id' and jumps directly to that memory address. No searching required."],
++            interviews: [{ q: "What is the time complexity of a List lookup vs a Set lookup?", a: "List is O(N) because it must iterate. Set is O(1) because it uses hashing." }],
++            quizzes: [{ q: "Which is faster for looking up if an item exists?", options: ["A) A List", "B) A Set", "C) They are equal"], ans: 1 }],
++            exercise: "Print 'True' to confirm Sets are O(1).",
++            starter_code: "print('True')",
++            expected_output: "True"
++        }
++    ],
++    "Phase 2: Databases (SQL)": [
++        {
++            title: "18. Database & SQL Basics",
++            theory: "A Database is a structured system for storing data on disk. SQL is the programming language used to interact with Relational (Table-based) Databases.",
++            theory_examples: ["Backend Dev: When a user registers, Python opens a connection and runs an `INSERT INTO users` SQL query."],
++            code: "import sqlite3\nconn = sqlite3.connect(':memory:')\nc = conn.cursor()\nc.execute('CREATE TABLE usr (name TEXT)')",
++            code_breakdown: ["sqlite3.connect(':memory:'): Creates a temporary, blazing fast RAM database.", "cursor(): The object used to execute raw SQL commands."],
++            interviews: [{ q: "What is SQL Injection?", a: "A severe vulnerability where a hacker submits raw SQL code in an input field to bypass auth or drop tables." }],
++            quizzes: [{ q: "Which SQL command retrieves data?", options: ["A) PULL", "B) GET", "C) SELECT"], ans: 2 }],
++            exercise: "Print 'DB Connected' to verify you understand the theory.",
++            starter_code: "print('DB Connected')",
++            expected_output: "DB Connected"
++        },
++        {
++            title: "19. Joins and Aggregations",
++            theory: "SQL JOINs connect multiple tables together based on a shared Key. Aggregations (SUM, COUNT) calculate math on those joined tables.",
++            theory_examples: ["Analytics: Joining a `Users` table and `Orders` table to calculate the total lifetime spend per user."],
++            code: "# SELECT u.name, SUM(o.price)\n# FROM users u\n# INNER JOIN orders o ON u.id = o.user_id",
++            code_breakdown: ["INNER JOIN: Keeps only rows that have matches in both tables.", "ON: Defines the link (Foreign Key matches Primary Key)."],
++            interviews: [{ q: "Difference between INNER and LEFT join?", a: "LEFT JOIN keeps all rows from the primary table, even if the secondary table has no matching data." }],
++            quizzes: [{ q: "Which keyword counts rows?", options: ["A) TALLY()", "B) COUNT()", "C) SUM()"], ans: 1 }],
++            exercise: "Print 'Query Executed'",
++            starter_code: "print('Query Executed')",
++            expected_output: "Query Executed"
++        }
++    ],
++    "Phase 3: Algorithms": [
++        {
++            title: "20. The Two Sum Algorithm",
++            theory: "Algorithms are step-by-step recipes to solve logical problems. Data Structures are the pantries used to organize data for the recipe.",
++            theory_examples: ["FAANG Interviews: Two Sum is the most famous interview algorithm. The brute-force O(N^2) solution fails. You must use a Dictionary for O(N) performance."],
++            code: "def two_sum(nums, target):\n    seen = {}\n    for i, num in enumerate(nums):\n        if target - num in seen:\n            return [seen[target - num], i]\n        seen[num] = i",
++            code_breakdown: ["seen = {}: Initializes an O(1) lookup dictionary to store numbers we have passed.", "target - num: Calculates the complement needed to hit the target."],
++            interviews: [{ q: "What is the space complexity of optimized Two Sum?", a: "O(N), because in the worst case, we must store every number in the dictionary." }],
++            quizzes: [{ q: "What data structure optimizes Two Sum to O(N) time?", options: ["A) Nested Loops", "B) Dictionary / Hash Map", "C) Tuple"], ans: 1 }],
++            exercise: "Run the Two Sum logic manually. Target is 9. Nums are [2, 7]. Print the list of indices.",
++            starter_code: "print([0, 1])",
++            expected_output: "[0, 1]"
+         }
+     ]
+ };
+
+commit 84b67fc8bd5a1ea82026bb32f337ea6dfef03283
+Author: karthik26-hub-lab <mrvkarthik2007@gmail.com>
+Date:   Sat Aug 8 20:13:18 2026 +0530
+
+    V7: Tamil ML Masterclass (YouTube integration & Localization)
+
+diff --git a/curriculum.js b/curriculum.js
+index 2986fab..0988fb6 100644
+--- a/curriculum.js
++++ b/curriculum.js
+@@ -1,250 +1,124 @@
+ const curriculum = {
+-    "Phase 1: Python Fundamentals": [
+-        {
+-            title: "1. Python IDE Setup",
+-            theory: "An Integrated Development Environment (IDE) consolidates basic tools required to write and test software. Without an IDE, you're coding on a campfire.",
+-            theory_examples: ["Real World Case: Developers use IDEs like VS Code because syntax highlighting and live error checking save hours of debugging."],
+-            code: "print('Hello World')",
+-            code_breakdown: ["print(): Built-in function to output data.", "'Hello World': A string argument."],
+-            interviews: [{ q: "What is an IDE?", a: "A software suite offering code editing, debugging, and execution tools.", example: "VS Code, PyCharm" }],
+-            quizzes: [{ q: "Which is an IDE?", options: ["A) Terminal", "B) VS Code", "C) Python"], ans: 1 }],
+-            exercise: "Print 'Ready' to the terminal.",
+-            starter_code: "print('Ready')",
+-            expected_output: "Ready"
+-        },
+-        {
+-            title: "2. Variables & Data Types",
+-            theory: "A variable is a labeled container in memory. Data types tell Python how to handle that memory (Text, Numbers, Decimals).",
+-            theory_examples: ["Game Dev: `health = 100` allows the game to modify player state over time."],
+-            code: "name = 'Karthik'\nage = 19\nprice = 9.99",
+-            code_breakdown: ["name: String variable.", "age: Integer variable.", "price: Float variable."],
+-            interviews: [{ q: "Is Python statically typed?", a: "No, dynamically typed. You don't declare types upfront." }],
+-            quizzes: [{ q: "What data type is 3.14?", options: ["A) Integer", "B) String", "C) Float"], ans: 2 }],
+-            exercise: "Create a variable `x` set to 50, and print it.",
+-            starter_code: "x = 50\nprint(x)",
+-            expected_output: "50"
+-        },
+-        {
+-            title: "3. Input and Output",
+-            theory: "Input() pauses the program to capture keystrokes from the user. It always returns a string, so math requires casting (int() or float()).",
+-            theory_examples: ["E-Commerce: Asking a user for their credit card requires capturing input and converting it securely."],
+-            code: "age_str = input('Age? ')\nage = int(age_str)",
+-            code_breakdown: ["input(): Halts execution to read terminal text.", "int(): Converts the string text into a math-ready integer."],
+-            interviews: [{ q: "What does input() return?", a: "Always returns a String type." }],
+-            quizzes: [{ q: "How do you convert string '5' to a math number?", options: ["A) str('5')", "B) int('5')", "C) float('5')"], ans: 1 }],
+-            exercise: "Print exactly: 'Input Accepted'",
+-            starter_code: "# Normally we do name = input()\nprint('Input Accepted')",
+-            expected_output: "Input Accepted"
+-        },
+-        {
+-            title: "4. Operators",
+-            theory: "Operators are verbs. Arithmetic operators do math (+, -, %, /). Comparison operators evaluate Truth (==, !=, >, <).",
+-            theory_examples: ["Banking App: `if withdrawal <= balance:` uses a comparison operator to allow/deny funds."],
+-            code: "a = 10\nb = 3\nprint(a % b)",
+-            code_breakdown: ["a % b: Modulo. Divides 10 by 3 and returns the remainder (1)."],
+-            interviews: [{ q: "Difference between = and ==?", a: "= assigns a value. == compares two values." }],
+-            quizzes: [{ q: "What does 10 % 3 output?", options: ["A) 3.33", "B) 1", "C) 3"], ans: 1 }],
+-            exercise: "Print the remainder of 10 divided by 3.",
+-            starter_code: "print(10 % 3)",
+-            expected_output: "1"
+-        },
+-        {
+-            title: "5. Conditionals (If/Else)",
+-            theory: "Conditionals act as decision forks. `if` a condition is True, a block runs. `elif` chains conditions. `else` is the final fallback.",
+-            theory_examples: ["Authentication: `if password == db_password:` unlocks the account."],
+-            code: "hp = 0\nif hp > 0:\n    print('Alive')\nelse:\n    print('Dead')",
+-            code_breakdown: ["if hp > 0: Evaluates to False (0 is not > 0).", "else:: Catches all False conditions."],
+-            interviews: [{ q: "Can you use else without if?", a: "No, else must immediately follow an if or elif block." }],
+-            quizzes: [{ q: "When does 'else' trigger?", options: ["A) Always", "B) When preceding 'if' is False", "C) When an error occurs"], ans: 1 }],
+-            exercise: "Write an if/else block that prints 'Pass' if score is 50. I set score to 50 for you.",
+-            starter_code: "score = 50\nif score >= 50:\n    print('Pass')\nelse:\n    print('Fail')",
++    "Phase 1: Fundamentals": [
++        {
++            title: "1. Variables & Data Types",
++            theory: "Variables are containers for storing data values. Python has no command for declaring a variable; it is created the moment you first assign a value to it. Important types include int, float, str, and bool.",
++            theory_tamil: "Variables α«Äα«⌐α»ìα«¬α«╡α»ê data values-α«É store α«Üα»åα«»α»ìα«» α«¬α«»α«⌐α»ìα«¬α«ƒα»üα««α»ì containers α«åα«òα»üα««α»ì. Python-α«▓α»ì variables-α«É declare α«Üα»åα«»α»ìα«» α«ñα«⌐α«┐α«»α«╛α«ò command α«ñα»çα«╡α»êα«»α«┐α«▓α»ìα«▓α»ê; value assign α«Üα»åα«»α»ìα«»α»üα««α»ì α«¬α»ïα«ñα»ç α«àα«ñα»ü create α«åα«òα«┐α«╡α«┐α«ƒα»üα««α»ì. α««α»üα«òα»ìα«òα«┐α«» Data Types: int, float, str, bool.",
++            code: 'age = 21\nname = "Karthik"\nprice = 99.99\nis_student = True\n\nprint(f"{name} is {age} years old.")',
++            code_breakdown: [
++                "<code>age = 21</code> creates an integer.",
++                "<code>print(f'...')</code> is an f-string, letting you inject variables directly into text."
++            ],
++            interviews: [
++                {q: "What is dynamic typing in Python?", a: "You don't have to specify the type of a variable (like int or string) when creating it. Python figures it out at runtime."}
++            ],
++            quizzes: [
++                {q: "Which data type is '3.14'?", options: ["Integer", "Float", "String"], ans: 1}
++            ],
++            exercise: "Create a variable named 'score' and set it to 100. Print it.",
++            starter_code: "score = \nprint( )",
++            expected_output: "100"
++        },
++        {
++            title: "2. If/Else Conditions",
++            theory: "Conditional statements allow your code to make decisions. The `if` keyword evaluates a condition, and if True, runs the block of code beneath it. Use `elif` for multiple conditions.",
++            theory_tamil: "Conditional statements α«ëα«Öα»ìα«òα«│α»ì code-α«É α««α»üα«ƒα«┐α«╡α»üα«òα«│α»ê (decisions) α«Äα«ƒα»üα«òα»ìα«ò α«àα«⌐α»üα««α«ñα«┐α«òα»ìα«òα«┐α«⌐α»ìα«▒α«⌐. `if` keyword α«Æα«░α»ü condition-α«É α«Üα»åα«òα»ì α«Üα»åα«»α»ìα«»α»üα««α»ì, α«àα«ñα»ü True α«åα«ò α«çα«░α»üα«¿α»ìα«ñα«╛α«▓α»ì α«àα«¿α»ìα«ñ block-α«É execute α«Üα»åα«»α»ìα«»α»üα««α»ì. α«¬α«▓ conditions α«çα«░α»üα«¿α»ìα«ñα«╛α«▓α»ì `elif` α«¬α«»α«⌐α»ìα«¬α«ƒα»üα«ñα»ìα«ñα«╡α»üα««α»ì.",
++            code: 'score = 85\nif score >= 90:\n    print("A")\nelif score >= 80:\n    print("B")\nelse:\n    print("Fail")',
++            code_breakdown: [
++                "<code>if score >= 90:</code> checks the first condition.",
++                "<code>elif</code> stands for 'else if' and is checked only if the first is False."
++            ],
++            interviews: [
++                {q: "Does Python use braces {} for if statements?", a: "No, Python uses indentation (spaces/tabs) to define code blocks."}
++            ],
++            quizzes: [
++                {q: "What happens if an 'if' condition is False?", options: ["Code crashes", "It jumps to the else/elif block", "It loops forever"], ans: 1}
++            ],
++            exercise: "Write an if/else block that prints 'Pass' if 'marks' is greater than 50. Assume marks = 60.",
++            starter_code: "marks = 60\nif \n    print('Pass')\n",
+             expected_output: "Pass"
+-        },
+-        {
+-            title: "6. Loops (For / While)",
+-            theory: "Loops automate repetition. A `for` loop iterates a specific number of times. A `while` loop runs endlessly until a condition becomes False.",
+-            theory_examples: ["Game Engine: A `while True:` loop keeps the game running frame-by-frame until the user hits Quit."],
+-            code: "for i in range(3):\n    print(i)",
+-            code_breakdown: ["range(3): Generates a sequence 0, 1, 2.", "print(i): Executes 3 times."],
+-            interviews: [{ q: "What is `break` vs `continue`?", a: "`break` exits the loop permanently. `continue` skips the current iteration and moves to the next." }],
+-            quizzes: [{ q: "Which loop is best for running code exactly 5 times?", options: ["A) While Loop", "B) For Loop", "C) Infinite Loop"], ans: 1 }],
+-            exercise: "Write a for loop that adds 0, 1, and 2 together. Print the final sum.",
+-            starter_code: "total = 0\nfor i in range(3):\n    total += i\nprint(total)",
+-            expected_output: "3"
+-        },
+-        {
+-            title: "7. Functions",
+-            theory: "Functions are reusable machines. You pass raw materials (arguments), it executes isolated code, and spits out a product (return).",
+-            theory_examples: ["Banking: `calculate_tax(salary)` can be reused for every employee without copying the math 10,000 times."],
+-            code: "def add(a, b):\n    return a + b\n\nresult = add(5, 5)",
+-            code_breakdown: ["def: Keyword to define a function.", "return: Hands data back to the global scope. Ends the function instantly."],
+-            interviews: [{ q: "Print vs Return?", a: "Print is just for humans to read. Return actually saves the data into memory for the computer to use." }],
+-            quizzes: [{ q: "What keyword sends data back from a function?", options: ["A) yield", "B) return", "C) output"], ans: 1 }],
+-            exercise: "Write a function `multiply(x, y)` that returns the product. Print multiply(4, 5).",
+-            starter_code: "def multiply(x, y):\n    return x * y\nprint(multiply(4, 5))",
+-            expected_output: "20"
+-        },
+-        {
+-            title: "8. Lists",
+-            theory: "Lists are mutable, ordered arrays. They store multiple items in a single variable. Accessible via 0-based indexing.",
+-            theory_examples: ["Social Media: A user's timeline is a List of post objects, ordered by time."],
+-            code: "cart = ['Apple', 'Banana']\ncart.append('Orange')\nprint(cart[0])",
+-            code_breakdown: [".append(): Method that adds an item to the end of the list in memory.", "cart[0]: Retrieves the 1st item (Apple)."],
+-            interviews: [{ q: "How do you get the last item in a list?", a: "Use `my_list[-1]`." }],
+-            quizzes: [{ q: "What index is the first item in a Python list?", options: ["A) 1", "B) -1", "C) 0"], ans: 2 }],
+-            exercise: "Print the 2nd item in this list.",
+-            starter_code: "names = ['John', 'Karthik', 'Bob']\nprint(names[1])",
+-            expected_output: "Karthik"
+-        },
+-        {
+-            title: "9. Tuples",
+-            theory: "Tuples are identical to Lists, but they are IMMUTABLE. Once created, they can never be modified. They use less memory.",
+-            theory_examples: ["Database: SQL query results are returned as Tuples to prevent the app from accidentally changing the raw database data."],
+-            code: "coords = (10, 20)\n# coords[0] = 15  <-- Crashes!",
+-            code_breakdown: ["(10, 20): Parentheses define a Tuple. Brackets define a List."],
+-            interviews: [{ q: "Why use a Tuple over a List?", a: "To ensure data integrity (read-only) and for slight performance gains." }],
+-            quizzes: [{ q: "Are Tuples mutable?", options: ["A) Yes", "B) No"], ans: 1 }],
+-            exercise: "Create a tuple `t` with values 1 and 2. Print the first value.",
+-            starter_code: "t = (1, 2)\nprint(t[0])",
+-            expected_output: "1"
+-        },
+-        {
+-            title: "10. Dictionaries",
+-            theory: "Dictionaries store Key-Value pairs. They are optimized for instant O(1) lookups by Key.",
+-            theory_examples: ["Web APIs: Almost all web traffic (JSON) translates directly into Python dictionaries (e.g. `user['email']`)."],
+-            code: "user = {'id': 5, 'name': 'Karthik'}\nprint(user['name'])",
+-            code_breakdown: ["{'id': 5}: Curly braces define a dictionary. 'id' is the Key, 5 is the Value."],
+-            interviews: [{ q: "What happens if you access a missing key?", a: "Throws a KeyError. Use `dict.get('key')` to return None safely instead." }],
+-            quizzes: [{ q: "What is the lookup speed of a dictionary key?", options: ["A) O(1) Instant", "B) O(N) Linear", "C) O(N^2)"], ans: 0 }],
+-            exercise: "Print the value of the 'age' key.",
+-            starter_code: "data = {'name': 'Karthik', 'age': 19}\nprint(data['age'])",
+-            expected_output: "19"
+-        },
+-        {
+-            title: "11. Sets",
+-            theory: "Sets are unordered collections of UNIQUE items. They are built on Hash Tables, making checking `if item in set` lightning fast.",
+-            theory_examples: ["Analytics: Finding unique visitors to a website. Add all IP addresses to a Set, and duplicates vanish instantly."],
+-            code: "ids = {1, 2, 2, 3}\nprint(ids) # {1, 2, 3}",
+-            code_breakdown: ["{1, 2, 2}: Defines a Set. The second '2' is instantly destroyed."],
+-            interviews: [{ q: "Do sets maintain order?", a: "No. You cannot use indexing like `my_set[0]` on a set." }],
+-            quizzes: [{ q: "Which structure automatically destroys duplicate items?", options: ["A) List", "B) Tuple", "C) Set"], ans: 2 }],
+-            exercise: "Convert the list to a set to remove duplicates, then print the length.",
+-            starter_code: "nums = [1, 1, 2, 2, 3]\nclean = set(nums)\nprint(len(clean))",
+-            expected_output: "3"
+-        },
+-        {
+-            title: "12. Strings",
+-            theory: "Strings are actually just immutable Lists of characters under the hood. You can slice them `name[0:3]` and loop through them.",
+-            theory_examples: ["Data Cleaning: Strip whitespace from user inputs `email.strip().lower()` before saving to database."],
+-            code: "text = ' Hello '\nclean = text.strip()",
+-            code_breakdown: [".strip(): Built-in method that destroys leading/trailing whitespace."],
+-            interviews: [{ q: "Are strings mutable?", a: "No. `text.replace()` creates a brand new string in memory." }],
+-            quizzes: [{ q: "What does .upper() do?", options: ["A) Makes text bold", "B) Converts text to UPPERCASE", "C) Deletes vowels"], ans: 1 }],
+-            exercise: "Print the string in uppercase.",
+-            starter_code: "print('python'.upper())",
+-            expected_output: "PYTHON"
+-        },
+-        {
+-            title: "13. OOP (Classes)",
+-            theory: "Object-Oriented Programming (OOP) allows you to bundle Data (variables) and Behaviors (functions) into a single Custom Object.",
+-            theory_examples: ["Enterprise Architecture: Everything in an app is an Object. `User`, `Invoice`, `DatabaseConnection`."],
+-            code: "class Dog:\n    def __init__(self, name):\n        self.name = name\n\nd = Dog('Rex')\nprint(d.name)",
+-            code_breakdown: ["class Dog:: Defines the blueprint.", "__init__: The constructor. Runs automatically when a new Dog is created.", "self: References the specific object being instantiated."],
+-            interviews: [{ q: "What is `self`?", a: "A reference to the current instance of the class, allowing access to its specific attributes." }],
+-            quizzes: [{ q: "What method acts as the constructor in Python?", options: ["A) __build__", "B) __init__", "C) start()"], ans: 1 }],
+-            exercise: "Print the name of the Car object.",
+-            starter_code: "class Car:\n    def __init__(self, brand):\n        self.brand = brand\nc = Car('Tesla')\nprint(c.brand)",
+-            expected_output: "Tesla"
+         }
+     ],
+     "Phase 1.5: Intermediate Python": [
+         {
+-            title: "14. List Comprehension",
+-            theory: "A highly optimized, 'Pythonic' way to construct new lists from iterables in a single line of code.",
+-            theory_examples: ["Data Engineering: Parsing millions of rows. List comprehensions are written in C under the hood, running much faster than normal Python loops."],
+-            code: "evens = [x for x in range(10) if x % 2 == 0]",
+-            code_breakdown: ["x: The output value.", "for x in range: The loop.", "if x % 2 == 0: The condition filter."],
+-            interviews: [{ q: "Why use list comprehension?", a: "Performance speed and code readability." }],
+-            quizzes: [{ q: "Is list comprehension faster than a standard for-loop?", options: ["A) Yes", "B) No"], ans: 0 }],
+-            exercise: "Print a list of numbers 0,1,2 using list comprehension.",
+-            starter_code: "nums = [x for x in range(3)]\nprint(nums)",
+-            expected_output: "[0, 1, 2]"
+-        },
+-        {
+-            title: "15. *args and **kwargs",
+-            theory: "Allows a function to accept a dynamic, unlimited number of arguments. *args packs them into a Tuple, **kwargs packs keyword args into a Dict.",
+-            theory_examples: ["Logging: `def log(*args)` can accept 1 message or 50 messages dynamically."],
+-            code: "def add(*args):\n    return sum(args)",
+-            code_breakdown: ["*args: The asterisk unpacks unlimited positional arguments into a single Tuple."],
+-            interviews: [{ q: "What data type is **kwargs?", a: "A Dictionary." }],
+-            quizzes: [{ q: "What data type is *args?", options: ["A) Tuple", "B) List", "C) Dictionary"], ans: 0 }],
+-            exercise: "Use the add function to sum 10 and 20. Print the result.",
+-            starter_code: "def add(*args):\n    return sum(args)\nprint(add(10, 20))",
+-            expected_output: "30"
+-        },
+-        {
+-            title: "16. Enumerate & Zip",
+-            theory: "Enumerate tracks the index while looping. Zip perfectly combines two parallel lists together like a jacket zipper.",
+-            theory_examples: ["Data Science: Zipping a list of 'Column_Names' with a list of 'Data_Values' to create a Dictionary."],
+-            code: "names = ['A', 'B']\nfor idx, name in enumerate(names):\n    print(idx)",
+-            code_breakdown: ["enumerate(): Yields a tuple of (index, value) on each iteration."],
+-            interviews: [{ q: "Why use enumerate instead of range(len())?", a: "It's cleaner, more Pythonic, and prevents off-by-one errors." }],
+-            quizzes: [{ q: "What function pairs two lists together?", options: ["A) combine()", "B) zip()", "C) join()"], ans: 1 }],
+-            exercise: "Print the index of the first enumerate loop.",
+-            starter_code: "for idx, val in enumerate(['Apple']):\n    print(idx)",
+-            expected_output: "0"
+-        },
+-        {
+-            title: "17. Big O Notation",
+-            theory: "Big O measures how algorithm performance degrades as data scales to infinity. O(1) is instant. O(N) takes linear time.",
+-            theory_examples: ["System Design: If you have 1 Billion users, an O(N) list search takes 10 seconds. An O(1) Hash Map lookup takes 1 millisecond."],
+-            code: "# O(1) Dictionary Lookup\ndata = {'id': 55}\nprint(data['id'])",
+-            code_breakdown: ["data['id']: Python calculates the hash of 'id' and jumps directly to that memory address. No searching required."],
+-            interviews: [{ q: "What is the time complexity of a List lookup vs a Set lookup?", a: "List is O(N) because it must iterate. Set is O(1) because it uses hashing." }],
+-            quizzes: [{ q: "Which is faster for looking up if an item exists?", options: ["A) A List", "B) A Set", "C) They are equal"], ans: 1 }],
+-            exercise: "Print 'True' to confirm Sets are O(1).",
+-            starter_code: "print('True')",
+-            expected_output: "True"
++            title: "3. List Comprehensions",
++            theory: "List comprehensions offer a shorter syntax when you want to create a new list based on the values of an existing list. It operates at C-level speeds, making it much faster than a standard for-loop.",
++            theory_tamil: "List comprehensions α«Äα«⌐α»ìα«¬α«ñα»ü α«Æα«░α»ü existing list-α«▓α»ì α«çα«░α»üα«¿α»ìα«ñα»ü α«¬α»üα«ñα»ü list-α«É create α«Üα»åα«»α»ìα«╡α«ñα«▒α»ìα«òα«╛α«⌐ α«Æα«░α»ü short syntax α«åα«òα»üα««α»ì. α«çα«ñα»ü α«Üα«╛α«ñα«╛α«░α«ú for-loop-α«É α«╡α«┐α«ƒ α««α«┐α«òα«╡α»üα««α»ì α«╡α»çα«òα««α«╛α«ò (C-level speeds) α«╡α»çα«▓α»ê α«Üα»åα«»α»ìα«»α»üα««α»ì.",
++            code: 'nums = [1, 2, 3, 4, 5]\nsquares = [x * x for x in nums if x % 2 != 0]\nprint(squares)',
++            code_breakdown: [
++                "<code>for x in nums</code> iterates through the original list.",
++                "<code>if x % 2 != 0</code> filters to only keep odd numbers.",
++                "<code>x * x</code> is the operation applied to the kept numbers."
++            ],
++            interviews: [
++                {q: "Are list comprehensions always better?", a: "They are faster and cleaner for simple operations, but can become unreadable if the logic gets too complex."}
++            ],
++            quizzes: [
++                {q: "What does [x for x in l if x > 0] do?", options: ["Filters positive numbers", "Squares numbers", "Syntax Error"], ans: 0}
++            ],
++            exercise: "Use list comprehension to create a list of doubles for [1, 2, 3]. Print the new list.",
++            starter_code: "nums = [1, 2, 3]\ndoubles = [ ]\nprint(doubles)",
++            expected_output: "[2, 4, 6]"
++        },
++        {
++            title: "4. Dictionary Mastery",
++            theory: "Dictionaries are used to store data values in key:value pairs. They are highly optimized Hash Maps, meaning looking up a value by its key takes O(1) time.",
++            theory_tamil: "Dictionaries α«Äα«⌐α»ìα«¬α«ñα»ü α«ñα«░α«╡α»üα«òα«│α»ê key:value pairs-α«åα«ò store α«Üα»åα«»α»ìα«» α«¬α«»α«⌐α»ìα«¬α«ƒα»üα««α»ì. α«çα«╡α»ê Hash Maps α«åα«ò α«Üα»åα«»α«▓α»ìα«¬α«ƒα»üα«╡α«ñα«╛α«▓α»ì, α«Æα«░α»ü value-α«É α«àα«ñα«⌐α»üα«ƒα»êα«» key α««α»éα«▓α««α«╛α«ò α«ñα»çα«ƒα«┐ α«Äα«ƒα»üα«¬α»ìα«¬α«ñα»ü α««α«┐α«ò α«╡α»çα«òα««α«╛α«ò (O(1) time) α«¿α«ƒα«òα»ìα«òα»üα««α»ì.",
++            code: 'user = {"name": "John", "role": "Admin"}\nprint(user.get("age", "Not Found"))\nuser["age"] = 30',
++            code_breakdown: [
++                "<code>.get()</code> safely looks up a key without throwing a KeyError if it's missing.",
++                "<code>user['age'] = 30</code> adds a new key-value pair."
++            ],
++            interviews: [
++                {q: "What's the time complexity of looking up a key in a dict?", a: "O(1) average case, because it uses a hash table internally."}
++            ],
++            quizzes: [
++                {q: "How do you safely avoid a KeyError?", options: ["Try/catch only", "Use .get()", "You can't"], ans: 1}
++            ],
++            exercise: "Create a dictionary with 'color' = 'blue'. Print the value of 'color'.",
++            starter_code: "d = { }\nprint( )",
++            expected_output: "blue"
+         }
+     ],
+-    "Phase 2: Databases (SQL)": [
+-        {
+-            title: "18. Database & SQL Basics",
+-            theory: "A Database is a structured system for storing data on disk. SQL is the programming language used to interact with Relational (Table-based) Databases.",
+-            theory_examples: ["Backend Dev: When a user registers, Python opens a connection and runs an `INSERT INTO users` SQL query."],
+-            code: "import sqlite3\nconn = sqlite3.connect(':memory:')\nc = conn.cursor()\nc.execute('CREATE TABLE usr (name TEXT)')",
+-            code_breakdown: ["sqlite3.connect(':memory:'): Creates a temporary, blazing fast RAM database.", "cursor(): The object used to execute raw SQL commands."],
+-            interviews: [{ q: "What is SQL Injection?", a: "A severe vulnerability where a hacker submits raw SQL code in an input field to bypass auth or drop tables." }],
+-            quizzes: [{ q: "Which SQL command retrieves data?", options: ["A) PULL", "B) GET", "C) SELECT"], ans: 2 }],
+-            exercise: "Print 'DB Connected' to verify you understand the theory.",
+-            starter_code: "print('DB Connected')",
+-            expected_output: "DB Connected"
+-        },
+-        {
+-            title: "19. Joins and Aggregations",
+-            theory: "SQL JOINs connect multiple tables together based on a shared Key. Aggregations (SUM, COUNT) calculate math on those joined tables.",
+-            theory_examples: ["Analytics: Joining a `Users` table and `Orders` table to calculate the total lifetime spend per user."],
+-            code: "# SELECT u.name, SUM(o.price)\n# FROM users u\n# INNER JOIN orders o ON u.id = o.user_id",
+-            code_breakdown: ["INNER JOIN: Keeps only rows that have matches in both tables.", "ON: Defines the link (Foreign Key matches Primary Key)."],
+-            interviews: [{ q: "Difference between INNER and LEFT join?", a: "LEFT JOIN keeps all rows from the primary table, even if the secondary table has no matching data." }],
+-            quizzes: [{ q: "Which keyword counts rows?", options: ["A) TALLY()", "B) COUNT()", "C) SUM()"], ans: 1 }],
+-            exercise: "Print 'Query Executed'",
+-            starter_code: "print('Query Executed')",
+-            expected_output: "Query Executed"
+-        }
+-    ],
+-    "Phase 3: Algorithms": [
+-        {
+-            title: "20. The Two Sum Algorithm",
+-            theory: "Algorithms are step-by-step recipes to solve logical problems. Data Structures are the pantries used to organize data for the recipe.",
+-            theory_examples: ["FAANG Interviews: Two Sum is the most famous interview algorithm. The brute-force O(N^2) solution fails. You must use a Dictionary for O(N) performance."],
+-            code: "def two_sum(nums, target):\n    seen = {}\n    for i, num in enumerate(nums):\n        if target - num in seen:\n            return [seen[target - num], i]\n        seen[num] = i",
+-            code_breakdown: ["seen = {}: Initializes an O(1) lookup dictionary to store numbers we have passed.", "target - num: Calculates the complement needed to hit the target."],
+-            interviews: [{ q: "What is the space complexity of optimized Two Sum?", a: "O(N), because in the worst case, we must store every number in the dictionary." }],
+-            quizzes: [{ q: "What data structure optimizes Two Sum to O(N) time?", options: ["A) Nested Loops", "B) Dictionary / Hash Map", "C) Tuple"], ans: 1 }],
+-            exercise: "Run the Two Sum logic manually. Target is 9. Nums are [2, 7]. Print the list of indices.",
+-            starter_code: "print([0, 1])",
+-            expected_output: "[0, 1]"
++    "Phase 4: Machine Learning (Tamil Video)": [
++        {
++            title: "5. Data Analysis with Pandas",
++            theory: "Pandas is the industry standard library for data manipulation. It introduces the DataFrame, which is essentially a powerful programmatic Excel spreadsheet.",
++            theory_tamil: "Pandas α«Äα«⌐α»ìα«¬α«ñα»ü Data Analysis-α«òα»ìα«òα«╛α«⌐ industry standard library α«åα«òα»üα««α»ì. α«çα«ñα»ü DataFrame α«Äα«⌐α«¬α»ìα«¬α«ƒα»üα««α»ì α«òα«ƒα»ìα«ƒα««α»êα«¬α»ìα«¬α»ê α«àα«▒α«┐α««α»üα«òα«¬α»ìα«¬α«ƒα»üα«ñα»ìα«ñα»üα«òα«┐α«▒α«ñα»ü, α«çα«ñα»ü α«Üα»üα«░α»üα«òα»ìα«òα««α«╛α«ò α«Æα«░α»ü α«Üα«òα»ìα«ñα«┐α«╡α«╛α«»α»ìα«¿α»ìα«ñ programmatic Excel spreadsheet α«¬α»ïα«▓ α«Üα»åα«»α«▓α»ìα«¬α«ƒα»üα««α»ì.",
++            code: 'import pandas as pd\n\ndata = {"Name": ["Ajith", "Vijay"], "Age": [45, 43]}\ndf = pd.DataFrame(data)\n\nprint(df.head())',
++            code_breakdown: [
++                "<code>import pandas as pd</code> is the standard alias convention.",
++                "<code>pd.DataFrame(data)</code> converts a dictionary into a 2D table."
++            ],
++            interviews: [
++                {q: "What is the difference between a Series and a DataFrame?", a: "A Series is a 1D column. A DataFrame is a 2D table made up of multiple Series."}
++            ],
++            quizzes: [
++                {q: "What is Pandas primarily used for?", options: ["Web Dev", "Data Manipulation", "Game Dev"], ans: 1}
++            ],
++            exercise: "Import pandas as pd. Print the text 'Pandas Ready'. (We can't render dataframes in this terminal, so just verify the import works!)",
++            starter_code: "import pandas as pd\nprint('Pandas Ready')",
++            expected_output: "Pandas Ready"
++        },
++        {
++            title: "6. Linear Regression (Scikit-Learn)",
++            theory: "Scikit-Learn (sklearn) is the premier machine learning library. Linear Regression is a supervised learning algorithm used for predicting continuous values by finding the best-fit line through data points.",
++            theory_tamil: "Scikit-Learn α«Äα«⌐α»ìα«¬α«ñα»ü Machine Learning-α«òα»ìα«òα«╛α«⌐ α««α»üα«ñα«⌐α»ìα««α»ê library α«åα«òα»üα««α»ì. Linear Regression α«Äα«⌐α»ìα«¬α«ñα»ü supervised learning algorithm α«åα«òα»üα««α»ì, α«çα«ñα»ü data points α«╡α«┤α«┐α«»α»ç α«Æα«░α»ü α«Üα«┐α«▒α«¿α»ìα«ñ fit α«òα»ïα«ƒα»ìα«ƒα»ê α«╡α«░α»êα«¿α»ìα«ñα»ü α«ñα»èα«ƒα«░α»ìα«Üα»ìα«Üα«┐α«»α«╛α«⌐ α««α«ñα«┐α«¬α»ìα«¬α»üα«òα«│α»êα«òα»ì α«òα«úα«┐α«òα»ìα«òα«¬α»ì α«¬α«»α«⌐α»ìα«¬α«ƒα»üα«òα«┐α«▒α«ñα»ü.",
++            code: 'from sklearn.linear_model import LinearRegression\n\n# X = Features, y = Target\nX = [[1], [2], [3]]\ny = [10, 20, 30]\n\nmodel = LinearRegression()\nmodel.fit(X, y)\n\nprediction = model.predict([[4]])\nprint(prediction) # 40',
++            code_breakdown: [
++                "<code>model = LinearRegression()</code> initializes the ML algorithm.",
++                "<code>model.fit(X, y)</code> trains the model on the data.",
++                "<code>model.predict([[4]])</code> asks the trained model to predict the outcome for 4."
++            ],
++            interviews: [
++                {q: "What does the fit() function do in Scikit-Learn?", a: "It trains the algorithm on the provided dataset."}
++            ],
++            quizzes: [
++                {q: "Linear Regression is used for what kind of tasks?", options: ["Predicting continuous numbers", "Classifying images", "Clustering data"], ans: 0}
++            ],
++            exercise: "Print 'Model Trained' to simulate successful completion.",
++            starter_code: "print('Model Trained')",
++            expected_output: "Model Trained"
+         }
+     ]
+ };
+
+commit 9599e43791715a4f28a90d087d1ab68118673733
+Author: karthik26-hub-lab <mrvkarthik2007@gmail.com>
+Date:   Sat Aug 8 20:21:06 2026 +0530
+
+    V8: Restored 20-topic Curriculum and upgraded Cheatsheet to 10/10
+
+diff --git a/curriculum.js b/curriculum.js
+index 0988fb6..6d2672d 100644
+--- a/curriculum.js
++++ b/curriculum.js
+@@ -37,11 +37,49 @@ const curriculum = {
+             exercise: "Write an if/else block that prints 'Pass' if 'marks' is greater than 50. Assume marks = 60.",
+             starter_code: "marks = 60\nif \n    print('Pass')\n",
+             expected_output: "Pass"
++        },
++        {
++            title: "3. While & For Loops",
++            theory: "Loops are used for iterating over a sequence. A `for` loop executes a set of statements for each item in a list or range. A `while` loop executes as long as a condition is true.",
++            theory_tamil: "Loops α«Æα«░α»ü sequence-α«É iterate α«Üα»åα«»α»ìα«» α«¬α«»α«⌐α»ìα«¬α«ƒα»üα««α»ì. α«Æα«░α»ü list α«àα«▓α»ìα«▓α«ñα»ü range-α«▓α»ì α«ëα«│α»ìα«│ α«Æα«╡α»ìα«╡α»èα«░α»ü item-α«òα»ìα«òα»üα««α»ì `for` loop α«Æα«░α»ü block-α«É execute α«Üα»åα«»α»ìα«»α»üα««α»ì. α«Æα«░α»ü condition True α«åα«ò α«çα«░α»üα«òα»ìα«òα»üα««α»ì α«╡α«░α»ê `while` loop α«ôα«ƒα«┐α«òα»ìα«òα»èα«úα»ìα«ƒα»ç α«çα«░α»üα«òα»ìα«òα»üα««α»ì.",
++            code: 'for i in range(3):\n    print(i)\n\nx = 3\nwhile x > 0:\n    print(x)\n    x -= 1',
++            code_breakdown: [
++                "<code>range(3)</code> generates numbers 0, 1, and 2.",
++                "<code>x -= 1</code> is crucial to prevent an infinite while loop."
++            ],
++            interviews: [
++                {q: "What is the difference between break and continue?", a: "Break completely exits the loop. Continue skips the rest of the current iteration and moves to the next one."}
++            ],
++            quizzes: [
++                {q: "How many times does range(5) loop?", options: ["4", "5", "6"], ans: 1}
++            ],
++            exercise: "Write a for loop using range(2) that prints 'Hello'.",
++            starter_code: "for i in range(2):\n    print('Hello')",
++            expected_output: "Hello\nHello"
++        },
++        {
++            title: "4. Functions (def)",
++            theory: "A function is a block of code which only runs when it is called. You can pass data, known as parameters, into a function. Use the `def` keyword to create them.",
++            theory_tamil: "Function α«Äα«⌐α»ìα«¬α«ñα»ü α«àα«┤α»êα«òα»ìα«òα»üα««α»ìα«¬α»ïα«ñα»ü (called) α««α«ƒα»ìα«ƒα»üα««α»ç α«çα«»α«Öα»ìα«òα»üα««α»ì α«Æα«░α»ü code block α«åα«òα»üα««α»ì. Function-α«òα»ìα«òα»üα«│α»ì parameters α««α»éα«▓α««α»ì data-α«╡α»ê α«àα«⌐α»üα«¬α»ìα«¬α«▓α«╛α««α»ì. α«çα«╡α«▒α»ìα«▒α»ê α«ëα«░α»üα«╡α«╛α«òα»ìα«ò `def` keyword α«¬α«»α«⌐α»ìα«¬α«ƒα»üα«ñα»ìα«ñα«¬α»ìα«¬α«ƒα»üα«òα«┐α«▒α«ñα»ü.",
++            code: 'def add_numbers(a, b):\n    return a + b\n\nresult = add_numbers(5, 10)\nprint(result)',
++            code_breakdown: [
++                "<code>def add_numbers</code> defines the function signature.",
++                "<code>return</code> sends the computed value back to where the function was called."
++            ],
++            interviews: [
++                {q: "What is a parameter vs an argument?", a: "Parameter is the variable in the declaration. Argument is the actual value passed in when calling."}
++            ],
++            quizzes: [
++                {q: "Which keyword is used to return a value?", options: ["get", "yield", "return"], ans: 2}
++            ],
++            exercise: "Create a function called 'greet' that prints 'Hi'. Call it.",
++            starter_code: "def greet():\n    print('Hi')\ngreet()",
++            expected_output: "Hi"
+         }
+     ],
+-    "Phase 1.5: Intermediate Python": [
++    "Phase 1.5: Intermediate Masterclass": [
+         {
+-            title: "3. List Comprehensions",
++            title: "5. List Comprehensions",
+             theory: "List comprehensions offer a shorter syntax when you want to create a new list based on the values of an existing list. It operates at C-level speeds, making it much faster than a standard for-loop.",
+             theory_tamil: "List comprehensions α«Äα«⌐α»ìα«¬α«ñα»ü α«Æα«░α»ü existing list-α«▓α»ì α«çα«░α»üα«¿α»ìα«ñα»ü α«¬α»üα«ñα»ü list-α«É create α«Üα»åα«»α»ìα«╡α«ñα«▒α»ìα«òα«╛α«⌐ α«Æα«░α»ü short syntax α«åα«òα»üα««α»ì. α«çα«ñα»ü α«Üα«╛α«ñα«╛α«░α«ú for-loop-α«É α«╡α«┐α«ƒ α««α«┐α«òα«╡α»üα««α»ì α«╡α»çα«òα««α«╛α«ò (C-level speeds) α«╡α»çα«▓α»ê α«Üα»åα«»α»ìα«»α»üα««α»ì.",
+             code: 'nums = [1, 2, 3, 4, 5]\nsquares = [x * x for x in nums if x % 2 != 0]\nprint(squares)',
+@@ -57,11 +95,11 @@ const curriculum = {
+                 {q: "What does [x for x in l if x > 0] do?", options: ["Filters positive numbers", "Squares numbers", "Syntax Error"], ans: 0}
+             ],
+             exercise: "Use list comprehension to create a list of doubles for [1, 2, 3]. Print the new list.",
+-            starter_code: "nums = [1, 2, 3]\ndoubles = [ ]\nprint(doubles)",
++            starter_code: "nums = [1, 2, 3]\ndoubles = [x*2 for x in nums]\nprint(doubles)",
+             expected_output: "[2, 4, 6]"
+         },
+         {
+-            title: "4. Dictionary Mastery",
++            title: "6. Dictionary Mastery",
+             theory: "Dictionaries are used to store data values in key:value pairs. They are highly optimized Hash Maps, meaning looking up a value by its key takes O(1) time.",
+             theory_tamil: "Dictionaries α«Äα«⌐α»ìα«¬α«ñα»ü α«ñα«░α«╡α»üα«òα«│α»ê key:value pairs-α«åα«ò store α«Üα»åα«»α»ìα«» α«¬α«»α«⌐α»ìα«¬α«ƒα»üα««α»ì. α«çα«╡α»ê Hash Maps α«åα«ò α«Üα»åα«»α«▓α»ìα«¬α«ƒα»üα«╡α«ñα«╛α«▓α»ì, α«Æα«░α»ü value-α«É α«àα«ñα«⌐α»üα«ƒα»êα«» key α««α»éα«▓α««α«╛α«ò α«ñα»çα«ƒα«┐ α«Äα«ƒα»üα«¬α»ìα«¬α«ñα»ü α««α«┐α«ò α«╡α»çα«òα««α«╛α«ò (O(1) time) α«¿α«ƒα«òα»ìα«òα»üα««α»ì.",
+             code: 'user = {"name": "John", "role": "Admin"}\nprint(user.get("age", "Not Found"))\nuser["age"] = 30',
+@@ -76,13 +114,205 @@ const curriculum = {
+                 {q: "How do you safely avoid a KeyError?", options: ["Try/catch only", "Use .get()", "You can't"], ans: 1}
+             ],
+             exercise: "Create a dictionary with 'color' = 'blue'. Print the value of 'color'.",
+-            starter_code: "d = { }\nprint( )",
++            starter_code: "d = {'color': 'blue'}\nprint(d['color'])",
+             expected_output: "blue"
++        },
++        {
++            title: "7. Lambda Functions",
++            theory: "A lambda function is a small anonymous function. It can take any number of arguments, but can only have one expression.",
++            theory_tamil: "Lambda function α«Äα«⌐α»ìα«¬α«ñα»ü α«Æα«░α»ü α«Üα«┐α«▒α«┐α«» anonymous function (α«¬α»åα«»α«░α«▒α»ìα«▒ function). α«çα«ñα»ü α«Äα«ñα»ìα«ñα«⌐α»ê arguments α«╡α»çα«úα»ìα«ƒα»üα««α«╛α«⌐α«╛α«▓α»üα««α»ì α«Äα«ƒα»üα«ñα»ìα«ñα»üα«òα»ìα«òα»èα«│α»ìα«│α»üα««α»ì, α«åα«⌐α«╛α«▓α»ì α«Æα«░α»ç α«Æα«░α»ü expression α««α«ƒα»ìα«ƒα»üα««α»ç α«òα»èα«úα»ìα«ƒα«┐α«░α»üα«òα»ìα«òα»üα««α»ì.",
++            code: 'add = lambda a, b: a + b\nprint(add(5, 5))',
++            code_breakdown: [
++                "<code>lambda a, b:</code> defines the arguments.",
++                "<code>a + b</code> is the single expression that gets returned implicitly."
++            ],
++            interviews: [
++                {q: "When should you use lambdas?", a: "For short, throwaway functions (like passing a sorting key) where a full 'def' block is overkill."}
++            ],
++            quizzes: [
++                {q: "Can a lambda have multiple lines?", options: ["Yes", "No", "Only if indented"], ans: 1}
++            ],
++            exercise: "Create a lambda that multiplies a number by 10. Call it with 2 and print the result.",
++            starter_code: "mult = lambda x: x * 10\nprint(mult(2))",
++            expected_output: "20"
++        },
++        {
++            title: "8. Map & Filter",
++            theory: "Map and Filter are powerful built-in functions used to apply operations to entire lists without writing standard for-loops.",
++            theory_tamil: "Map α««α«▒α»ìα«▒α»üα««α»ì Filter α«Äα«⌐α»ìα«¬α«╡α»ê α«Üα«╛α«ñα«╛α«░α«ú for-loops α«Äα«┤α»üα«ñα«╛α««α«▓α»ì, α««α»üα«┤α»ü lists α««α»Çα«ñα»üα««α»ì operations α«Üα»åα«»α»ìα«» α«ëα«ñα«╡α»üα««α»ì α«Üα«òα»ìα«ñα«┐α«╡α«╛α«»α»ìα«¿α»ìα«ñ built-in functions α«åα«òα»üα««α»ì.",
++            code: 'nums = [1, 2, 3]\ndoubled = list(map(lambda x: x*2, nums))\nprint(doubled)',
++            code_breakdown: [
++                "<code>map()</code> applies the lambda to every item in the list.",
++                "<code>list()</code> converts the map object back into a readable list."
++            ],
++            interviews: [
++                {q: "What is the alternative to Map/Filter?", a: "List Comprehensions! They are usually preferred in Python because they are more readable."}
++            ],
++            quizzes: [
++                {q: "What does filter() do?", options: ["Changes values", "Removes items that evaluate to False", "Sorts the list"], ans: 1}
++            ],
++            exercise: "Print 'Map Ready'.",
++            starter_code: "print('Map Ready')",
++            expected_output: "Map Ready"
++        },
++        {
++            title: "9. Error Handling (Try/Except)",
++            theory: "When an error occurs, Python will normally stop and generate an error message. Exceptions can be handled using the try statement.",
++            theory_tamil: "Error α«╡α«░α»üα««α»ìα«¬α»ïα«ñα»ü, Python α«Üα«╛α«ñα«╛α«░α«úα««α«╛α«ò α«¿α«┐α«⌐α»ìα«▒α»ü error message-α«É α«òα«╛α«ƒα»ìα«ƒα»üα««α»ì. α«çα«ñα»êα«ñα»ì α«ñα«ƒα»üα«òα»ìα«ò try statement-α«É α«¬α«»α«⌐α»ìα«¬α«ƒα»üα«ñα»ìα«ñα«┐ exceptions-α«É handle α«Üα»åα«»α»ìα«»α«▓α«╛α««α»ì.",
++            code: 'try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")\nfinally:\n    print("Done")',
++            code_breakdown: [
++                "<code>try:</code> wraps the risky code.",
++                "<code>except:</code> catches the specific error so the program doesn't crash.",
++                "<code>finally:</code> executes regardless of whether an error occurred (good for closing files)."
++            ],
++            interviews: [
++                {q: "Is it bad to use a bare 'except:'?", a: "Yes, catching all exceptions (including KeyboardInterrupts) can mask bugs and make stopping the program difficult."}
++            ],
++            quizzes: [
++                {q: "Which block always runs?", options: ["try", "except", "finally"], ans: 2}
++            ],
++            exercise: "Print 'Safe'.",
++            starter_code: "print('Safe')",
++            expected_output: "Safe"
++        }
++    ],
++    "Phase 2: Object Oriented Python": [
++        {
++            title: "10. Classes & Objects",
++            theory: "Python is an object oriented language. Almost everything in Python is an object, with its properties and methods. A Class is like an object constructor.",
++            theory_tamil: "Python α«Æα«░α»ü object oriented language. α«çα«ñα«┐α«▓α»ì α«ëα«│α»ìα«│ α«Äα«▓α»ìα«▓α«╛α««α»ç objects α«ñα«╛α«⌐α»ì, α«àα«╡α«▒α»ìα«▒α»üα«òα»ìα«òα»ü properties α««α«▒α»ìα«▒α»üα««α»ì methods α«çα«░α»üα«òα»ìα«òα»üα««α»ì. Class α«Äα«⌐α»ìα«¬α«ñα»ü α«Æα«░α»ü object-α«É α«ëα«░α»üα«╡α«╛α«òα»ìα«òα»üα««α»ì blueprint (constructor).",
++            code: 'class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(self):\n        return f"{self.name} says woof!"\n\nmy_dog = Dog("Rex")\nprint(my_dog.bark())',
++            code_breakdown: [
++                "<code>__init__</code> is the constructor method, called when the object is created.",
++                "<code>self</code> refers to the instance of the object itself."
++            ],
++            interviews: [
++                {q: "What is 'self'?", a: "It binds the attributes with the given arguments. It's how methods know which instance of the object they belong to."}
++            ],
++            quizzes: [
++                {q: "What is a Class?", options: ["A function", "An object blueprint", "A variable"], ans: 1}
++            ],
++            exercise: "Print 'Class Built'.",
++            starter_code: "print('Class Built')",
++            expected_output: "Class Built"
++        },
++        {
++            title: "11. Inheritance & Super()",
++            theory: "Inheritance allows us to define a class that inherits all the methods and properties from another class.",
++            theory_tamil: "α«Æα«░α»ü class-α«⌐α»ì α««α»üα«▒α»êα«òα«│α»ì α««α«▒α»ìα«▒α»üα««α»ì α«¬α«úα»ìα«¬α»üα«òα«│α»ê α««α«▒α»ìα«▒α»èα«░α»ü class-α«òα»ìα«òα»ü α««α«░α«¬α»üα«░α«┐α««α»êα«»α«╛α«ò (inherit) α«òα»èα«ƒα»üα«òα»ìα«ò Inheritance α«¬α«»α«⌐α»ìα«¬α«ƒα»üα«òα«┐α«▒α«ñα»ü.",
++            code: 'class Animal:\n    def eat(self):\n        print("Eating")\n\nclass Cat(Animal):\n    def meow(self):\n        print("Meow")\n\nc = Cat()\nc.eat()',
++            code_breakdown: [
++                "<code>class Cat(Animal)</code> makes Cat the child class of Animal.",
++                "The Cat inherits the <code>eat()</code> method automatically."
++            ],
++            interviews: [
++                {q: "What does super() do?", a: "It returns a temporary object of the superclass, allowing you to call its methods (like its __init__ constructor)."}
++            ],
++            quizzes: [
++                {q: "Why use inheritance?", options: ["To run code faster", "To reuse code", "To secure code"], ans: 1}
++            ],
++            exercise: "Print 'Inheritance Works'.",
++            starter_code: "print('Inheritance Works')",
++            expected_output: "Inheritance Works"
++        },
++        {
++            title: "12. Encapsulation",
++            theory: "Encapsulation prevents data from direct modification. In Python, we use underscores to indicate private variables.",
++            theory_tamil: "Encapsulation α«Äα«⌐α»ìα«¬α«ñα»ü data-α«╡α»ê α«¿α»çα«░α«ƒα«┐α«»α«╛α«ò α««α«╛α«▒α»ìα«▒α»üα«╡α«ñα»ê α«ñα«ƒα»üα«òα»ìα«òα«┐α«▒α«ñα»ü. Python-α«▓α»ì private variables-α«É α«òα»üα«▒α«┐α«òα»ìα«ò underscores (_) α«¬α«»α«⌐α»ìα«¬α«ƒα»üα«ñα»ìα«ñα»üα«òα«┐α«▒α»ïα««α»ì.",
++            code: 'class Bank:\n    def __init__(self):\n        self.__balance = 100\n\n    def get_balance(self):\n        return self.__balance',
++            code_breakdown: [
++                "<code>__balance</code> with double underscores triggers name mangling, making it harder to access from outside."
++            ],
++            interviews: [
++                {q: "Are private variables truly private in Python?", a: "No, nothing is strictly private. The __ double underscore just 'mangles' the name to prevent accidental access."}
++            ],
++            quizzes: [
++                {q: "How do you indicate a private variable?", options: ["private x", "__x", "x.private"], ans: 1}
++            ],
++            exercise: "Print 'Secured'.",
++            starter_code: "print('Secured')",
++            expected_output: "Secured"
+         }
+     ],
+-    "Phase 4: Machine Learning (Tamil Video)": [
++    "Phase 3: Advanced Concepts": [
+         {
+-            title: "5. Data Analysis with Pandas",
++            title: "13. Decorators",
++            theory: "Decorators are a very powerful and useful tool in Python since it allows programmers to modify the behaviour of a function or class without permanently modifying it.",
++            theory_tamil: "Decorators α«Äα«⌐α»ìα«¬α«ñα»ü α«Æα«░α»ü function α«àα«▓α»ìα«▓α«ñα»ü class-α«⌐α»ì source code-α«É α««α«╛α«▒α»ìα«▒α«╛α««α«▓α»çα«»α»ç α«àα«ñα«⌐α»ì α«¿α«ƒα«ñα»ìα«ñα»êα«»α»ê (behaviour) α««α«╛α«▒α»ìα«▒ α«ëα«ñα«╡α»üα««α»ì α««α«┐α«òα«╡α»üα««α»ì α«Üα«òα»ìα«ñα«┐α«╡α«╛α«»α»ìα«¿α»ìα«ñ tool α«åα«òα»üα««α»ì.",
++            code: 'def logger(func):\n    def wrapper():\n        print("Executing...")\n        func()\n        print("Done.")\n    return wrapper\n\n@logger\ndef hello():\n    print("Hello")\n\nhello()',
++            code_breakdown: [
++                "<code>@logger</code> wraps the hello function inside the wrapper function."
++            ],
++            interviews: [
++                {q: "What is a decorator fundamentally?", a: "A higher-order function that takes a function as an argument and returns a modified function."}
++            ],
++            quizzes: [
++                {q: "Which symbol denotes a decorator?", options: ["#", "$", "@"], ans: 2}
++            ],
++            exercise: "Print 'Decorated'.",
++            starter_code: "print('Decorated')",
++            expected_output: "Decorated"
++        },
++        {
++            title: "14. Generators & Yield",
++            theory: "Generators are functions that return an iterable set of items, one at a time, in a special way using the `yield` keyword. They are highly memory efficient.",
++            theory_tamil: "Generators α«Äα«⌐α»ìα«¬α«╡α»ê `yield` keyword-α«Éα«¬α»ì α«¬α«»α«⌐α»ìα«¬α«ƒα»üα«ñα»ìα«ñα«┐ items-α«É α«Æα«╡α»ìα«╡α»èα«⌐α»ìα«▒α«╛α«ò return α«Üα»åα«»α»ìα«»α»üα««α»ì functions α«åα«òα»üα««α»ì. α«çα«╡α»ê massive data-α«É handle α«Üα»åα«»α»ìα«»α»üα««α»ìα«¬α»ïα«ñα»ü memory-α«É α««α«┐α«òα«òα»ì α«òα»üα«▒α»êα«╡α«╛α«òα«╡α»ç α«¬α«»α«⌐α»ìα«¬α«ƒα»üα«ñα»ìα«ñα»üα««α»ì.",
++            code: 'def countdown(n):\n    while n > 0:\n        yield n\n        n -= 1\n\nfor val in countdown(3):\n    print(val)',
++            code_breakdown: [
++                "<code>yield n</code> pauses the function, returning n, and saves the state.",
++                "The next time it is called, it resumes right where it left off."
++            ],
++            interviews: [
++                {q: "Why use yield instead of return?", a: "Return sends everything at once, consuming memory. Yield streams it one item at a time, perfect for large datasets."}
++            ],
++            quizzes: [
++                {q: "Generators are highly efficient in terms of:", options: ["CPU Speed", "Memory / RAM", "Disk Storage"], ans: 1}
++            ],
++            exercise: "Print 'Yielded'.",
++            starter_code: "print('Yielded')",
++            expected_output: "Yielded"
++        },
++        {
++            title: "15. Magic Methods (Dunder)",
++            theory: "Dunder or magic methods in Python are the methods having two prefix and suffix underscores in the method name. Example: __init__, __str__.",
++            theory_tamil: "Python-α«▓α»ì Magic methods (α«àα«▓α»ìα«▓α«ñα»ü Dunder) α«Äα«⌐α»ìα«¬α«╡α»ê α«¬α»åα«»α«░α»üα«òα»ìα«òα»ü α««α»üα«⌐α»ìα«⌐α»üα««α»ì α«¬α«┐α«⌐α»ìα«⌐α»üα««α»ì α«çα«░α«úα»ìα«ƒα»ü underscores α«òα»èα«úα»ìα«ƒα«┐α«░α»üα«òα»ìα«òα»üα««α»ì. (α«ëα«ñα«╛α«░α«úα««α»ì: __init__, __str__).",
++            code: 'class Book:\n    def __init__(self, title):\n        self.title = title\n    def __str__(self):\n        return f"Book: {self.title}"\n\nb = Book("1984")\nprint(b)',
++            code_breakdown: [
++                "<code>__str__</code> intercepts the print() function, allowing you to return a custom readable string instead of the memory object."
++            ],
++            interviews: [
++                {q: "What is the difference between __str__ and __repr__?", a: "__str__ is for readable output for end users. __repr__ is for developers to recreate the object."}
++            ],
++            quizzes: [
++                {q: "What does __str__ do?", options: ["Deletes object", "Makes object string-readable", "Initializes object"], ans: 1}
++            ],
++            exercise: "Print 'Magic'.",
++            starter_code: "print('Magic')",
++            expected_output: "Magic"
++        },
++        {
++            title: "16. *args & **kwargs",
++            theory: "*args and **kwargs allow you to pass multiple arguments or keyword arguments to a function without explicitly defining them all.",
++            theory_tamil: "*args α««α«▒α»ìα«▒α»üα««α»ì **kwargs α««α»éα«▓α««α»ì α«Æα«░α»ü function-α«òα»ìα«òα»ü α«Äα«ñα»ìα«ñα«⌐α»ê arguments α««α«▒α»ìα«▒α»üα««α»ì keyword arguments α«╡α»çα«úα»ìα«ƒα»üα««α«╛α«⌐α«╛α«▓α»üα««α»ì α««α»üα«⌐α»ìα«òα»éα«ƒα»ìα«ƒα«┐α«»α»ç define α«Üα»åα«»α»ìα«»α«╛α««α«▓α»ì α«àα«⌐α»üα«¬α»ìα«¬α«▓α«╛α««α»ì.",
++            code: 'def magic(*args, **kwargs):\n    print(args)    # Tuple of positional args\n    print(kwargs)  # Dict of keyword args\n\nmagic(1, 2, name="John")',
++            code_breakdown: [
++                "<code>*args</code> packages extra positional variables into a Tuple.",
++                "<code>**kwargs</code> packages extra named variables into a Dictionary."
++            ],
++            interviews: [
++                {q: "Do you have to use the words 'args' and 'kwargs'?", a: "No, the asterisks (*) are what matter. You could use *numbers and **details."}
++            ],
++            quizzes: [
++                {q: "What data type is *args packed into?", options: ["List", "Tuple", "Dict"], ans: 1}
++            ],
++            exercise: "Print 'Args passed'.",
++            starter_code: "print('Args passed')",
++            expected_output: "Args passed"
++        }
++    ],
++    "Phase 4: Machine Learning ≡ƒñû": [
++        {
++            title: "17. Data Analysis with Pandas",
+             theory: "Pandas is the industry standard library for data manipulation. It introduces the DataFrame, which is essentially a powerful programmatic Excel spreadsheet.",
+             theory_tamil: "Pandas α«Äα«⌐α»ìα«¬α«ñα»ü Data Analysis-α«òα»ìα«òα«╛α«⌐ industry standard library α«åα«òα»üα««α»ì. α«çα«ñα»ü DataFrame α«Äα«⌐α«¬α»ìα«¬α«ƒα»üα««α»ì α«òα«ƒα»ìα«ƒα««α»êα«¬α»ìα«¬α»ê α«àα«▒α«┐α««α»üα«òα«¬α»ìα«¬α«ƒα»üα«ñα»ìα«ñα»üα«òα«┐α«▒α«ñα»ü, α«çα«ñα»ü α«Üα»üα«░α»üα«òα»ìα«òα««α«╛α«ò α«Æα«░α»ü α«Üα«òα»ìα«ñα«┐α«╡α«╛α«»α»ìα«¿α»ìα«ñ programmatic Excel spreadsheet α«¬α»ïα«▓ α«Üα»åα«»α«▓α»ìα«¬α«ƒα»üα««α»ì.",
+             code: 'import pandas as pd\n\ndata = {"Name": ["Ajith", "Vijay"], "Age": [45, 43]}\ndf = pd.DataFrame(data)\n\nprint(df.head())',
+@@ -101,7 +331,26 @@ const curriculum = {
+             expected_output: "Pandas Ready"
+         },
+         {
+-            title: "6. Linear Regression (Scikit-Learn)",
++            title: "18. NumPy Numerical Computing",
++            theory: "NumPy is the core library for scientific computing in Python. It provides a high-performance multidimensional array object, which is much faster than standard Python lists.",
++            theory_tamil: "NumPy α«Äα«⌐α»ìα«¬α«ñα»ü Python-α«▓α»ì scientific computing-α«òα»ìα«òα«╛α«⌐ α««α»üα«òα»ìα«òα«┐α«» library. α«çα«ñα»ü standard Python lists-α«É α«╡α«┐α«ƒ α««α«┐α«ò α«╡α»çα«òα««α«╛α«⌐ multidimensional array-α«É α«╡α«┤α«Öα»ìα«òα»üα«òα«┐α«▒α«ñα»ü.",
++            code: 'import numpy as np\n\narr = np.array([1, 2, 3, 4, 5])\nprint(arr * 2) # Broadcasts the multiplication',
++            code_breakdown: [
++                "<code>np.array()</code> creates a highly optimized C-backed array.",
++                "<code>arr * 2</code> multiplies every element instantly without a for-loop (vectorization)."
++            ],
++            interviews: [
++                {q: "Why is NumPy faster than Python lists?", a: "NumPy arrays are stored at one continuous place in memory unlike lists, so processes can access and manipulate them very efficiently (Locality of reference)."}
++            ],
++            quizzes: [
++                {q: "What does vectorization mean in NumPy?", options: ["Drawing lines", "Applying operations to entire arrays at once", "Sorting elements"], ans: 1}
++            ],
++            exercise: "Print 'NumPy Ready'.",
++            starter_code: "print('NumPy Ready')",
++            expected_output: "NumPy Ready"
++        },
++        {
++            title: "19. Linear Regression (Scikit-Learn)",
+             theory: "Scikit-Learn (sklearn) is the premier machine learning library. Linear Regression is a supervised learning algorithm used for predicting continuous values by finding the best-fit line through data points.",
+             theory_tamil: "Scikit-Learn α«Äα«⌐α»ìα«¬α«ñα»ü Machine Learning-α«òα»ìα«òα«╛α«⌐ α««α»üα«ñα«⌐α»ìα««α»ê library α«åα«òα»üα««α»ì. Linear Regression α«Äα«⌐α»ìα«¬α«ñα»ü supervised learning algorithm α«åα«òα»üα««α»ì, α«çα«ñα»ü data points α«╡α«┤α«┐α«»α»ç α«Æα«░α»ü α«Üα«┐α«▒α«¿α»ìα«ñ fit α«òα»ïα«ƒα»ìα«ƒα»ê α«╡α«░α»êα«¿α»ìα«ñα»ü α«ñα»èα«ƒα«░α»ìα«Üα»ìα«Üα«┐α«»α«╛α«⌐ α««α«ñα«┐α«¬α»ìα«¬α»üα«òα«│α»êα«òα»ì α«òα«úα«┐α«òα»ìα«òα«¬α»ì α«¬α«»α«⌐α»ìα«¬α«ƒα»üα«òα«┐α«▒α«ñα»ü.",
+             code: 'from sklearn.linear_model import LinearRegression\n\n# X = Features, y = Target\nX = [[1], [2], [3]]\ny = [10, 20, 30]\n\nmodel = LinearRegression()\nmodel.fit(X, y)\n\nprediction = model.predict([[4]])\nprint(prediction) # 40',
+@@ -119,6 +368,24 @@ const curriculum = {
+             exercise: "Print 'Model Trained' to simulate successful completion.",
+             starter_code: "print('Model Trained')",
+             expected_output: "Model Trained"
++        },
++        {
++            title: "20. Model Evaluation",
++            theory: "After training a model, you must evaluate its performance on unseen data to ensure it hasn't just memorized the training set (Overfitting).",
++            theory_tamil: "α«Æα«░α»ü α««α«╛α«ƒα«▓α»ê train α«Üα»åα«»α»ìα«ñ α«¬α«┐α«▒α«òα»ü, α«àα«ñα»ü training set-α«É α«àα«¬α»ìα«¬α«ƒα«┐α«»α»ç α««α«⌐α«¬α»ìα«¬α«╛α«ƒα««α»ì (Overfitting) α«Üα»åα«»α»ìα«ñα»üα«╡α«┐α«ƒα«╡α«┐α«▓α»ìα«▓α»ê α«Äα«⌐α»ìα«¬α«ñα»ê α«ëα«▒α»üα«ñα«┐α«¬α»ìα«¬α«ƒα»üα«ñα»ìα«ñ, α«¬α«╛α«░α»ìα«òα»ìα«òα«╛α«ñ data-α«▓α»ì (unseen data) α«àα«ñα«⌐α»ì performance-α«É evaluate α«Üα»åα«»α»ìα«» α«╡α»çα«úα»ìα«ƒα»üα««α»ì.",
++            code: 'from sklearn.metrics import mean_squared_error\n\ntrue_values = [3, -0.5, 2, 7]\npredictions = [2.5, 0.0, 2, 8]\n\nmse = mean_squared_error(true_values, predictions)\nprint("MSE:", mse)',
++            code_breakdown: [
++                "<code>mean_squared_error</code> calculates the average squared difference between the estimated values and the actual value."
++            ],
++            interviews: [
++                {q: "What is overfitting?", a: "When a model learns the detail and noise in the training data to the extent that it negatively impacts the performance of the model on new data."}
++            ],
++            quizzes: [
++                {q: "What does a lower Mean Squared Error (MSE) mean?", options: ["Worse model", "Better model", "Slower model"], ans: 1}
++            ],
++            exercise: "Print 'Course Complete!'.",
++            starter_code: "print('Course Complete!')",
++            expected_output: "Course Complete!"
+         }
+     ]
+ };

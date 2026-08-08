@@ -5,138 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyMastery Flashcards</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
         :root {
-            --bg-color: #0b0f19;
-            --surface: #131a2a;
-            --text-primary: #f0f4f8;
-            --text-secondary: #94a3b8;
-            --accent: #a855f7;
-            --accent-glow: rgba(168, 85, 247, 0.4);
-            --border: rgba(255, 255, 255, 0.08);
+            /* Vercel-like Dark Mode (Default) */
+            --bg-color: #0a0a0a;
+            --surface: #111111;
+            --text-primary: #ededed;
+            --text-secondary: #a1a1aa;
+            --accent: #ffffff; /* Sharp white accent */
+            --border: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(255, 255, 255, 0.2);
+            --pill-bg: rgba(255, 255, 255, 0.05);
+            --pill-hover: rgba(255, 255, 255, 0.1);
             --success: #10b981;
+            --error: #ef4444;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --code-bg: #000000;
         }
 
-        * { box-sizing: border-box; }
+        [data-theme="light"] {
+            /* Apple/Vercel Light Mode */
+            --bg-color: #fafafa;
+            --surface: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --accent: #000000;
+            --border: rgba(0, 0, 0, 0.1);
+            --border-hover: rgba(0, 0, 0, 0.2);
+            --pill-bg: rgba(0, 0, 0, 0.05);
+            --pill-hover: rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --code-bg: #f3f4f6;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: 'Outfit', sans-serif; 
+            font-family: 'Inter', sans-serif; 
             background-color: var(--bg-color); 
             color: var(--text-primary); 
-            margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; 
+            display: flex; height: 100vh; overflow: hidden; 
             -webkit-font-smoothing: antialiased; 
-            background-image: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1), transparent 50%);
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .header {
-            width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(19, 26, 42, 0.8); border-bottom: 1px solid var(--border);
-            position: absolute; top: 0; left: 0; z-index: 100; backdrop-filter: saturate(180%) blur(20px);
-        }
-
+        /* --- CUSTOM LOGO & BRANDING --- */
         .brand-container { display: flex; align-items: center; gap: 12px; }
-        .logo-svg { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--accent-glow)); }
-        .brand-text { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
-        .subtitle { font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; margin-left: 10px; border-left: 1px solid var(--border); padding-left: 10px; }
+        .logo-svg { width: 32px; height: 32px; }
+        .logo-svg rect, .logo-svg circle { transition: fill 0.3s; }
+        [data-theme="light"] .logo-svg .dark-fill { fill: #111827; }
+        .brand-text { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.5px; color: var(--text-primary); }
 
+        /* --- BESPOKE PILL NAV --- */
+        .top-nav { position: fixed; top: 0; left: 0; width: 100%; height: 64px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 1000; transition: background-color 0.3s, border-color 0.3s;}
+        .menu-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary); transition: opacity 0.2s; display: flex; align-items:center; justify-content:center;}
+        .menu-toggle:hover { opacity: 0.7; }
 
-        .filter-select {
-            padding: 10px 20px; border-radius: 30px; border: 1px solid var(--border);
-            background: rgba(255,255,255,0.05); color: #fff; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 500; outline: none;
-            cursor: pointer; transition: all 0.2s;
-        }
-        .filter-select:focus { border-color: var(--accent); }
-        .filter-select option { background: var(--bg-color); color: #fff; }
-
-        .progress-wrapper { display: flex; align-items: center; gap: 15px; }
-        .mastered-count { font-weight: 600; color: var(--accent); font-size: 1.1rem; }
-        .progress-bar { width: 200px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #d8b4fe); width: 0%; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        .app-container { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 100%; height: 100%; flex: 1; padding: 20px; margin-top: 50px;
-        }
-
-        /* 3D Scene - Responsive */
-        .scene { width: 90%; max-width: 650px; height: 400px; max-height: 60vh; perspective: 1200px; margin-bottom: 50px; }
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
         
-        .card { 
-            width: 100%; height: 100%; position: relative; 
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); 
-            transform-style: preserve-3d; cursor: pointer; 
-        }
-        .card.is-flipped { transform: rotateY(180deg); }
-        
-        /* Swipe Animations */
-        @keyframes swipeOutLeft {
-            0% { transform: translateX(0) rotate(0); opacity: 1; }
-            100% { transform: translateX(-150px) rotate(-15deg); opacity: 0; }
-        }
-        @keyframes swipeInRight {
-            0% { transform: translateX(150px) rotate(15deg); opacity: 0; }
-            100% { transform: translateX(0) rotate(0); opacity: 1; }
-        }
-        @keyframes swipeOutRight {
-            0% { transform: translateX(0) rotate(0); opacity: 1; }
-            100% { transform: translateX(150px) rotate(15deg); opacity: 0; }
-        }
-        @keyframes swipeInLeft {
-            0% { transform: translateX(-150px) rotate(-15deg); opacity: 0; }
-            100% { transform: translateX(0) rotate(0); opacity: 1; }
-        }
-
-        .animate-out-left { animation: swipeOutLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
-        .animate-in-right { animation: swipeInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
-        .animate-out-right { animation: swipeOutRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
-        .animate-in-left { animation: swipeInLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
-
-        .card-face {
-            position: absolute; width: 100%; height: 100%; 
-            -webkit-backface-visibility: hidden; backface-visibility: hidden;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            display: flex; flex-direction: column; justify-content: space-between;
-            padding: 40px;
-        }
-        
-        .card-front { background: var(--surface); }
-        .card-back { background: #1a2235; transform: rotateY(180deg); border-color: rgba(168, 85, 247, 0.3); }
-
-        .card-header { display: flex; justify-content: flex-start; }
-        .card-content { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px 0; overflow-y: auto;}
-        .card-footer { display: flex; justify-content: center; }
-
-        .card-q { font-size: 2rem; font-weight: 600; color: #fff; line-height: 1.4; }
-        .card-a { font-size: 1.4rem; font-weight: 400; color: #e2e8f0; line-height: 1.6; }
-        .topic-tag { background: rgba(168, 85, 247, 0.1); color: var(--accent); padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid rgba(168, 85, 247, 0.2);}
-        .hint-text { font-size: 0.95rem; color: var(--text-secondary); opacity: 0.7;}
-
-        /* Controls */
-        .controls { display: flex; gap: 20px; z-index: 10;}
         .pill-btn {
-            background: rgba(255,255,255,0.05); color: var(--text-primary); border: 1px solid var(--border);
-            padding: 15px 40px; border-radius: 40px; font-size: 1.2rem; font-weight: 600; cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Outfit', sans-serif;
+            background: var(--pill-bg); color: var(--text-primary); border: 1px solid var(--border);
+            padding: 6px 16px; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; cursor: pointer; 
+            transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; text-decoration: none;
         }
+        .pill-btn:hover { background: var(--pill-hover); border-color: var(--border-hover); }
         
-        .btn-skip { color: var(--text-secondary); }
-        .btn-skip:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); transform: translateY(-2px) scale(1.02); }
+        .pill-primary { background: var(--text-primary); color: var(--bg-color); border: 1px solid transparent; font-weight: 600; }
+        .pill-primary:hover { opacity: 0.9; transform: none; box-shadow: none; border-color: transparent;}
         
-        .btn-master { background: linear-gradient(135deg, var(--accent), #7e22ce); color: #fff; border: none; box-shadow: 0 4px 15px var(--accent-glow); }
-        .btn-master:hover { background: linear-gradient(135deg, #b062ff, #8a2ce4); transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px var(--accent-glow); }
+        .pill-purple { background: var(--surface); color: var(--text-primary); border: 1px solid var(--border); }
+        .pill-purple:hover { border-color: var(--text-primary); }
 
-        .pill-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        /* --- SIDEBAR FREE ROAM --- */
+        .sidebar { width: 280px; height: calc(100vh - 64px); margin-top: 64px; background: var(--bg-color); border-right: 1px solid var(--border); padding: 24px 12px; overflow-y: auto; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s, border-color 0.3s; position: absolute; left: 0; z-index: 900; }
+        .sidebar.collapsed { transform: translateX(-280px); }
+        
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        
+        .nav-group { margin-bottom: 24px; }
+        .nav-title { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-left: 12px; display: flex; align-items:center; gap: 6px;}
+        
+        .nav-item { padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 0.875rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; transition: all 0.2s; border: 1px solid transparent; color: var(--text-secondary);}
+        .nav-item:hover { background: var(--pill-bg); color: var(--text-primary); }
+        .nav-item.active { background: var(--pill-bg); color: var(--text-primary); font-weight: 600; }
+        
+        .status-pill { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: var(--border); color: var(--text-secondary); font-weight: 500;}
+        .status-pill.done { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .status-pill.active { background: var(--border-hover); color: var(--text-primary); }
 
-        /* Confetti */
-        .confetti { position: absolute; width: 10px; height: 10px; background: #f00; animation: fall 1.5s linear forwards; pointer-events: none;}
-        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+        /* --- MAIN CONTENT & TYPOGRAPHY --- */
+        .main-content { flex: 1; height: calc(100vh - 64px); margin-top: 64px; margin-left: 280px; padding: 48px; overflow-y: auto; display: flex; justify-content: center; transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .main-content.expanded { margin-left: 0; }
+        .lesson-container { background: var(--surface); border-radius: 12px; padding: 48px; max-width: 800px; width: 100%; border: 1px solid var(--border); height: fit-content; margin-bottom: 48px; box-shadow: var(--shadow); transition: background-color 0.3s, border-color 0.3s;}
 
-        .end-screen { display: none; flex-direction: column; align-items: center; text-align: center; }
-        .end-screen h1 { font-size: 3.5rem; margin-bottom: 15px; color: #fff; }
-        .end-screen p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px; }
+        h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 24px; line-height: 1.2; color: var(--text-primary);}
+        h2 { font-size: 1.25rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text-primary);}
+        h3 { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;}
+        p { line-height: 1.6; color: var(--text-secondary); margin-bottom: 16px; font-size: 1rem;}
+        strong { color: var(--text-primary); font-weight: 600; }
 
+        /* Tabs */
+        .tabs { display: flex; gap: 8px; margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 12px; overflow-x: auto;}
+        .tab-btn { background: none; border: none; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); padding: 8px 12px; cursor: pointer; border-radius: 6px; transition: all 0.2s; white-space: nowrap; font-family: 'Inter', sans-serif;}
+        .tab-btn:hover { background: var(--pill-bg); color: var(--text-primary);}
+        .tab-btn.active { color: var(--text-primary); background: var(--pill-bg); font-weight: 600;}
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Code & Breakdown */
+        .code-block { background: var(--code-bg); padding: 20px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; overflow-x: auto; margin-bottom: 24px; border: 1px solid var(--border); color: var(--text-primary); transition: background-color 0.3s;}
+        
+        .breakdown-box { background: var(--bg-color); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-top: 16px; transition: background-color 0.3s, border-color 0.3s;}
+        .breakdown-line { margin-bottom: 12px; font-size: 0.95rem; border-bottom: 1px solid var(--border); padding-bottom: 12px; color: var(--text-secondary);}
+        .breakdown-line:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+        .breakdown-line strong, .breakdown-line code { font-family: 'JetBrains Mono', monospace; background: var(--pill-bg); padding: 2px 6px; border-radius: 4px; color: var(--text-primary); font-size: 0.85rem;}
+
+        /* Cards */
+        .interview-card { background: var(--bg-color); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; transition: border-color 0.2s; }
+        .interview-card:hover { border-color: var(--border-hover); }
+        .interview-q { font-weight: 600; font-size: 1rem; color: var(--text-primary); margin-bottom: 8px; display: flex; gap: 8px;}
+        .interview-a { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5;}
+
+        /* Quizzes */
+        .quiz-card { background: var(--bg-color); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+        .quiz-q { font-weight: 600; font-size: 1.1rem; margin-bottom: 16px; color: var(--text-primary);}
+        .quiz-opt { background: var(--surface); border: 1px solid var(--border); padding: 12px 16px; border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; font-weight: 500; color: var(--text-primary);}
+        .quiz-opt:hover { border-color: var(--text-primary); }
+        .quiz-opt.wrong { border-color: var(--error); background: rgba(239, 68, 68, 0.05); color: var(--error); animation: shake 0.3s; }
+        .quiz-opt.correct { border-color: var(--success); background: rgba(16, 185, 129, 0.05); color: var(--success); pointer-events: none; }
+        .quiz-opt.disabled { pointer-events: none; opacity: 0.5; }
+
+        /* PyScript IDE */
+        .editor-container { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 24px; box-shadow: var(--shadow);}
+        py-repl { --py-repl-background: var(--code-bg); --py-repl-color: var(--text-primary); font-family: 'JetBrains Mono', monospace;}
+        
+        .verify-box { background: var(--bg-color); border: 1px solid var(--border); padding: 24px; border-radius: 8px; margin-bottom: 32px; transition: background-color 0.3s, border-color 0.3s;}
+        .verify-input { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; font-family: 'JetBrains Mono', monospace; margin-top: 12px; margin-bottom: 16px; outline: none; background: var(--code-bg); color: var(--text-primary); transition: border-color 0.2s;}
+        .verify-input:focus { border-color: var(--text-primary); }
+        
+        .submit-btn { float: right; font-family: 'Inter', sans-serif;}
+
+        /* --- DRAGGABLE VIDEO PILL --- */
+        .floating-video {
+            position: fixed; bottom: 24px; right: 24px; width: 400px; height: 240px;
+            background: var(--bg-color); border-radius: 12px; box-shadow: var(--shadow);
+            z-index: 10000; display: none; flex-direction: column; overflow: hidden;
+            transform: translate3d(0, 0, 0); border: 1px solid var(--border);
+        }
+        .floating-video.active { display: flex; }
+        .video-header {
+            background: var(--surface); color: var(--text-primary); padding: 8px 16px; cursor: grab;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.875rem; font-weight: 500; user-select: none; border-bottom: 1px solid var(--border);
+        }
+        .video-header:active { cursor: grabbing; }
+        .floating-video iframe { flex: 1; width: 100%; border: none; }
+        .close-video { background: none; border: none; color: var(--text-secondary); font-size: 1.25rem; cursor: pointer; line-height: 1; transition: color 0.2s;}
+        .close-video:hover { color: var(--text-primary); }
     </style>
 </head>
 <body>
@@ -144,17 +171,11 @@
     <div class="header">
         <div class="brand-container">
             <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#7e22ce;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <rect x="10" y="10" width="40" height="40" rx="12" fill="url(#grad2)" opacity="0.8"/>
-                <rect x="50" y="50" width="40" height="40" rx="12" fill="url(#grad2)"/>
-                <circle cx="30" cy="30" r="6" fill="#0b0f19"/>
-                <circle cx="70" cy="70" r="6" fill="#0b0f19"/>
-            </svg>
+                    <rect x="10" y="10" width="40" height="40" rx="8" fill="var(--text-primary)"/>
+                    <rect x="50" y="50" width="40" height="40" rx="8" fill="var(--text-primary)"/>
+                    <circle cx="30" cy="30" r="6" fill="var(--surface)" class="dark-fill"/>
+                    <circle cx="70" cy="70" r="6" fill="var(--surface)" class="dark-fill"/>
+                </svg>
             <div class="brand-text" style="background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">PyMastery <span class="subtitle">Interview Pro</span></div>
         </div>
         
@@ -397,6 +418,17 @@
         }
 
         applyFilter();
-    </script>
-</body>
+    </script>\n<script>
+        // Theme Toggle
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('pm_theme', next);
+        }
+        
+        // Initialize Theme
+        const savedTheme = localStorage.getItem('pm_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+</script>\n</body>
 </html>
