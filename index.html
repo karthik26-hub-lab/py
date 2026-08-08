@@ -203,6 +203,12 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M7 8h10"></path><path d="M7 12h10"></path><path d="M7 16h10"></path></svg>
                 Interview Cards
             </a>
+            <div class="player-profile" style="display:flex; align-items:center; gap: 15px; margin-left: 20px; border-left: 1px solid var(--border); padding-left: 20px;">
+                <div id="levelBadge" style="font-weight: 800; color: var(--accent-purple); font-size: 1.1rem; text-transform: uppercase;">Lvl 1</div>
+                <div style="width: 100px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                    <div id="xpFill" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-purple)); transition: width 0.4s ease;"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -425,7 +431,40 @@
             }
         }
 
+        // --- Gamification Engine ---
+        let playerXP = parseInt(localStorage.getItem('pm_xp')) || 0;
+        function updateProfileUI() {
+            let level = Math.floor(playerXP / 500) + 1;
+            let currentLevelXP = playerXP % 500;
+            let pct = (currentLevelXP / 500) * 100;
+            document.getElementById('levelBadge').innerText = `Lvl ${level}`;
+            document.getElementById('xpFill').style.width = `${pct}%`;
+        }
+
+        function fireConfetti() {
+            for(let i=0; i<50; i++) {
+                const conf = document.createElement('div');
+                conf.style.position = 'absolute'; conf.style.width = '10px'; conf.style.height = '10px';
+                conf.style.left = Math.random() * 100 + 'vw'; conf.style.top = '-10px';
+                conf.style.backgroundColor = ['#a855f7', '#00e5ff', '#10b981', '#ffcc00'][Math.floor(Math.random()*4)];
+                conf.style.pointerEvents = 'none'; conf.style.zIndex = '10000';
+                conf.animate([
+                    { transform: 'translateY(0) rotate(0)', opacity: 1 },
+                    { transform: `translateY(100vh) rotate(${Math.random()*720}deg)`, opacity: 0 }
+                ], { duration: Math.random() * 1500 + 1000, easing: 'linear', fill: 'forwards' });
+                document.body.appendChild(conf);
+                setTimeout(() => conf.remove(), 3000);
+            }
+        }
+
         function submitMission() {
+            if (!completedSet.has(currentGlobalIndex)) {
+                playerXP += 100;
+                localStorage.setItem('pm_xp', playerXP);
+                updateProfileUI();
+                fireConfetti();
+            }
+            
             completedSet.add(currentGlobalIndex);
             localStorage.setItem('pm_completed', JSON.stringify([...completedSet]));
             
@@ -439,6 +478,7 @@
 
         // Init
         window.onload = () => {
+            updateProfileUI();
             loadLesson(0);
         };
     </script>
