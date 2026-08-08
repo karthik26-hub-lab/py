@@ -2,480 +2,199 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Python Cheat Sheet</title>
+    <title>PyMastery Cheat Sheet</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+        
         :root {
-            --bg-color: #f5f5f7;
-            --surface: rgba(255, 255, 255, 0.7);
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --accent: #0071e3;
-            --border: rgba(0, 0, 0, 0.08);
-            --code-bg: #1e1e1e;
-            --code-text: #d4d4d4;
+            --bg-color: #0b0f19;
+            --surface: #131a2a;
+            --text-primary: #f0f4f8;
+            --text-secondary: #94a3b8;
+            --accent: #00e5ff;
+            --accent-glow: rgba(0, 229, 255, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; background: url('https://www.apple.com/v/macbook-pro-14-and-16/b/images/overview/hero/hero_intro_endframe__e6khcva4hkeq_large.jpg') no-repeat center center fixed; background-size: cover; color: var(--text-primary); margin: 0; display: flex; height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-primary); 
+            margin: 0; padding: 0; overflow-x: hidden;
+            background-image: radial-gradient(circle at 15% 50%, rgba(0, 229, 255, 0.05), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.05), transparent 25%);
+        }
+
+        .header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(19, 26, 42, 0.8); backdrop-filter: saturate(180%) blur(20px);
+            padding: 20px 40px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .brand-container { display: flex; align-items: center; gap: 12px; }
+        .logo-svg { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--accent-glow)); }
+        .brand-text { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+        .subtitle { font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; margin-left: 10px; border-left: 1px solid var(--border); padding-left: 10px; }
+
+        .search-container { position: relative; width: 400px; }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        .search-input {
+            width: 100%; padding: 12px 15px 12px 45px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 30px; font-family: 'Outfit', sans-serif; font-size: 1rem; color: #fff;
+            transition: all 0.3s; outline: none;
+        }
+        .search-input:focus { border-color: var(--accent); background: rgba(0,229,255,0.05); box-shadow: 0 0 15px var(--accent-glow); }
+
+        .container { display: flex; gap: 30px; padding: 40px; max-width: 1400px; margin: 0 auto; }
+
+        /* Sticky TOC */
+        .toc { width: 250px; position: sticky; top: 110px; height: calc(100vh - 150px); overflow-y: auto; padding-right: 20px;}
+        .toc-title { font-size: 0.8rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;}
+        .toc-link { display: block; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; padding: 10px 15px; border-radius: 12px; margin-bottom: 5px; transition: all 0.2s;}
+        .toc-link:hover, .toc-link.active { background: rgba(0, 229, 255, 0.1); color: var(--accent); }
+
+        /* Main Content Grid */
+        .grid { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 30px; align-items: start; }
         
-        /* Glassmorphic Container */
-        .app-container { display: flex; width: 100%; height: 100%; background: rgba(255,255,255,0.65); backdrop-filter: saturate(180%) blur(40px); -webkit-backdrop-filter: saturate(180%) blur(40px); }
+        .card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+            padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: rgba(0, 229, 255, 0.3); }
 
-        /* Sidebar Nav */
-        .sidebar { width: 300px; background: rgba(255,255,255,0.4); border-right: 1px solid var(--border); overflow-y: auto; padding: 30px 20px; }
-        .sidebar h2 { font-size: 1.2rem; margin-bottom: 25px; color: var(--text-primary); }
-        .nav-item { padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 500; color: var(--text-secondary); transition: all 0.2s; margin-bottom: 5px; }
-        .nav-item:hover, .nav-item.active { background: rgba(0,0,0,0.05); color: var(--accent); font-weight: 600; }
+        .card h2 { font-size: 1.4rem; font-weight: 700; color: #fff; margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+        .card h2 .topic-badge { font-size: 0.75rem; background: rgba(0,229,255,0.1); color: var(--accent); padding: 4px 10px; border-radius: 10px; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Main Content */
-        .main-pane { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        
-        /* Top Header & Search */
-        .header { padding: 30px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.4); z-index: 10; }
-        .header h1 { font-size: 1.8rem; margin: 0; letter-spacing: -0.5px; }
-        .search-box { position: relative; width: 350px; }
-        .search-input { width: 100%; padding: 12px 20px 12px 40px; border-radius: 20px; border: 1px solid var(--border); background: rgba(255,255,255,0.8); font-size: 1rem; outline: none; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
-        .search-input:focus { border-color: var(--accent); box-shadow: 0 4px 20px rgba(0,113,227,0.1); }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
-
-        /* Cards Grid */
-        .content-scroll { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
-        .masonry { column-count: 2; column-gap: 30px; }
-        .card { background: rgba(255,255,255,0.8); border: 1px solid var(--border); border-radius: 16px; padding: 25px; margin-bottom: 30px; break-inside: avoid; box-shadow: 0 10px 30px rgba(0,0,0,0.04); transition: transform 0.2s;}
-        .card:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0,0,0,0.06);}
-        .card h3 { margin-top: 0; font-size: 1.3rem; color: #1a202c; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 20px;}
-        .card.hidden { display: none !important; }
-
-        /* Code Blocks */
         .code-container { position: relative; margin-bottom: 15px; }
-        .code-container:hover .copy-btn { opacity: 1; }
-        pre { background: var(--code-bg); color: var(--code-text); padding: 18px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); }
-        .c { color: #6a9955; font-style: italic;} .k { color: #569cd6; } .f { color: #dcdcaa; } .s { color: #ce9178; } .n { color: #b5cea8; }
-        
-        .copy-btn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; opacity: 0; transition: all 0.2s; backdrop-filter: blur(5px);}
-        .copy-btn:hover { background: rgba(255,255,255,0.2); }
-        .copy-btn.copied { background: var(--success); border-color: var(--success); opacity: 1;}
-
-        .item-list { list-style: none; padding: 0; margin: 0; }
-        .item-list li { font-family: 'Fira Code', monospace; font-size: 0.85rem; padding: 8px 0; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; align-items:center;}
-        .item-list li:last-child { border-bottom: none; }
-        .item-list li span { font-family: -apple-system, sans-serif; color: var(--text-secondary); font-size: 0.85rem;}
-
-        /* UMPIRE Special */
-        .umpire-box { background: linear-gradient(135deg, #f0f7ff, #e6f2ff); border: 1px solid #cce0ff; border-radius: 16px; padding: 30px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,113,227,0.08);}
-        .umpire-box h2 { color: #005bb5; margin-top: 0; font-size: 1.6rem; border-bottom: 2px solid #cce0ff; padding-bottom: 15px;}
-        .umpire-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 25px;}
-        .umpire-step { background: rgba(255,255,255,0.9); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-        .umpire-step strong { display: block; color: var(--accent); font-size: 1.15rem; margin-bottom: 8px;}
-        .umpire-step p { margin: 0; font-size: 0.9rem; color: #444; line-height: 1.5;}
-
-        @media (max-width: 1200px) { .masonry { column-count: 1; } }
-        
-        /* Print */
-        @media print {
-            body { background: #fff; } .app-container { display: block; background: #fff; backdrop-filter: none; }
-            .sidebar, .header { display: none; } .content-scroll { padding: 0; overflow: visible;}
-            .masonry { column-count: 2; } .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid;}
-            pre { background: #f8f9fa; color: #000; border: 1px solid #ddd; } .copy-btn { display: none; }
+        .code-block {
+            background: #000; padding: 20px; border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.1); color: #e2e8f0; overflow-x: auto;
         }
+        
+        .copy-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(255,255,255,0.1); border: none; color: #fff;
+            padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
+        }
+        .copy-btn:hover { background: var(--accent); color: #000; }
+
+        .desc { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-corner { background: transparent; }
+
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        
-        <!-- Sticky Sidebar -->
-        <div class="sidebar">
-            <h2>📚 Table of Contents</h2>
-            <div class="nav-item" onclick="scrollToId('sec-umpire')">🛠️ UMPIRE Framework</div>
-            <div class="nav-item" onclick="scrollToId('sec-basics')">1. Basics & Syntax</div>
-            <div class="nav-item" onclick="scrollToId('sec-types')">2. Data Types</div>
-            <div class="nav-item" onclick="scrollToId('sec-ops')">3. Operators</div>
-            <div class="nav-item" onclick="scrollToId('sec-cond')">4. Conditions</div>
-            <div class="nav-item" onclick="scrollToId('sec-loops')">5. Loops & Iterables</div>
-            <div class="nav-item" onclick="scrollToId('sec-lists')">6. Lists (Mutable)</div>
-            <div class="nav-item" onclick="scrollToId('sec-tuples')">7. Tuples (Immutable)</div>
-            <div class="nav-item" onclick="scrollToId('sec-dicts')">8. Dictionaries (Hash)</div>
-            <div class="nav-item" onclick="scrollToId('sec-sets')">9. Sets (Unique)</div>
-            <div class="nav-item" onclick="scrollToId('sec-strings')">10. Strings</div>
-            <div class="nav-item" onclick="scrollToId('sec-funcs')">11. Functions</div>
-            <div class="nav-item" onclick="scrollToId('sec-files')">12. File Handling</div>
-            <div class="nav-item" onclick="scrollToId('sec-exc')">13. Exception Handling</div>
-            <div class="nav-item" onclick="scrollToId('sec-mods')">14. Modules & Venvs</div>
-            <div class="nav-item" onclick="scrollToId('sec-oop')">15. Object Oriented</div>
-            <div class="nav-item" onclick="scrollToId('sec-iv')">16. Interview Concepts</div>
+    <div class="header">
+        <div class="brand-container">
+            <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#00e5ff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#0077ff;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="10" y="10" width="40" height="40" rx="12" fill="url(#grad1)" opacity="0.8"/>
+                <rect x="50" y="50" width="40" height="40" rx="12" fill="url(#grad1)"/>
+                <circle cx="30" cy="30" r="6" fill="#0b0f19"/>
+                <circle cx="70" cy="70" r="6" fill="#0b0f19"/>
+            </svg>
+            <div class="brand-text">PyMastery <span class="subtitle">Cheat Sheet</span></div>
         </div>
-
-        <div class="main-pane">
-            
-            <div class="header">
-                <h1>🐍 Python Reference Guide</h1>
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search syntax, methods, concepts..." onkeyup="filterCards()">
-                </div>
-            </div>
-
-            <div class="content-scroll" id="contentScroll">
-                
-                <div class="umpire-box" id="sec-umpire">
-                    <h2>🛠️ The UMPIRE Problem Solving Framework</h2>
-                    <p style="color:#555; margin-bottom:0;">Your strategic cheat-code for conquering any complex algorithmic interview question.</p>
-                    <div class="umpire-grid">
-                        <div class="umpire-step"><strong>1. Understand</strong><p>Ask clarifying questions. Identify inputs/outputs. Determine edge cases and constraints.</p></div>
-                        <div class="umpire-step"><strong>2. Match</strong><p>Match the problem to known patterns (e.g., Hash Map, Two Pointer, Sliding Window, DFS).</p></div>
-                        <div class="umpire-step"><strong>3. Plan</strong><p>Write out the algorithm steps in plain English pseudo-code before writing any Python.</p></div>
-                        <div class="umpire-step"><strong>4. Implement</strong><p>Translate your plan into actual Python code. Keep it clean and modular.</p></div>
-                        <div class="umpire-step"><strong>5. Review</strong><p>Trace your code manually line-by-line with a simple test case to catch logical bugs.</p></div>
-                        <div class="umpire-step"><strong>6. Evaluate</strong><p>Analyze Time (Speed) and Space (Memory) Complexity using Big O Notation.</p></div>
-                    </div>
-                </div>
-
-                <div class="masonry">
-                    
-                    <div class="card" id="sec-basics" data-search="basics syntax variables print input format fstring type id">
-                        <h3>1. 🟢 Basics & Syntax</h3>
-                        <div class="code-container">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="c"># Variables & Naming (snake_case)</span>
-user_age <span class="k">=</span> <span class="n">25</span>
-
-<span class="c"># I/O & Casting</span>
-name <span class="k">=</span> <span class="f">input</span>(<span class="s">"Name? "</span>) <span class="c"># Always Str</span>
-age <span class="k">=</span> <span class="f">int</span>(user_age)    <span class="c"># String to Int</span>
-
-<span class="c"># f-strings (String interpolation)</span>
-<span class="f">print</span>(<span class="s">f"Hi {name}, age {age}"</span>)
-
-<span class="c"># Type & Identity</span>
-<span class="f">print</span>(<span class="f">type</span>(name)) <span class="c"># &lt;class 'str'&gt;</span>
-<span class="f">print</span>(<span class="f">id</span>(name))   <span class="c"># memory address</span></pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-types" data-search="data types int float string bool mutable immutable complex none">
-                        <h3>2. 🔢 Data Types</h3>
-                        <ul class="item-list">
-                            <li><code>int</code> <span>Whole numbers (5)</span></li>
-                            <li><code>float</code> <span>Decimals (3.14)</span></li>
-                            <li><code>complex</code> <span>Complex (1 + 2j)</span></li>
-                            <li><code>str</code> <span>Text ("hello")</span></li>
-                            <li><code>bool</code> <span>True or False</span></li>
-                            <li><code>None</code> <span>Null value</span></li>
-                        </ul>
-                        <div class="code-container" style="margin-top:15px;">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="c"># ⭐ Mutable vs Immutable</span>
-<span class="c"># Mutable (Changeable): Lists, Dicts, Sets</span>
-<span class="c"># Immutable (Read-Only): Int, Float, Str, Tuple</span></pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-ops" data-search="operators arithmetic logic bitwise comparison in is and or not">
-                        <h3>3. ➕ Operators</h3>
-                        <ul class="item-list">
-                            <li><code>+, -, *, /, //, %, **</code> <span>Arithmetic</span></li>
-                            <li><code>=, +=, -=, *=</code> <span>Assignment</span></li>
-                            <li><code>==, !=, >, <, >=, <=</code> <span>Comparison</span></li>
-                            <li><code>and, or, not</code> <span>Logical</span></li>
-                            <li><code>in, not in</code> <span>Membership</span></li>
-                            <li><code>is, is not</code> <span>Identity (Memory)</span></li>
-                            <li><code>&, |, ^, ~, <<, >></code> <span>Bitwise</span></li>
-                        </ul>
-                    </div>
-
-                    <div class="card" id="sec-cond" data-search="conditions if elif else ternary switch match">
-                        <h3>4. 🔀 Conditions</h3>
-                        <div class="code-container">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="k">if</span> x > <span class="n">10</span>:
-    <span class="f">print</span>(<span class="s">"High"</span>)
-<span class="k">elif</span> x > <span class="n">5</span>:
-    <span class="f">print</span>(<span class="s">"Mid"</span>)
-<span class="k">else</span>:
-    <span class="f">print</span>(<span class="s">"Low"</span>)
-
-<span class="c"># Ternary Operator (One-line if)</span>
-res <span class="k">=</span> <span class="s">"Yes"</span> <span class="k">if</span> valid <span class="k">else</span> <span class="s">"No"</span></pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-loops" data-search="loops for while break continue pass enumerate zip iterable generator">
-                        <h3>5. 🔁 Loops & Iterables</h3>
-                        <div class="code-container">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="k">for</span> i <span class="k">in</span> <span class="f">range</span>(<span class="n">5</span>): <span class="c"># 0 to 4</span>
-    <span class="k">if</span> i <span class="k">==</span> <span class="n">2</span>:
-        <span class="k">continue</span> <span class="c"># Skips 2</span>
-    <span class="k">if</span> i <span class="k">==</span> <span class="n">4</span>:
-        <span class="k">break</span>    <span class="c"># Exits loop early</span>
-
-<span class="k">while</span> x > <span class="n">0</span>:
-    x <span class="k">-=</span> <span class="n">1</span>
-
-<span class="c"># Enumerate (Get Index + Value safely)</span>
-<span class="k">for</span> idx, val <span class="k">in</span> <span class="f">enumerate</span>(lst):
-    <span class="f">print</span>(idx, val)
-
-<span class="c"># Zip (Iterate multiple lists in parallel)</span>
-<span class="k">for</span> a, b <span class="k">in</span> <span class="f">zip</span>(names, ages):
-    <span class="f">print</span>(a, b)</pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-lists" data-search="lists array slice append extend pop insert remove sort index count comprehension">
-                        <h3>6. 📦 Lists (Mutable, O(N))</h3>
-                        <ul class="item-list">
-                            <li><code>l = [1, 2, 3]</code> <span>Create</span></li>
-                            <li><code>l[0] / l[-1]</code> <span>Index / Last</span></li>
-                            <li><code>l[start:stop:step]</code> <span>Slicing</span></li>
-                            <li><code>l.append(4)</code> <span>Add one to end</span></li>
-                            <li><code>l.extend([5,6])</code> <span>Merge lists</span></li>
-                            <li><code>l.insert(0, 9)</code> <span>Add at index</span></li>
-                            <li><code>l.remove(9)</code> <span>Remove by value</span></li>
-                            <li><code>l.pop()</code> <span>Remove/Return last</span></li>
-                            <li><code>l.sort()</code> <span>In-place sort</span></li>
-                            <li><code>l.reverse()</code> <span>In-place reverse</span></li>
-                            <li><code>l.count(1)</code> <span>Count occurrences</span></li>
-                            <li><code>l.index(2)</code> <span>Find first index</span></li>
-                        </ul>
-                        <div class="code-container" style="margin-top:15px;">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="c"># List Comprehension ⭐ (C-Speed)</span>
-sq <span class="k">=</span> [x<span class="k">*</span>x <span class="k">for</span> x <span class="k">in</span> nums <span class="k">if</span> x><span class="n">0</span>]</pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-tuples" data-search="tuples immutable unpack count index readonly memory fast">
-                        <h3>7. 📌 Tuples (Immutable, Fast)</h3>
-                        <ul class="item-list">
-                            <li><code>t = (1, 2, 3)</code> <span>Create</span></li>
-                            <li><code>a, b, c = t</code> <span>Unpacking</span></li>
-                            <li><code>t.count(1)</code> <span>Count occurrences</span></li>
-                            <li><code>t.index(2)</code> <span>Find first index</span></li>
-                        </ul>
-                        <div class="code-container" style="margin-top:15px;">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="c"># ⭐ Tuple vs List</span>
-<span class="c"># Tuples are read-only (immutable), which</span>
-<span class="c"># makes them highly memory efficient and</span>
-<span class="c"># slightly faster for iteration than lists.</span></pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-dicts" data-search="dictionaries dict hash map keys values items get pop dict comprehension fast lookup">
-                        <h3>8. 📖 Dictionaries (Hash Map)</h3>
-                        <ul class="item-list">
-                            <li><code>d = {'a': 1}</code> <span>Create</span></li>
-                            <li><code>d['b'] = 2</code> <span>Add / Update</span></li>
-                            <li><code>del d['a']</code> <span>Delete key</span></li>
-                            <li><code>d.keys()</code> <span>Iterate keys</span></li>
-                            <li><code>d.values()</code> <span>Iterate values</span></li>
-                            <li><code>d.items()</code> <span>Iterate (k, v)</span></li>
-                            <li><code>d.get('a', 0)</code> <span>Safe access</span></li>
-                            <li><code>d.update(d2)</code> <span>Merge dicts</span></li>
-                            <li><code>d.pop('a')</code> <span>Remove & Return</span></li>
-                        </ul>
-                        <div class="code-container" style="margin-top:15px;">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="c"># Dict Comprehension ⭐</span>
-sq <span class="k">=</span> {x: x<span class="k">*</span>x <span class="k">for</span> x <span class="k">in</span> <span class="f">range</span>(<span class="n">5</span>)}</pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-sets" data-search="sets unique discard union intersection difference symmetric fast math">
-                        <h3>9. 🧩 Sets (Unique, O(1))</h3>
-                        <ul class="item-list">
-                            <li><code>s = {1, 2}</code> <span>Create</span></li>
-                            <li><code>s.add(3)</code> <span>Add</span></li>
-                            <li><code>s.remove(1)</code> <span>Errors if missing</span></li>
-                            <li><code>s.discard(1)</code> <span>Safe remove</span></li>
-                            <li><code>s1 | s2</code> <span>Union (Merge)</span></li>
-                            <li><code>s1 & s2</code> <span>Intersection (Both)</span></li>
-                            <li><code>s1 - s2</code> <span>Difference</span></li>
-                            <li><code>s1 ^ s2</code> <span>Symmetric Diff</span></li>
-                        </ul>
-                    </div>
-
-                    <div class="card" id="sec-strings" data-search="strings text upper lower split join replace strip format count slice">
-                        <h3>10. 🔤 Strings (Immutable)</h3>
-                        <ul class="item-list">
-                            <li><code>s[0:3]</code> <span>Slicing</span></li>
-                            <li><code>s.upper() / lower()</code> <span>Case</span></li>
-                            <li><code>s.strip()</code> <span>Remove space</span></li>
-                            <li><code>s.replace('a','b')</code> <span>Find & Replace</span></li>
-                            <li><code>s.split(',')</code> <span>String to List</span></li>
-                            <li><code>','.join(lst)</code> <span>List to String</span></li>
-                            <li><code>s.find('x')</code> <span>Returns index / -1</span></li>
-                            <li><code>s.startswith('a')</code> <span>Bool check</span></li>
-                            <li><code>s.endswith('z')</code> <span>Bool check</span></li>
-                            <li><code>s.count('x')</code> <span>Count chars</span></li>
-                        </ul>
-                    </div>
-
-                    <div class="card" id="sec-funcs" data-search="functions def args kwargs lambda map filter reduce anonymous">
-                        <h3>11. ⚙️ Functions</h3>
-                        <div class="code-container">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="k">def</span> <span class="f">func</span>(p1, p2<span class="k">=</span><span class="s">"Default"</span>):
-    <span class="k">return</span> p1 <span class="k">+</span> p2
-
-<span class="c"># Dynamic Arguments (*args, **kwargs)</span>
-<span class="k">def</span> <span class="f">dyn</span>(<span class="k">*</span>args, <span class="k">**</span>kwargs):
-    <span class="c"># args = Tuple of positionals</span>
-    <span class="c"># kwargs = Dict of keywords</span>
-
-<span class="c"># ⭐ Lambda (Anonymous 1-line Func)</span>
-add <span class="k">=</span> <span class="k">lambda</span> x, y: x <span class="k">+</span> y
-
-<span class="c"># Map / Filter / Reduce</span>
-m <span class="k">=</span> <span class="f">list</span>(<span class="f">map</span>(<span class="k">lambda</span> x: x<span class="k">*</span><span class="n">2</span>, lst))
-f <span class="k">=</span> <span class="f">list</span>(<span class="f">filter</span>(<span class="k">lambda</span> x: x><span class="n">0</span>, lst))
-<span class="k">from</span> functools <span class="k">import</span> reduce
-r <span class="k">=</span> <span class="f">reduce</span>(<span class="k">lambda</span> x,y: x<span class="k">+</span>y, lst)</pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-files" data-search="files open read write append with context manager handle txt csv">
-                        <h3>12. 📁 File Handling</h3>
-                        <div class="code-container">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="c"># Context Manager (Auto closes file)</span>
-<span class="k">with</span> <span class="f">open</span>(<span class="s">'x.txt'</span>, <span class="s">'r'</span>) <span class="k">as</span> f:
-    text <span class="k">=</span> f.<span class="f">read</span>()      <span class="c"># Whole file</span>
-    line <span class="k">=</span> f.<span class="f">readline</span>()  <span class="c"># One line</span>
-    all  <span class="k">=</span> f.<span class="f">readlines</span>() <span class="c"># List of lines</span>
-
-<span class="k">with</span> <span class="f">open</span>(<span class="s">'x.txt'</span>, <span class="s">'w'</span>) <span class="k">as</span> f:
-    f.<span class="f">write</span>(<span class="s">"Hello"</span>) <span class="c"># Overwrite</span>
-<span class="k">with</span> <span class="f">open</span>(<span class="s">'x.txt'</span>, <span class="s">'a'</span>) <span class="k">as</span> f:
-    f.<span class="f">write</span>(<span class="s">"Appended"</span>)</pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-exc" data-search="exception handling try except finally catch error throw raise">
-                        <h3>13. 🚨 Exception Handling</h3>
-                        <div class="code-container">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="k">try</span>:
-    x <span class="k">=</span> <span class="n">1</span> <span class="k">/</span> <span class="n">0</span>
-<span class="k">except</span> ZeroDivisionError <span class="k">as</span> e:
-    <span class="f">print</span>(<span class="s">"Math err:"</span>, e)
-<span class="k">except</span> Exception:
-    <span class="f">print</span>(<span class="s">"Catch all"</span>)
-<span class="k">else</span>:
-    <span class="f">print</span>(<span class="s">"Runs if NO errors occurred"</span>)
-<span class="k">finally</span>:
-    <span class="f">print</span>(<span class="s">"Always runs (cleanup)"</span>)
-
-<span class="c"># Raise custom error</span>
-<span class="k">raise</span> <span class="f">ValueError</span>(<span class="s">"Bad input"</span>)</pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-mods" data-search="modules packages pip venv import virtual environment req">
-                        <h3>14. 📦 Modules & Venvs</h3>
-                        <ul class="item-list">
-                            <li><code>import math</code> <span>Import module</span></li>
-                            <li><code>from math import pi</code> <span>Specific func</span></li>
-                            <li><code>import pandas as pd</code> <span>Alias</span></li>
-                            <li><code>python -m venv env</code> <span>Create Venv</span></li>
-                            <li><code>pip install reqs</code> <span>Install lib</span></li>
-                            <li><code>pip freeze > req.txt</code> <span>Save deps</span></li>
-                        </ul>
-                    </div>
-
-                    <div class="card" id="sec-oop" data-search="oop object oriented class inheritance polymorphism super method self init">
-                        <h3>15. 🏗️ OOP (Classes)</h3>
-                        <div class="code-container">
-                            <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
-<pre><span class="k">class</span> Animal:
-    <span class="k">def</span> <span class="f">__init__</span>(<span class="k">self</span>, name):
-        <span class="c"># Instance variable (Encapsulation)</span>
-        <span class="k">self</span>.name <span class="k">=</span> name
         
-    <span class="c"># Method / Abstraction</span>
-    <span class="k">def</span> <span class="f">speak</span>(<span class="k">self</span>):
-        <span class="k">pass</span>
-
-<span class="c"># Inheritance</span>
-<span class="k">class</span> Dog(Animal):
-    <span class="k">def</span> <span class="f">__init__</span>(<span class="k">self</span>, name, breed):
-        <span class="f">super</span>().<span class="f">__init__</span>(name)
-        <span class="k">self</span>.breed <span class="k">=</span> breed
-        
-    <span class="c"># Polymorphism (Override)</span>
-    <span class="k">def</span> <span class="f">speak</span>(<span class="k">self</span>):
-        <span class="k">return</span> <span class="s">"Woof"</span></pre>
-                        </div>
-                    </div>
-
-                    <div class="card" id="sec-iv" style="background:rgba(230, 255, 250, 0.9); border-color:#81e6d9;" data-search="interview answers concepts deep copy shallow generator decorator pep8 garbage">
-                        <h3 style="color:#2c7a7b;">🧠 16. Interview Concepts ⭐</h3>
-                        <p style="font-size:0.9rem; margin-top:0; color:#234e52; line-height:1.6;">
-                        <strong>Mutable vs Immutable:</strong> Lists/Dicts/Sets change in place. Tuples/Strings recreate in memory.<br><br>
-                        <strong>== vs is:</strong> `==` checks Values. `is` checks Memory Address.<br><br>
-                        <strong>Shallow vs Deep Copy:</strong> `copy()` copies outer container references. `deepcopy()` creates fully independent clones.<br><br>
-                        <strong>Iterator vs Iterable:</strong> Iterable is the container (List). Iterator is the machine looping over it (`__next__`).<br><br>
-                        <strong>Generators & yield:</strong> Functions that pause execution and return items one at a time via `yield`. Highly memory efficient for massive datasets.<br><br>
-                        <strong>Decorators:</strong> Functions that wrap other functions to modify behavior without changing source code (e.g., `@login_required`).<br><br>
-                        <strong>Garbage Collection:</strong> Python auto-deletes memory when reference count hits 0.<br><br>
-                        <strong>PEP 8:</strong> The official Python styling guide (snake_case, 4 spaces).</p>
-                    </div>
-
-                </div>
-            </div>
+        <div class="search-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search syntax, functions, or concepts..." onkeyup="filterCards()">
         </div>
     </div>
 
+    <div class="container">
+        <div class="toc" id="toc">
+            <div class="toc-title">Quick Jump</div>
+            <!-- TOC Links injected via JS -->
+        </div>
+
+        <div class="grid" id="grid">
+            <!-- Cards injected via JS -->
+        </div>
+    </div>
+
+    <script src="curriculum.js"></script>
     <script>
-        // Copy to clipboard logic
-        function copyCode(btn) {
-            const pre = btn.nextElementSibling;
-            const textToCopy = pre.innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                btn.innerText = "✅ Copied!";
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.innerText = "📋 Copy";
-                    btn.classList.remove('copied');
-                }, 2000);
+        const grid = document.getElementById('grid');
+        const toc = document.getElementById('toc');
+        let cardData = [];
+
+        // Compile logic from curriculum
+        for (const phase in curriculum) {
+            curriculum[phase].forEach(lesson => {
+                cardData.push({
+                    title: lesson.title,
+                    phase: phase,
+                    code: lesson.starter_code,
+                    desc: lesson.theory.substring(0, 150) + "..."
+                });
             });
         }
 
-        // Live Search Filtering
-        function filterCards() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.card');
+        function render() {
+            let html = '';
+            let tocHtml = '<div class="toc-title">Quick Jump</div>';
             
-            cards.forEach(card => {
-                const searchTerms = card.getAttribute('data-search') ? card.getAttribute('data-search').toLowerCase() : '';
-                const title = card.querySelector('h3').innerText.toLowerCase();
+            cardData.forEach((c, index) => {
+                const searchStr = (c.title + " " + c.phase + " " + c.desc).toLowerCase();
+                const id = `card-${index}`;
                 
-                if (searchTerms.includes(input) || title.includes(input)) {
-                    card.classList.remove('hidden');
+                tocHtml += `<a href="#${id}" class="toc-link">${c.title}</a>`;
+
+                html += `
+                <div class="card" id="${id}" data-search="${searchStr}">
+                    <h2>${c.title} <span class="topic-badge">${c.phase.split(' ')[1] || c.phase}</span></h2>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this, \`${c.code.replace(/`/g, '\\`')}\`)">Copy</button>
+                        <div class="code-block">${c.code}</div>
+                    </div>
+                    <div class="desc">${c.desc}</div>
+                </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+            toc.innerHTML = tocHtml;
+        }
+
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const str = card.getAttribute('data-search');
+                if (str.includes(query)) {
+                    card.style.display = "block";
                 } else {
-                    card.classList.add('hidden');
+                    card.style.display = "none";
                 }
             });
         }
 
-        // Sidebar Navigation
-        function scrollToId(id) {
-            const target = document.getElementById(id);
-            const container = document.getElementById('contentScroll');
-            
-            // Remove active classes
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            event.target.classList.add('active');
-
-            container.scrollTo({
-                top: target.offsetTop - container.offsetTop - 20,
-                behavior: 'smooth'
-            });
+        function copyCode(btn, codeStr) {
+            navigator.clipboard.writeText(codeStr);
+            btn.innerText = "Copied!";
+            btn.style.background = "var(--success)";
+            setTimeout(() => {
+                btn.innerText = "Copy";
+                btn.style.background = "rgba(255,255,255,0.1)";
+            }, 2000);
         }
+
+        render();
     </script>
 </body>
 </html>

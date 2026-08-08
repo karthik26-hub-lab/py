@@ -3,58 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interview Flashcards</title>
+    <title>PyMastery Flashcards</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
         :root {
-            --bg-color: #f5f5f7;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --accent: #5856d6;
-            --success: #34c759;
-            --border: rgba(0, 0, 0, 0.08);
+            --bg-color: #0b0f19;
+            --surface: #131a2a;
+            --text-primary: #f0f4f8;
+            --text-secondary: #94a3b8;
+            --accent: #a855f7;
+            --accent-glow: rgba(168, 85, 247, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
         }
 
         * { box-sizing: border-box; }
 
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; 
-            background: url('https://www.apple.com/v/macbook-pro-14-and-16/b/images/overview/hero/hero_intro_endframe__e6khcva4hkeq_large.jpg') no-repeat center center fixed; 
-            background-size: cover; 
+            font-family: 'Outfit', sans-serif; 
+            background-color: var(--bg-color); 
             color: var(--text-primary); 
             margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; 
             -webkit-font-smoothing: antialiased; 
-        }
-
-        .app-container { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 100%; height: 100%; flex: 1;
-            background: rgba(255,255,255,0.65); 
-            backdrop-filter: saturate(180%) blur(40px); 
-            -webkit-backdrop-filter: saturate(180%) blur(40px); 
-            padding: 20px;
+            background-image: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1), transparent 50%);
         }
 
         .header {
             width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(255,255,255,0.4); border-bottom: 1px solid var(--border);
-            position: absolute; top: 0; left: 0; z-index: 100;
+            background: rgba(19, 26, 42, 0.8); border-bottom: 1px solid var(--border);
+            position: absolute; top: 0; left: 0; z-index: 100; backdrop-filter: saturate(180%) blur(20px);
         }
 
+        .brand-container { display: flex; align-items: center; gap: 12px; }
+        .logo-svg { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--accent-glow)); }
+        .brand-text { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+        .subtitle { font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; margin-left: 10px; border-left: 1px solid var(--border); padding-left: 10px; }
+
+
         .filter-select {
-            padding: 10px 20px; border-radius: 20px; border: 1px solid var(--border);
-            background: rgba(255,255,255,0.8); font-size: 1rem; font-weight: 500; outline: none;
-            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            padding: 10px 20px; border-radius: 30px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05); color: #fff; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 500; outline: none;
+            cursor: pointer; transition: all 0.2s;
         }
+        .filter-select:focus { border-color: var(--accent); }
+        .filter-select option { background: var(--bg-color); color: #fff; }
 
         .progress-wrapper { display: flex; align-items: center; gap: 15px; }
         .mastered-count { font-weight: 600; color: var(--accent); font-size: 1.1rem; }
-        .progress-bar { width: 200px; height: 8px; background: rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-bar { width: 200px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #d8b4fe); width: 0%; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        .app-container { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 100%; height: 100%; flex: 1; padding: 20px; margin-top: 50px;
+        }
 
         /* 3D Scene - Responsive */
-        .scene { width: 90%; max-width: 600px; height: 400px; max-height: 60vh; perspective: 1200px; margin-top: 80px; margin-bottom: 40px; }
+        .scene { width: 90%; max-width: 650px; height: 400px; max-height: 60vh; perspective: 1200px; margin-bottom: 50px; }
         
         .card { 
             width: 100%; height: 100%; position: relative; 
@@ -66,18 +72,18 @@
         /* Swipe Animations */
         @keyframes swipeOutLeft {
             0% { transform: translateX(0) rotate(0); opacity: 1; }
-            100% { transform: translateX(-100px) rotate(-10deg); opacity: 0; }
+            100% { transform: translateX(-150px) rotate(-15deg); opacity: 0; }
         }
         @keyframes swipeInRight {
-            0% { transform: translateX(100px) rotate(10deg); opacity: 0; }
+            0% { transform: translateX(150px) rotate(15deg); opacity: 0; }
             100% { transform: translateX(0) rotate(0); opacity: 1; }
         }
         @keyframes swipeOutRight {
             0% { transform: translateX(0) rotate(0); opacity: 1; }
-            100% { transform: translateX(100px) rotate(10deg); opacity: 0; }
+            100% { transform: translateX(150px) rotate(15deg); opacity: 0; }
         }
         @keyframes swipeInLeft {
-            0% { transform: translateX(-100px) rotate(-10deg); opacity: 0; }
+            0% { transform: translateX(-150px) rotate(-15deg); opacity: 0; }
             100% { transform: translateX(0) rotate(0); opacity: 1; }
         }
 
@@ -89,59 +95,83 @@
         .card-face {
             position: absolute; width: 100%; height: 100%; 
             -webkit-backface-visibility: hidden; backface-visibility: hidden;
-            background: rgba(255,255,255,0.95); border: 1px solid var(--border);
-            border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             display: flex; flex-direction: column; justify-content: space-between;
-            padding: 30px;
+            padding: 40px;
         }
         
-        .card-back { background: #fafafa; transform: rotateY(180deg); }
+        .card-front { background: var(--surface); }
+        .card-back { background: #1a2235; transform: rotateY(180deg); border-color: rgba(168, 85, 247, 0.3); }
 
-        /* Flex Layout inside Card to fix alignments */
         .card-header { display: flex; justify-content: flex-start; }
         .card-content { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px 0; overflow-y: auto;}
         .card-footer { display: flex; justify-content: center; }
 
-        .card-q { font-size: 1.8rem; font-weight: 600; color: #1d1d1f; line-height: 1.4; }
-        .card-a { font-size: 1.3rem; font-weight: 400; color: #333; line-height: 1.6; }
-        .topic-tag { background: rgba(88, 86, 214, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;}
-        .hint-text { font-size: 0.9rem; color: var(--text-secondary); opacity: 0.7;}
+        .card-q { font-size: 2rem; font-weight: 600; color: #fff; line-height: 1.4; }
+        .card-a { font-size: 1.4rem; font-weight: 400; color: #e2e8f0; line-height: 1.6; }
+        .topic-tag { background: rgba(168, 85, 247, 0.1); color: var(--accent); padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid rgba(168, 85, 247, 0.2);}
+        .hint-text { font-size: 0.95rem; color: var(--text-secondary); opacity: 0.7;}
 
         /* Controls */
         .controls { display: flex; gap: 20px; z-index: 10;}
-        .btn { padding: 15px 40px; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
-        .btn-skip { background: rgba(0,0,0,0.05); color: #555; }
-        .btn-skip:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
-        .btn-master { background: var(--success); color: #fff; box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3); }
-        .btn-master:hover { background: #2fb350; transform: scale(1.05); box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4); }
+        .pill-btn {
+            background: rgba(255,255,255,0.05); color: var(--text-primary); border: 1px solid var(--border);
+            padding: 15px 40px; border-radius: 40px; font-size: 1.2rem; font-weight: 600; cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Outfit', sans-serif;
+        }
+        
+        .btn-skip { color: var(--text-secondary); }
+        .btn-skip:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); transform: translateY(-2px) scale(1.02); }
+        
+        .btn-master { background: linear-gradient(135deg, var(--accent), #7e22ce); color: #fff; border: none; box-shadow: 0 4px 15px var(--accent-glow); }
+        .btn-master:hover { background: linear-gradient(135deg, #b062ff, #8a2ce4); transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px var(--accent-glow); }
 
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        .pill-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
         /* Confetti */
         .confetti { position: absolute; width: 10px; height: 10px; background: #f00; animation: fall 1.5s linear forwards; pointer-events: none;}
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
 
         .end-screen { display: none; flex-direction: column; align-items: center; text-align: center; }
-        .end-screen h1 { font-size: 3rem; margin-bottom: 10px; }
-        .end-screen p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 30px; }
+        .end-screen h1 { font-size: 3.5rem; margin-bottom: 15px; color: #fff; }
+        .end-screen p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px; }
 
     </style>
 </head>
 <body>
 
     <div class="header">
-        <select id="topicFilter" class="filter-select" onchange="applyFilter()">
-            <option value="All">Overall Interview Mode</option>
-            <option value="Basics">Basics & Syntax</option>
-            <option value="Data Structures">Data Structures</option>
-            <option value="OOP">Object Oriented Programming</option>
-            <option value="Advanced">Advanced (Decorators, Generators)</option>
-            <option value="Machine Learning">Machine Learning</option>
-        </select>
+        <div class="brand-container">
+            <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#7e22ce;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="10" y="10" width="40" height="40" rx="12" fill="url(#grad2)" opacity="0.8"/>
+                <rect x="50" y="50" width="40" height="40" rx="12" fill="url(#grad2)"/>
+                <circle cx="30" cy="30" r="6" fill="#0b0f19"/>
+                <circle cx="70" cy="70" r="6" fill="#0b0f19"/>
+            </svg>
+            <div class="brand-text" style="background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">PyMastery <span class="subtitle">Interview Pro</span></div>
+        </div>
         
-        <div class="progress-wrapper">
-            <div class="mastered-count" id="countDisplay">0 / 0 Mastered</div>
-            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div style="display:flex; gap: 20px; align-items:center;">
+            <select id="topicFilter" class="filter-select" onchange="applyFilter()">
+                <option value="All">Overall Interview Mode</option>
+                <option value="Basics">Basics & Syntax</option>
+                <option value="Data Structures">Data Structures</option>
+                <option value="OOP">Object Oriented Programming</option>
+                <option value="Advanced">Advanced (Decorators, Generators)</option>
+                <option value="Machine Learning">Machine Learning</option>
+            </select>
+            
+            <div class="progress-wrapper">
+                <div class="mastered-count" id="countDisplay">0 / 0 Mastered</div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
         </div>
     </div>
 
@@ -149,8 +179,8 @@
         <!-- End Screen -->
         <div class="end-screen" id="endScreen">
             <h1>🏆 Mastery Complete!</h1>
-            <p>You have successfully mastered all questions in this category.</p>
-            <button class="btn btn-master" onclick="resetDeck()">Reset Deck</button>
+            <p>You have successfully conquered all questions in this category.</p>
+            <button class="pill-btn btn-master" onclick="resetDeck()">Restart Deck</button>
         </div>
 
         <!-- Card UI -->
@@ -175,8 +205,8 @@
         </div>
         
         <div class="controls" id="controls">
-            <button class="btn btn-skip" id="btnSkip" onclick="skipCard()">Skip (Review Later)</button>
-            <button class="btn btn-master" id="btnMaster" onclick="masterCard()">✅ Mastered!</button>
+            <button class="pill-btn btn-skip" id="btnSkip" onclick="skipCard()">Skip (Review Later)</button>
+            <button class="pill-btn btn-master" id="btnMaster" onclick="masterCard()">✅ Mastered!</button>
         </div>
 
     </div>
@@ -283,14 +313,12 @@
             isAnimating = true;
             setButtonsDisabled(true);
             
-            // Re-queue card
             const card = currentDeck.splice(currentIndex, 1)[0];
             currentDeck.push(card);
 
             if (isFlipped) {
                 isFlipped = false;
                 cardEl.classList.remove('is-flipped');
-                // Wait for unflip before animating out
                 setTimeout(() => animateCardChange('left'), 300);
             } else {
                 animateCardChange('left');
@@ -302,7 +330,6 @@
             isAnimating = true;
             setButtonsDisabled(true);
             
-            // Remove from deck
             currentDeck.splice(currentIndex, 1);
             masteredCount++;
 
@@ -316,24 +343,20 @@
         }
 
         function animateCardChange(direction) {
-            // Apply out animation
             const outClass = direction === 'left' ? 'animate-out-left' : 'animate-out-right';
             const inClass = direction === 'left' ? 'animate-in-right' : 'animate-in-left';
             
             cardEl.classList.add(outClass);
             
-            // Listen for animation end
             cardEl.addEventListener('animationend', function handler(e) {
                 if (e.animationName === 'swipeOutLeft' || e.animationName === 'swipeOutRight') {
                     cardEl.removeEventListener('animationend', handler);
                     
-                    // Update content while invisible
                     if (currentDeck.length > 0) {
                         loadCardData();
                         cardEl.classList.remove(outClass);
                         cardEl.classList.add(inClass);
                         
-                        // Listen for in-animation end
                         cardEl.addEventListener('animationend', function handlerIn(e2) {
                             if (e2.animationName === 'swipeInRight' || e2.animationName === 'swipeInLeft') {
                                 cardEl.removeEventListener('animationend', handlerIn);
@@ -343,7 +366,6 @@
                             }
                         });
                     } else {
-                        // Deck empty
                         cardEl.classList.remove(outClass);
                         updateUI(); 
                         isAnimating = false;
@@ -352,7 +374,6 @@
                 }
             });
             
-            // Pre-update UI for progress bar immediately
             document.getElementById('countDisplay').innerText = `${masteredCount} / ${totalCards} Mastered`;
             const pct = totalCards === 0 ? 0 : (masteredCount / totalCards) * 100;
             document.getElementById('progressFill').style.width = `${pct}%`;
@@ -363,19 +384,18 @@
         }
 
         function fireConfetti() {
-            for(let i=0; i<50; i++) {
+            for(let i=0; i<80; i++) {
                 const conf = document.createElement('div');
                 conf.className = 'confetti';
                 conf.style.left = Math.random() * 100 + 'vw';
                 conf.style.top = -10 + 'px';
-                conf.style.backgroundColor = ['#ff3b30', '#34c759', '#0071e3', '#ffcc00'][Math.floor(Math.random()*4)];
+                conf.style.backgroundColor = ['#a855f7', '#00e5ff', '#ff3b30', '#10b981', '#fbbf24'][Math.floor(Math.random()*5)];
                 conf.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
                 document.body.appendChild(conf);
                 setTimeout(() => conf.remove(), 3000);
             }
         }
 
-        // Init
         applyFilter();
     </script>
 </body>
