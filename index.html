@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Mastery - Enterprise Edition</title>
+    <title>Python Mastery</title>
     
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
@@ -34,36 +34,33 @@
             transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
         }
         .intro-overlay.hidden { opacity: 0; visibility: hidden; }
-        
         .intro-content { text-align: center; max-width: 800px; animation: slideUp 1s ease 0.5s both;}
         @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        
         .intro-content h1 { font-size: 3.5rem; letter-spacing: -1.5px; margin-bottom: 20px; background: linear-gradient(90deg, #fff, #a1a1a6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
         .intro-content p { font-size: 1.2rem; color: #a1a1a6; margin-bottom: 50px; }
-
         .flowchart { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 60px;}
         .fc-node { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 500; letter-spacing: 1px; transition: all 0.3s;}
         .fc-node.highlight { background: #0071e3; border-color: #0071e3; color: white; transform: scale(1.05); box-shadow: 0 0 30px rgba(0, 113, 227, 0.4);}
         .fc-arrow { color: #a1a1a6; font-size: 1.5rem; }
-
-        .begin-btn {
-            background: #fff; color: #000; border: none; padding: 18px 40px; border-radius: 30px;
-            font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
-        }
+        .begin-btn { background: #fff; color: #000; border: none; padding: 18px 40px; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
         .begin-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.4); }
 
         /* --- MAIN UI --- */
-        .top-nav { position: fixed; top: 0; left: 0; width: 100%; height: 50px; background: rgba(255,255,255,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; }
+        .top-nav { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: rgba(255,255,255,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; }
         .menu-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary); transition: transform 0.2s; }
         .menu-toggle:hover { transform: scale(1.1); }
         .brand { font-weight: 600; font-size: 1.2rem; letter-spacing: -0.5px;}
 
-        .player-profile { display: flex; align-items: center; gap: 15px; }
+        .nav-actions { display: flex; align-items: center; gap: 20px; }
+        .cheat-btn { background: #1d1d1f; color: #fff; border: none; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;}
+        .cheat-btn:hover { background: #333; transform: scale(1.05); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        .player-profile { display: flex; align-items: center; gap: 10px; }
         .level-badge { font-weight: 600; color: var(--accent); font-size: 0.95rem; }
-        .xp-bar-container { width: 100px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+        .xp-bar-container { width: 80px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
         .xp-bar-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
 
-        .sidebar { width: 320px; height: calc(100vh - 50px); margin-top: 50px; background: var(--bg-color); border-right: 1px solid var(--border); padding: 20px 15px; overflow-y: auto; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; left: 0; z-index: 900; }
+        .sidebar { width: 320px; height: calc(100vh - 60px); margin-top: 60px; background: var(--bg-color); border-right: 1px solid var(--border); padding: 20px 15px; overflow-y: auto; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; left: 0; z-index: 900; }
         .sidebar.collapsed { transform: translateX(-320px); }
         .nav-group { margin-bottom: 20px; }
         .nav-title { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-left: 10px;}
@@ -73,7 +70,7 @@
         .nav-item.locked { color: var(--text-secondary); cursor: not-allowed; opacity: 0.6; }
         .lock-icon { font-size: 0.8rem; }
 
-        .main-content { flex: 1; height: calc(100vh - 50px); margin-top: 50px; margin-left: 320px; padding: 40px; overflow-y: auto; display: flex; justify-content: center; transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .main-content { flex: 1; height: calc(100vh - 60px); margin-top: 60px; margin-left: 320px; padding: 40px; overflow-y: auto; display: flex; justify-content: center; transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .main-content.expanded { margin-left: 0; }
         .lesson-container { background: #fff; border-radius: 18px; padding: 50px; max-width: 900px; width: 100%; box-shadow: 0 4px 24px rgba(0,0,0,0.04); border: 1px solid var(--border); height: fit-content; margin-bottom: 50px; }
 
@@ -121,6 +118,37 @@
         .submit-btn:hover { background: #005bb5; }
         .submit-btn:disabled { background: var(--locked); cursor: not-allowed; color: #888;}
 
+        /* --- CHEAT SHEET MODAL --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 10000; display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .cheat-modal {
+            background: #fff; width: 90%; max-width: 1000px; height: 85vh; border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); display: flex; flex-direction: column;
+            transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .modal-overlay.active .cheat-modal { transform: scale(1); }
+        
+        .modal-header { padding: 25px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #fbfbfd; border-radius: 20px 20px 0 0; }
+        .modal-header h2 { margin: 0; font-size: 1.5rem; }
+        .close-btn { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-secondary); line-height: 1;}
+        .close-btn:hover { color: var(--error); }
+        
+        .modal-body { padding: 30px; overflow-y: auto; flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        
+        .cheat-section { margin-bottom: 20px; }
+        .cheat-section h3 { font-size: 1.1rem; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;}
+        .cheat-list { list-style: none; }
+        .cheat-list li { padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 0.95rem; font-family: monospace; display: flex; justify-content: space-between;}
+        .cheat-list li span { font-family: -apple-system, sans-serif; color: var(--text-secondary); font-size: 0.85rem;}
+        
+        .cheat-box-highlight { background: #f0f7ff; border: 1px solid #cce0ff; padding: 20px; border-radius: 12px; grid-column: span 2;}
+        .cheat-box-highlight h3 { color: #005bb5; }
+
     </style>
 </head>
 <body>
@@ -128,8 +156,8 @@
     <!-- Cinematic Roadmap Intro -->
     <div id="introScreen" class="intro-overlay">
         <div class="intro-content">
-            <h1>Mastering Python</h1>
-            <p>Welcome to the $500 Masterclass. Your journey begins here.</p>
+            <h1>Python Mastery</h1>
+            <p>Welcome to your personal learning journey. Let's begin.</p>
             
             <div class="flowchart">
                 <div class="fc-node">Phase 1: Fundamentals</div>
@@ -145,15 +173,166 @@
         </div>
     </div>
 
+    <!-- Ultimate Cheat Sheet Modal -->
+    <div class="modal-overlay" id="cheatModal">
+        <div class="cheat-modal">
+            <div class="modal-header">
+                <h2>🐍 The Ultimate Python Cheat Sheet</h2>
+                <button class="close-btn" onclick="toggleCheatSheet()">×</button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="cheat-box-highlight">
+                    <h3>🧠 Interview & Architectural Concepts ⭐</h3>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:15px;">
+                        <div>
+                            <strong>Mutable vs Immutable:</strong> Lists/Dicts/Sets can be changed. Tuples/Strings/Ints cannot.<br><br>
+                            <strong>List vs Tuple:</strong> Lists `[]` are mutable & slower. Tuples `()` are immutable & faster.<br><br>
+                            <strong>List vs Set:</strong> Lists allow duplicates & O(N) search. Sets `{}` are unique & O(1) instant search.<br><br>
+                            <strong>== vs is:</strong> `==` checks if VALUES match. `is` checks if MEMORY ADDRESS match.
+                        </div>
+                        <div>
+                            <strong>Shallow vs Deep Copy:</strong> Shallow copy copies references. Deep copy creates entire new independent objects in memory.<br><br>
+                            <strong>*args vs **kwargs:</strong> `*args` unpacks positional into Tuple. `**kwargs` unpacks keyword into Dict.<br><br>
+                            <strong>Garbage Collection:</strong> Python automatically deletes objects from memory when their reference count hits zero.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cheat-section">
+                    <h3>1. 🟢 Basics & Data Types</h3>
+                    <ul class="cheat-list">
+                        <li><code>print(x)</code> <span>Output</span></li>
+                        <li><code>x = input()</code> <span>Input (Returns Str)</span></li>
+                        <li><code>type(x)</code> <span>Get Data Type</span></li>
+                        <li><code>int(), str(), float()</code> <span>Type Casting</span></li>
+                        <li><code>f"Hi {name}"</code> <span>f-String Formatting</span></li>
+                        <li><code>True / False / None</code> <span>Booleans & Null</span></li>
+                    </ul>
+                </div>
+
+                <div class="cheat-section">
+                    <h3>3. ➕ Operators & Logic</h3>
+                    <ul class="cheat-list">
+                        <li><code>+, -, *, /, %</code> <span>Arithmetic (Modulo)</span></li>
+                        <li><code>==, !=, >, <</code> <span>Comparison</span></li>
+                        <li><code>and, or, not</code> <span>Logical</span></li>
+                        <li><code>in, not in</code> <span>Membership Test</span></li>
+                        <li><code>if x > 0: ... elif: ... else:</code> <span>Conditionals</span></li>
+                        <li><code>x if condition else y</code> <span>Ternary Operator</span></li>
+                    </ul>
+                </div>
+
+                <div class="cheat-section">
+                    <h3>5. 🔁 Loops</h3>
+                    <ul class="cheat-list">
+                        <li><code>for i in range(5):</code> <span>0 to 4</span></li>
+                        <li><code>while x > 0:</code> <span>Loop until False</span></li>
+                        <li><code>break</code> <span>Destroy Loop</span></li>
+                        <li><code>continue</code> <span>Skip to Next</span></li>
+                        <li><code>for idx, val in enumerate(L):</code> <span>Loop with Index</span></li>
+                        <li><code>for a, b in zip(L1, L2):</code> <span>Loop multiple lists</span></li>
+                    </ul>
+                </div>
+
+                <div class="cheat-section">
+                    <h3>6. 📦 Lists []</h3>
+                    <ul class="cheat-list">
+                        <li><code>L.append(x)</code> <span>Add to end</span></li>
+                        <li><code>L.pop()</code> <span>Remove & Return last</span></li>
+                        <li><code>L.remove(x)</code> <span>Remove specific value</span></li>
+                        <li><code>L[start:stop:step]</code> <span>Slicing</span></li>
+                        <li><code>[x*2 for x in L]</code> <span>List Comprehension ⭐</span></li>
+                        <li><code>L.sort()</code> <span>In-place sort</span></li>
+                    </ul>
+                </div>
+
+                <div class="cheat-section">
+                    <h3>8. 📖 Dictionaries {}</h3>
+                    <ul class="cheat-list">
+                        <li><code>d = {'k': 'v'}</code> <span>Create</span></li>
+                        <li><code>d['k'] = 'v2'</code> <span>Add / Update</span></li>
+                        <li><code>d.get('k', default)</code> <span>Safe Access</span></li>
+                        <li><code>d.keys(), d.values()</code> <span>Iterable views</span></li>
+                        <li><code>d.items()</code> <span>Iterate (key, value)</span></li>
+                        <li><code>{k: v for k,v in L}</code> <span>Dict Comprehension ⭐</span></li>
+                    </ul>
+                </div>
+                
+                <div class="cheat-section">
+                    <h3>9. 🧩 Sets {}</h3>
+                    <ul class="cheat-list">
+                        <li><code>s = {1, 2, 3}</code> <span>Create</span></li>
+                        <li><code>s.add(x)</code> <span>Add item</span></li>
+                        <li><code>s.discard(x)</code> <span>Safe remove</span></li>
+                        <li><code>s1 | s2</code> <span>Union</span></li>
+                        <li><code>s1 & s2</code> <span>Intersection</span></li>
+                        <li><code>s1 - s2</code> <span>Difference</span></li>
+                    </ul>
+                </div>
+
+                <div class="cheat-section">
+                    <h3>10. 🔤 Strings</h3>
+                    <ul class="cheat-list">
+                        <li><code>s.upper() / s.lower()</code> <span>Case change</span></li>
+                        <li><code>s.strip()</code> <span>Remove whitespace</span></li>
+                        <li><code>s.replace(old, new)</code> <span>Find & Replace</span></li>
+                        <li><code>s.split(',')</code> <span>String to List</span></li>
+                        <li><code>','.join(List)</code> <span>List to String</span></li>
+                        <li><code>s.startswith('A')</code> <span>Check prefix</span></li>
+                    </ul>
+                </div>
+
+                <div class="cheat-section">
+                    <h3>11. ⚙️ Functions & Functional</h3>
+                    <ul class="cheat-list">
+                        <li><code>def my_func(a, b=5):</code> <span>Definition</span></li>
+                        <li><code>return x</code> <span>Output</span></li>
+                        <li><code>lambda x: x*2</code> <span>Inline Function ⭐</span></li>
+                        <li><code>list(map(func, L))</code> <span>Apply func to all</span></li>
+                        <li><code>list(filter(func, L))</code> <span>Keep if True</span></li>
+                        <li><code>def f(*args, **kwargs):</code> <span>Dynamic Args</span></li>
+                    </ul>
+                </div>
+
+                <div class="cheat-section">
+                    <h3>12. 📁 Files & 🚨 Exceptions</h3>
+                    <ul class="cheat-list">
+                        <li><code>with open('x.txt', 'r') as f:</code> <span>Safe File Open</span></li>
+                        <li><code>f.read() / f.write()</code> <span>I/O</span></li>
+                        <li><code>try: ... except Exception:</code> <span>Catch Errors</span></li>
+                        <li><code>finally:</code> <span>Always runs</span></li>
+                        <li><code>raise ValueError()</code> <span>Trigger custom error</span></li>
+                    </ul>
+                </div>
+
+                <div class="cheat-section">
+                    <h3>15. 🏗️ Object-Oriented (OOP)</h3>
+                    <ul class="cheat-list">
+                        <li><code>class Dog:</code> <span>Blueprint</span></li>
+                        <li><code>def __init__(self):</code> <span>Constructor</span></li>
+                        <li><code>self.name = 'x'</code> <span>Instance Variable</span></li>
+                        <li><code>class Poodle(Dog):</code> <span>Inheritance</span></li>
+                        <li><code>super().__init__()</code> <span>Call Parent</span></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Top Navigation -->
     <div class="top-nav">
         <div style="display:flex; align-items:center; gap: 20px;">
             <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
             <div class="brand">Python Mastery</div>
         </div>
-        <div class="player-profile">
-            <div class="level-badge" id="levelBadge">Lvl 1</div>
-            <div class="xp-bar-container"><div class="xp-bar-fill" id="xpFill" style="width: 0%;"></div></div>
+        <div class="nav-actions">
+            <button class="cheat-btn" onclick="toggleCheatSheet()">📋 Cheat Sheet</button>
+            <div class="player-profile">
+                <div class="level-badge" id="levelBadge">Lvl 1</div>
+                <div class="xp-bar-container"><div class="xp-bar-fill" id="xpFill" style="width: 0%;"></div></div>
+            </div>
         </div>
     </div>
 
@@ -167,7 +346,7 @@
     <script>
         // --- Cinematic Intro Logic ---
         if (!localStorage.getItem('roadmap_seen')) {
-            // Show intro (default CSS is visible)
+            // Show intro
         } else {
             document.getElementById('introScreen').style.display = 'none';
         }
@@ -178,6 +357,11 @@
             setTimeout(() => {
                 document.getElementById('introScreen').style.display = 'none';
             }, 1000);
+        }
+
+        // --- Cheat Sheet Logic ---
+        function toggleCheatSheet() {
+            document.getElementById('cheatModal').classList.toggle('active');
         }
 
         // --- UI Logic ---
@@ -287,11 +471,12 @@
                 });
             }
 
+            // CRITICAL FIX: Empty py-repl, injected dynamically via textContent to preserve newlines!
             missionHtml += `
                 <h3 style="margin-top:30px;">Step 2: Interactive Coding Task</h3>
                 <p>${currentLesson.exercise}</p>
                 <div class="editor-container">
-                    <py-repl id="repl-${Math.random()}" auto-generate="true">${currentLesson.starter_code}</py-repl>
+                    <py-repl id="mission-repl" auto-generate="true"></py-repl>
                 </div>
                 
                 <div class="verify-box">
@@ -302,7 +487,7 @@
                     <div id="verifyStatus"></div>
                 </div>
 
-                <button id="submitBtn" class="submit-btn" disabled onclick="submitMission()">Submit Mission 🔒</button>
+                <button id="submitBtn" class="submit-btn" disabled onclick="submitMission()">Complete Mission & Unlock Next 🚀</button>
                 <div style="clear:both;"></div>
             `;
 
@@ -321,6 +506,15 @@
             `;
             
             document.getElementById('lessonContainer').innerHTML = html;
+            
+            // FIX: Safely inject raw Python code into the REPL to preserve pure formatting
+            setTimeout(() => {
+                const repl = document.getElementById('mission-repl');
+                if (repl) {
+                    repl.textContent = currentLesson.starter_code;
+                }
+            }, 50);
+
             checkMissionUnlock();
         }
 
@@ -371,7 +565,7 @@
             if (quizzesPassed >= requiredQuizzes && codeVerified) {
                 const btn = document.getElementById('submitBtn');
                 btn.disabled = false;
-                btn.innerText = "Complete Mission & Unlock Next 🚀";
+                btn.classList.add('pulse'); // small visual feedback could go here
             }
         }
 
@@ -398,7 +592,6 @@
         updateProfileUI();
         window.onload = () => {
             renderSidebar();
-            // Auto-load the highest unlocked lesson
             loadLesson(maxUnlockedIndex >= flatCurriculum.length ? 0 : maxUnlockedIndex);
         };
     </script>
