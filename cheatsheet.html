@@ -198,11 +198,11 @@
     <script src="curriculum.js"></script>
     <script>
         
+        
         const grid = document.getElementById('grid');
         const toc = document.getElementById('toc');
         let cardData = [];
 
-        // Extract detailed code & breakdown from curriculum
         for (const phase in curriculum) {
             curriculum[phase].forEach(lesson => {
                 let breakdownHtml = '';
@@ -242,7 +242,7 @@
                 <div class="card" id="${id}" data-search="${searchStr}" style="margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 40px;">
                     <h2 style="margin-top:0;">${c.title} <span class="status-pill active" style="margin-left: 12px; font-size:0.75rem;">${c.phase.split(':')[0]}</span></h2>
                     <div class="code-container" style="position:relative; margin-top:16px;">
-                        <button class="copy-btn" onclick="copyCode(this, \`${c.code.replace(/\'/g, "\\\'").replace(/\"/g, "\\\"").replace(/\n/g, '\\n')}\`)" style="position:absolute; right:12px; top:12px; background:var(--surface); border:1px solid var(--border); color:var(--text-primary); border-radius:4px; padding:4px 8px; cursor:pointer; font-size:0.75rem;">Copy</button>
+                        <button class="copy-btn" onclick="copyCode(this, ${index})" style="position:absolute; right:12px; top:12px; background:var(--surface); border:1px solid var(--border); color:var(--text-primary); border-radius:4px; padding:4px 8px; cursor:pointer; font-size:0.75rem;">Copy</button>
                         <div class="code-block" style="margin-bottom:0;">${c.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
                     </div>
                     ${c.breakdown}
@@ -267,7 +267,8 @@
             });
         }
 
-        function copyCode(btn, codeStr) {
+        function copyCode(btn, index) {
+            const codeStr = cardData[index].code;
             navigator.clipboard.writeText(codeStr);
             btn.innerText = "Copied!";
             btn.style.color = "var(--success)";
@@ -280,6 +281,7 @@
         }
 
         render();
+
 
     </script>\n<script>
         // Theme Toggle
