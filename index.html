@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Mastery - Enterprise Edition</title>
+    
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+    <style>
+        /* High-End Apple Aesthetic */
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg-color: #f5f5f7;
+            --surface-color: rgba(255, 255, 255, 0.7);
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent: #0071e3;
+            --border: rgba(0, 0, 0, 0.08);
+            --locked: #d2d2d7;
+            --success: #34c759;
+            --error: #ff3b30;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 50px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+
+        .menu-toggle {
+            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary);
+            transition: transform 0.2s;
+        }
+        .menu-toggle:hover { transform: scale(1.1); }
+
+        .brand { font-weight: 600; font-size: 1.2rem; letter-spacing: -0.5px;}
+
+        /* Player Profile in Nav */
+        .player-profile { display: flex; align-items: center; gap: 15px; }
+        .level-badge { font-weight: 600; color: var(--accent); font-size: 0.95rem; }
+        .xp-bar-container { width: 100px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+        .xp-bar-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
+
+        /* Collapsible Sidebar */
+        .sidebar {
+            width: 320px;
+            height: calc(100vh - 50px);
+            margin-top: 50px;
+            background: var(--bg-color);
+            border-right: 1px solid var(--border);
+            padding: 20px 15px;
+            overflow-y: auto;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: absolute;
+            left: 0;
+            z-index: 900;
+        }
+        .sidebar.collapsed { transform: translateX(-320px); }
+
+        .nav-group { margin-bottom: 20px; }
+        .nav-title { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-left: 10px;}
+        
+        .nav-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+        }
+        .nav-item:hover:not(.locked) { background: rgba(0,0,0,0.04); }
+        .nav-item.active { background: #e8f2ff; color: var(--accent); font-weight: 600; }
+        
+        .nav-item.locked {
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .lock-icon { font-size: 0.8rem; }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            height: calc(100vh - 50px);
+            margin-top: 50px;
+            margin-left: 320px; /* matches sidebar width */
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .main-content.expanded { margin-left: 0; }
+
+        .lesson-container {
+            background: #fff;
+            border-radius: 18px;
+            padding: 50px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            height: fit-content;
+            margin-bottom: 50px;
+        }
+
+        h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 30px; }
+        h2 { font-size: 1.5rem; font-weight: 600; margin-top: 30px; margin-bottom: 15px; letter-spacing: -0.5px;}
+        p { line-height: 1.6; color: #333; margin-bottom: 15px; font-size: 1.05rem;}
+
+        /* Tabs */
+        .tabs {
+            display: flex; gap: 8px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px;
+        }
+        .tab-btn {
+            background: none; border: none; font-size: 1rem; font-weight: 500; color: var(--text-secondary);
+            padding: 8px 16px; cursor: pointer; border-radius: 8px; transition: all 0.2s;
+        }
+        .tab-btn:hover { background: rgba(0,0,0,0.04); }
+        .tab-btn.active { color: var(--text-primary); font-weight: 600; background: rgba(0,0,0,0.04); }
+        
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Code Breakdown Table */
+        .breakdown-box {
+            background: #fbfbfd; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 15px;
+        }
+        .breakdown-line { margin-bottom: 10px; font-size: 0.95rem; border-bottom: 1px solid var(--border); padding-bottom: 10px;}
+        .breakdown-line:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+        .breakdown-line strong { font-family: monospace; background: rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 4px; color: var(--accent);}
+
+        /* Interview Cards */
+        .interview-card {
+            background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .interview-q { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); margin-bottom: 10px;}
+        .interview-a { color: #444; font-size: 1rem; }
+
+        /* Quiz UI */
+        .quiz-card { background: #fbfbfd; border: 1px solid var(--border); border-radius: 12px; padding: 25px; margin-bottom: 25px; }
+        .quiz-q { font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; }
+        .quiz-opt {
+            background: #fff; border: 1px solid var(--border); padding: 12px 20px; border-radius: 8px;
+            margin-bottom: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.95rem;
+        }
+        .quiz-opt:hover { border-color: var(--accent); }
+        .quiz-opt.wrong { border-color: var(--error); background: #fff0f0; color: var(--error); animation: shake 0.4s; }
+        .quiz-opt.correct { border-color: var(--success); background: #f0fff4; color: var(--success); pointer-events: none;}
+        .quiz-opt.disabled { pointer-events: none; opacity: 0.6; }
+        
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+        /* Editor */
+        .editor-container { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 25px; }
+        py-repl { --py-repl-background: #1e1e1e; --py-repl-color: #d4d4d4; }
+        .code-block { background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 12px; font-family: monospace; overflow-x: auto; margin-bottom: 20px;}
+
+        /* Submit Button */
+        .submit-btn {
+            background: var(--accent); color: #fff; border: none; padding: 12px 24px; border-radius: 20px;
+            font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; float: right;
+        }
+        .submit-btn:hover { background: #005bb5; }
+        .submit-btn:disabled { background: var(--locked); cursor: not-allowed; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div style="display:flex; align-items:center; gap: 20px;">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <div class="brand">Python Mastery</div>
+        </div>
+        <div class="player-profile">
+            <div class="level-badge" id="levelBadge">Lvl 1</div>
+            <div class="xp-bar-container"><div class="xp-bar-fill" id="xpFill" style="width: 0%;"></div></div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="lesson-container" id="lessonContainer">
+            <h1>Welcome to the Premium Engine</h1>
+            <p>Select Topic 1 from the sidebar to begin your $500-level course experience.</p>
+        </div>
+    </div>
+
+    <script src="curriculum.js"></script>
+    <script>
+        // --- UI Logic ---
+        let sidebarOpen = true;
+        function toggleSidebar() {
+            sidebarOpen = !sidebarOpen;
+            document.getElementById('sidebar').classList.toggle('collapsed', !sidebarOpen);
+            document.getElementById('mainContent').classList.toggle('expanded', !sidebarOpen);
+        }
+
+        // --- Progression Engine ---
+        let playerXP = parseInt(localStorage.getItem('pm_xp')) || 0;
+        let maxUnlockedIndex = parseInt(localStorage.getItem('pm_max_index')) || 0;
+        
+        // Flatten the curriculum topics into a single array to track global progression index
+        let flatCurriculum = [];
+        for (const phase in curriculum) {
+            curriculum[phase].forEach(topic => {
+                flatCurriculum.push({ ...topic, phaseName: phase });
+            });
+        }
+
+        function updateProfileUI() {
+            let level = Math.floor(playerXP / 100) + 1;
+            let currentXP = playerXP % 100;
+            document.getElementById('levelBadge').innerText = `Lvl ${level}`;
+            document.getElementById('xpFill').style.width = `${currentXP}%`;
+        }
+
+        function renderSidebar() {
+            let html = '';
+            let globalIndex = 0;
+
+            for (const phase in curriculum) {
+                html += `<div class="nav-group"><div class="nav-title">${phase}</div>`;
+                
+                curriculum[phase].forEach((topic) => {
+                    let isUnlocked = globalIndex <= maxUnlockedIndex;
+                    let isCompleted = globalIndex < maxUnlockedIndex;
+                    
+                    let statusIcon = isCompleted ? '✅' : (isUnlocked ? '🟢' : '🔒');
+                    let lockClass = isUnlocked ? '' : 'locked';
+                    let activeClass = (globalIndex === currentGlobalIndex) ? 'active' : '';
+
+                    html += `<div class="nav-item ${lockClass} ${activeClass}" 
+                                  onclick="if(${isUnlocked}) loadLesson(${globalIndex})">
+                                <span>${topic.title}</span> 
+                                <span class="lock-icon">${statusIcon}</span>
+                             </div>`;
+                    globalIndex++;
+                });
+                html += `</div>`;
+            }
+            document.getElementById('sidebar').innerHTML = html;
+        }
+
+        // --- Lesson Engine ---
+        let currentGlobalIndex = null;
+        let currentLesson = null;
+        let quizzesPassed = 0;
+
+        function loadLesson(gIndex) {
+            currentGlobalIndex = gIndex;
+            currentLesson = flatCurriculum[gIndex];
+            quizzesPassed = 0; // reset quizzes
+            
+            renderSidebar(); // update active class
+
+            // Build Theory Tab
+            let theoryHtml = `<p>${currentLesson.theory}</p>
+                              ${currentLesson.theory_examples ? `<h3>Real-Life Examples</h3><ul>${currentLesson.theory_examples.map(ex => `<li>${ex}</li>`).join('')}</ul>` : ''}`;
+
+            // Build Code Tab
+            let codeHtml = `<div class="code-block"><pre>${currentLesson.code}</pre></div>`;
+            if (currentLesson.code_breakdown) {
+                codeHtml += `<div class="breakdown-box">
+                                <h3 style="margin-bottom:15px; font-size:1.1rem;">Line-by-Line Breakdown</h3>
+                                ${currentLesson.code_breakdown.map(line => `<div class="breakdown-line">${line}</div>`).join('')}
+                             </div>`;
+            }
+
+            // Build Interview Tab
+            let interviewHtml = '';
+            if (currentLesson.interviews) {
+                currentLesson.interviews.forEach(int => {
+                    interviewHtml += `
+                        <div class="interview-card">
+                            <div class="interview-q">Q: ${int.q}</div>
+                            <div class="interview-a">A: ${int.a}</div>
+                            ${int.example ? `<div style="margin-top:10px; font-size:0.9rem; color:var(--accent);"><em>Example: ${int.example}</em></div>` : ''}
+                        </div>
+                    `;
+                });
+            }
+
+            // Build Mission Tab (Multiple Quizzes + Code Editor)
+            let missionHtml = `<h3>Master Mission Validation</h3><p>You must pass the evaluation before submitting your code.</p>`;
+            
+            if (currentLesson.quizzes) {
+                currentLesson.quizzes.forEach((qObj, qIdx) => {
+                    missionHtml += `
+                        <div class="quiz-card" id="quiz-${qIdx}">
+                            <div class="quiz-q">${qIdx + 1}. ${qObj.q}</div>
+                            ${qObj.options.map((opt, optIdx) => `
+                                <div class="quiz-opt" onclick="handleQuizClick(${qIdx}, ${optIdx}, ${qObj.ans}, this)">${opt}</div>
+                            `).join('')}
+                        </div>
+                    `;
+                });
+            }
+
+            missionHtml += `
+                <h3 style="margin-top:30px;">Interactive Coding Task</h3>
+                <p>${currentLesson.exercise}</p>
+                <div class="editor-container">
+                    <py-repl id="repl-${Math.random()}" auto-generate="true">${currentLesson.starter_code}</py-repl>
+                </div>
+                <button id="submitBtn" class="submit-btn" disabled onclick="submitMission()">Submit Mission 🔒</button>
+                <div style="clear:both;"></div>
+            `;
+
+            let html = `
+                <h1>${currentLesson.title}</h1>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('theory', this)">📖 Theory</button>
+                    <button class="tab-btn" onclick="switchTab('code', this)">💻 Code Breakdown</button>
+                    <button class="tab-btn" onclick="switchTab('interview', this)">🎯 Interview Pro</button>
+                    <button class="tab-btn" onclick="switchTab('mission', this)">⚔️ Master Mission</button>
+                </div>
+                <div id="tab-theory" class="tab-content active">${theoryHtml}</div>
+                <div id="tab-code" class="tab-content">${codeHtml}</div>
+                <div id="tab-interview" class="tab-content">${interviewHtml}</div>
+                <div id="tab-mission" class="tab-content">${missionHtml}</div>
+            `;
+            
+            document.getElementById('lessonContainer').innerHTML = html;
+            checkMissionUnlock(); // In case there are no quizzes
+        }
+
+        // --- Interaction Logic ---
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Fix for quiz clicking bug: using direct inline parameters cleanly.
+        window.handleQuizClick = function(qIdx, optIdx, correctAns, element) {
+            if (element.classList.contains('disabled') || element.classList.contains('correct')) return;
+
+            if (optIdx === correctAns) {
+                element.classList.add('correct');
+                // Disable other options in this specific quiz
+                const parent = document.getElementById(`quiz-${qIdx}`);
+                parent.querySelectorAll('.quiz-opt').forEach(opt => {
+                    if (opt !== element) opt.classList.add('disabled');
+                });
+                quizzesPassed++;
+                checkMissionUnlock();
+            } else {
+                element.classList.add('wrong');
+                setTimeout(() => element.classList.remove('wrong'), 400);
+            }
+        };
+
+        function checkMissionUnlock() {
+            const requiredQuizzes = currentLesson.quizzes ? currentLesson.quizzes.length : 0;
+            // If user passed all quizzes for this topic, unlock submit button
+            if (quizzesPassed >= requiredQuizzes) {
+                const btn = document.getElementById('submitBtn');
+                btn.disabled = false;
+                btn.innerText = "Complete Mission & Unlock Next 🚀";
+            }
+        }
+
+        function submitMission() {
+            // Give XP
+            playerXP += 100;
+            localStorage.setItem('pm_xp', playerXP);
+            updateProfileUI();
+
+            // Unlock next topic
+            if (currentGlobalIndex === maxUnlockedIndex) {
+                maxUnlockedIndex++;
+                localStorage.setItem('pm_max_index', maxUnlockedIndex);
+            }
+            
+            alert("Mission Accomplished! Next topic unlocked.");
+            renderSidebar();
+            
+            // Auto-load next topic if available
+            if (currentGlobalIndex + 1 < flatCurriculum.length) {
+                loadLesson(currentGlobalIndex + 1);
+            }
+        }
+
+        // Init
+        updateProfileUI();
+        // Wait for curriculum to load before rendering
+        window.onload = () => {
+            renderSidebar();
+        };
+    </script>
+</body>
+</html>
