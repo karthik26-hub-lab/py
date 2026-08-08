@@ -98,10 +98,10 @@
         .main-content.expanded { margin-left: 0; }
         .lesson-container { background: var(--surface); border-radius: 12px; padding: 48px; max-width: 800px; width: 100%; border: 1px solid var(--border); height: fit-content; margin-bottom: 48px; box-shadow: var(--shadow); transition: background-color 0.3s, border-color 0.3s;}
 
-        h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 24px; line-height: 1.2; color: var(--text-primary);}
-        h2 { font-size: 1.25rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text-primary);}
+        h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 24px; line-height: 1.2; color: var(--text-primary);}
+        h2 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 36px; margin-bottom: 16px; color: var(--text-primary);}
         h3 { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;}
-        p { line-height: 1.6; color: var(--text-secondary); margin-bottom: 16px; font-size: 1rem;}
+        p { line-height: 1.75; color: var(--text-secondary); margin-bottom: 24px; font-size: 1.05rem; letter-spacing: 0.01em; font-weight: 400; }
         strong { color: var(--text-primary); font-weight: 600; }
 
         /* Tabs */
@@ -197,18 +197,33 @@
 
     <script src="curriculum.js"></script>
     <script>
+        
         const grid = document.getElementById('grid');
         const toc = document.getElementById('toc');
         let cardData = [];
 
-        // Compile logic from curriculum
+        // Extract detailed code & breakdown from curriculum
         for (const phase in curriculum) {
             curriculum[phase].forEach(lesson => {
+                let breakdownHtml = '';
+                if(lesson.code_breakdown) {
+                    breakdownHtml = '<div class="breakdown-box">';
+                    lesson.code_breakdown.forEach(b => {
+                        let parts = b.split(':');
+                        if (parts.length > 1) {
+                            breakdownHtml += `<div class="breakdown-line"><strong>${parts[0]}</strong>: ${parts.slice(1).join(':')}</div>`;
+                        } else {
+                            breakdownHtml += `<div class="breakdown-line">${b}</div>`;
+                        }
+                    });
+                    breakdownHtml += '</div>';
+                }
+
                 cardData.push({
                     title: lesson.title,
                     phase: phase,
-                    code: lesson.starter_code,
-                    desc: lesson.theory.substring(0, 150) + "..."
+                    code: lesson.code,
+                    breakdown: breakdownHtml
                 });
             });
         }
@@ -218,19 +233,19 @@
             let tocHtml = '<div class="toc-title">Quick Jump</div>';
             
             cardData.forEach((c, index) => {
-                const searchStr = (c.title + " " + c.phase + " " + c.desc).toLowerCase();
+                const searchStr = (c.title + " " + c.phase).toLowerCase();
                 const id = `card-${index}`;
                 
                 tocHtml += `<a href="#${id}" class="toc-link">${c.title}</a>`;
 
                 html += `
-                <div class="card" id="${id}" data-search="${searchStr}">
-                    <h2>${c.title} <span class="topic-badge">${c.phase.split(' ')[1] || c.phase}</span></h2>
-                    <div class="code-container">
-                        <button class="copy-btn" onclick="copyCode(this, \`${c.code.replace(/`/g, '\\`')}\`)">Copy</button>
-                        <div class="code-block">${c.code}</div>
+                <div class="card" id="${id}" data-search="${searchStr}" style="margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 40px;">
+                    <h2 style="margin-top:0;">${c.title} <span class="status-pill active" style="margin-left: 12px; font-size:0.75rem;">${c.phase.split(':')[0]}</span></h2>
+                    <div class="code-container" style="position:relative; margin-top:16px;">
+                        <button class="copy-btn" onclick="copyCode(this, \`${c.code.replace(/\'/g, "\\\'").replace(/\"/g, "\\\"").replace(/\n/g, '\\n')}\`)" style="position:absolute; right:12px; top:12px; background:var(--surface); border:1px solid var(--border); color:var(--text-primary); border-radius:4px; padding:4px 8px; cursor:pointer; font-size:0.75rem;">Copy</button>
+                        <div class="code-block" style="margin-bottom:0;">${c.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
                     </div>
-                    <div class="desc">${c.desc}</div>
+                    ${c.breakdown}
                 </div>
                 `;
             });
@@ -255,14 +270,17 @@
         function copyCode(btn, codeStr) {
             navigator.clipboard.writeText(codeStr);
             btn.innerText = "Copied!";
-            btn.style.background = "var(--success)";
+            btn.style.color = "var(--success)";
+            btn.style.borderColor = "var(--success)";
             setTimeout(() => {
                 btn.innerText = "Copy";
-                btn.style.background = "rgba(255,255,255,0.1)";
+                btn.style.color = "var(--text-primary)";
+                btn.style.borderColor = "var(--border)";
             }, 2000);
         }
 
         render();
+
     </script>\n<script>
         // Theme Toggle
         function toggleTheme() {
