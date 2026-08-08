@@ -16,19 +16,20 @@
             --border: rgba(0, 0, 0, 0.08);
         }
 
+        * { box-sizing: border-box; }
+
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; 
             background: url('https://www.apple.com/v/macbook-pro-14-and-16/b/images/overview/hero/hero_intro_endframe__e6khcva4hkeq_large.jpg') no-repeat center center fixed; 
             background-size: cover; 
             color: var(--text-primary); 
-            margin: 0; display: flex; height: 100vh; overflow: hidden; 
+            margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; 
             -webkit-font-smoothing: antialiased; 
-            align-items: center; justify-content: center;
         }
 
         .app-container { 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 100%; height: 100%; 
+            width: 100%; height: 100%; flex: 1;
             background: rgba(255,255,255,0.65); 
             backdrop-filter: saturate(180%) blur(40px); 
             -webkit-backdrop-filter: saturate(180%) blur(40px); 
@@ -36,9 +37,9 @@
         }
 
         .header {
-            position: absolute; top: 0; left: 0; width: 100%; 
-            padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
+            width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
             background: rgba(255,255,255,0.4); border-bottom: 1px solid var(--border);
+            position: absolute; top: 0; left: 0; z-index: 100;
         }
 
         .filter-select {
@@ -50,41 +51,74 @@
         .progress-wrapper { display: flex; align-items: center; gap: 15px; }
         .mastered-count { font-weight: 600; color: var(--accent); font-size: 1.1rem; }
         .progress-bar { width: 200px; height: 8px; background: rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.4s ease; }
+        .progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        /* 3D Scene */
-        .scene { width: 600px; height: 400px; perspective: 1000px; margin-bottom: 40px; }
-        .card { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
+        /* 3D Scene - Responsive */
+        .scene { width: 90%; max-width: 600px; height: 400px; max-height: 60vh; perspective: 1200px; margin-top: 80px; margin-bottom: 40px; }
+        
+        .card { 
+            width: 100%; height: 100%; position: relative; 
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            transform-style: preserve-3d; cursor: pointer; 
+        }
         .card.is-flipped { transform: rotateY(180deg); }
         
+        /* Swipe Animations */
+        @keyframes swipeOutLeft {
+            0% { transform: translateX(0) rotate(0); opacity: 1; }
+            100% { transform: translateX(-100px) rotate(-10deg); opacity: 0; }
+        }
+        @keyframes swipeInRight {
+            0% { transform: translateX(100px) rotate(10deg); opacity: 0; }
+            100% { transform: translateX(0) rotate(0); opacity: 1; }
+        }
+        @keyframes swipeOutRight {
+            0% { transform: translateX(0) rotate(0); opacity: 1; }
+            100% { transform: translateX(100px) rotate(10deg); opacity: 0; }
+        }
+        @keyframes swipeInLeft {
+            0% { transform: translateX(-100px) rotate(-10deg); opacity: 0; }
+            100% { transform: translateX(0) rotate(0); opacity: 1; }
+        }
+
+        .animate-out-left { animation: swipeOutLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
+        .animate-in-right { animation: swipeInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
+        .animate-out-right { animation: swipeOutRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
+        .animate-in-left { animation: swipeInLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
+
         .card-face {
             position: absolute; width: 100%; height: 100%; 
             -webkit-backface-visibility: hidden; backface-visibility: hidden;
-            background: rgba(255,255,255,0.9); border: 1px solid var(--border);
+            background: rgba(255,255,255,0.95); border: 1px solid var(--border);
             border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 40px; text-align: center;
+            display: flex; flex-direction: column; justify-content: space-between;
+            padding: 30px;
         }
         
-        .card-front { background: rgba(255,255,255,0.95); }
         .card-back { background: #fafafa; transform: rotateY(180deg); }
 
-        .card-q { font-size: 1.8rem; font-weight: 600; color: #1d1d1f; line-height: 1.4; margin-bottom: 20px;}
+        /* Flex Layout inside Card to fix alignments */
+        .card-header { display: flex; justify-content: flex-start; }
+        .card-content { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px 0; overflow-y: auto;}
+        .card-footer { display: flex; justify-content: center; }
+
+        .card-q { font-size: 1.8rem; font-weight: 600; color: #1d1d1f; line-height: 1.4; }
         .card-a { font-size: 1.3rem; font-weight: 400; color: #333; line-height: 1.6; }
-        .topic-tag { position: absolute; top: 20px; left: 20px; background: rgba(88, 86, 214, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;}
-        
-        .hint-text { position: absolute; bottom: 20px; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.7;}
+        .topic-tag { background: rgba(88, 86, 214, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;}
+        .hint-text { font-size: 0.9rem; color: var(--text-secondary); opacity: 0.7;}
 
         /* Controls */
-        .controls { display: flex; gap: 20px; }
+        .controls { display: flex; gap: 20px; z-index: 10;}
         .btn { padding: 15px 40px; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
         .btn-skip { background: rgba(0,0,0,0.05); color: #555; }
         .btn-skip:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
         .btn-master { background: var(--success); color: #fff; box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3); }
         .btn-master:hover { background: #2fb350; transform: scale(1.05); box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4); }
 
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
         /* Confetti */
-        .confetti { position: absolute; width: 10px; height: 10px; background: #f00; animation: fall 1s linear forwards; pointer-events: none;}
+        .confetti { position: absolute; width: 10px; height: 10px; background: #f00; animation: fall 1.5s linear forwards; pointer-events: none;}
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
 
         .end-screen { display: none; flex-direction: column; align-items: center; text-align: center; }
@@ -95,24 +129,23 @@
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="header">
+        <select id="topicFilter" class="filter-select" onchange="applyFilter()">
+            <option value="All">Overall Interview Mode</option>
+            <option value="Basics">Basics & Syntax</option>
+            <option value="Data Structures">Data Structures</option>
+            <option value="OOP">Object Oriented Programming</option>
+            <option value="Advanced">Advanced (Decorators, Generators)</option>
+            <option value="Machine Learning">Machine Learning</option>
+        </select>
         
-        <div class="header">
-            <select id="topicFilter" class="filter-select" onchange="applyFilter()">
-                <option value="All">Overall Interview Mode</option>
-                <option value="Basics">Basics & Syntax</option>
-                <option value="Data Structures">Data Structures</option>
-                <option value="OOP">Object Oriented Programming</option>
-                <option value="Advanced">Advanced (Decorators, Generators)</option>
-                <option value="Machine Learning">Machine Learning</option>
-            </select>
-            
-            <div class="progress-wrapper">
-                <div class="mastered-count" id="countDisplay">0 / 0 Mastered</div>
-                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-            </div>
+        <div class="progress-wrapper">
+            <div class="mastered-count" id="countDisplay">0 / 0 Mastered</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         </div>
+    </div>
 
+    <div class="app-container">
         <!-- End Screen -->
         <div class="end-screen" id="endScreen">
             <h1>🏆 Mastery Complete!</h1>
@@ -123,21 +156,27 @@
         <!-- Card UI -->
         <div class="scene" id="cardScene">
             <div class="card" id="flashcard" onclick="flipCard()">
+                
+                <!-- FRONT -->
                 <div class="card-face card-front">
-                    <span class="topic-tag" id="cardTopic">Topic</span>
-                    <div class="card-q" id="cardQ">Question goes here</div>
-                    <div class="hint-text">Click card to reveal answer</div>
+                    <div class="card-header"><span class="topic-tag" id="cardTopic">Topic</span></div>
+                    <div class="card-content"><div class="card-q" id="cardQ">Question goes here</div></div>
+                    <div class="card-footer"><div class="hint-text">Click card to reveal answer</div></div>
                 </div>
+                
+                <!-- BACK -->
                 <div class="card-face card-back">
-                    <div class="card-a" id="cardA">Answer goes here</div>
-                    <div class="hint-text">Click to hide</div>
+                    <div class="card-header"><span class="topic-tag" id="cardTopicBack">Topic</span></div>
+                    <div class="card-content"><div class="card-a" id="cardA">Answer goes here</div></div>
+                    <div class="card-footer"><div class="hint-text">Click to hide</div></div>
                 </div>
+
             </div>
         </div>
         
         <div class="controls" id="controls">
-            <button class="btn btn-skip" onclick="skipCard()">Skip (Review Later)</button>
-            <button class="btn btn-master" onclick="masterCard()">✅ Mastered!</button>
+            <button class="btn btn-skip" id="btnSkip" onclick="skipCard()">Skip (Review Later)</button>
+            <button class="btn btn-master" id="btnMaster" onclick="masterCard()">✅ Mastered!</button>
         </div>
 
     </div>
@@ -177,7 +216,10 @@
         let totalCards = 0;
         
         const cardEl = document.getElementById('flashcard');
+        const btnSkip = document.getElementById('btnSkip');
+        const btnMaster = document.getElementById('btnMaster');
         let isFlipped = false;
+        let isAnimating = false;
 
         function applyFilter() {
             const filter = document.getElementById('topicFilter').value;
@@ -187,12 +229,13 @@
                 currentDeck = database.filter(q => q.topic === filter);
             }
             
-            // Shuffle
             currentDeck.sort(() => Math.random() - 0.5);
             
             totalCards = currentDeck.length;
             masteredCount = 0;
             currentIndex = 0;
+            isFlipped = false;
+            cardEl.classList.remove('is-flipped');
             
             updateUI();
         }
@@ -207,19 +250,11 @@
                 document.getElementById('cardScene').style.display = 'block';
                 document.getElementById('controls').style.display = 'flex';
                 document.getElementById('endScreen').style.display = 'none';
-                
-                // Unflip if flipped
-                if (isFlipped) {
-                    cardEl.classList.remove('is-flipped');
-                    isFlipped = false;
-                    setTimeout(loadCardData, 300); // Wait for flip animation
-                } else {
-                    loadCardData();
-                }
+                loadCardData();
             }
             
             document.getElementById('countDisplay').innerText = `${masteredCount} / ${totalCards} Mastered`;
-            const pct = (masteredCount / totalCards) * 100;
+            const pct = totalCards === 0 ? 0 : (masteredCount / totalCards) * 100;
             document.getElementById('progressFill').style.width = `${pct}%`;
         }
 
@@ -228,62 +263,99 @@
                 document.getElementById('cardQ').innerText = currentDeck[currentIndex].q;
                 document.getElementById('cardA').innerText = currentDeck[currentIndex].a;
                 document.getElementById('cardTopic').innerText = currentDeck[currentIndex].topic;
+                document.getElementById('cardTopicBack').innerText = currentDeck[currentIndex].topic;
             }
         }
 
         function flipCard() {
+            if (isAnimating) return;
             isFlipped = !isFlipped;
             cardEl.classList.toggle('is-flipped');
         }
 
+        function setButtonsDisabled(disabled) {
+            btnSkip.disabled = disabled;
+            btnMaster.disabled = disabled;
+        }
+
         function skipCard() {
-            // Move to end of deck
+            if (isAnimating || currentDeck.length === 0) return;
+            isAnimating = true;
+            setButtonsDisabled(true);
+            
+            // Re-queue card
             const card = currentDeck.splice(currentIndex, 1)[0];
             currentDeck.push(card);
-            
+
             if (isFlipped) {
-                flipCard();
-                setTimeout(loadCardData, 300);
+                isFlipped = false;
+                cardEl.classList.remove('is-flipped');
+                // Wait for unflip before animating out
+                setTimeout(() => animateCardChange('left'), 300);
             } else {
-                // Add a little slide animation
-                cardEl.style.transform = "translateX(-50px) rotate(-5deg)";
-                cardEl.style.opacity = "0";
-                setTimeout(() => {
-                    loadCardData();
-                    cardEl.style.transition = "none";
-                    cardEl.style.transform = "translateX(50px) rotate(5deg)";
-                    setTimeout(() => {
-                        cardEl.style.transition = "transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.6s";
-                        cardEl.style.transform = "translateX(0) rotate(0)";
-                        cardEl.style.opacity = "1";
-                    }, 50);
-                }, 300);
+                animateCardChange('left');
             }
         }
 
         function masterCard() {
+            if (isAnimating || currentDeck.length === 0) return;
+            isAnimating = true;
+            setButtonsDisabled(true);
+            
             // Remove from deck
             currentDeck.splice(currentIndex, 1);
             masteredCount++;
-            
+
             if (isFlipped) {
-                flipCard();
-                setTimeout(updateUI, 300);
+                isFlipped = false;
+                cardEl.classList.remove('is-flipped');
+                setTimeout(() => animateCardChange('right'), 300);
             } else {
-                // Slide out right
-                cardEl.style.transform = "translateX(50px) rotate(5deg)";
-                cardEl.style.opacity = "0";
-                setTimeout(() => {
-                    updateUI();
-                    cardEl.style.transition = "none";
-                    cardEl.style.transform = "translateX(-50px) rotate(-5deg)";
-                    setTimeout(() => {
-                        cardEl.style.transition = "transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.6s";
-                        cardEl.style.transform = "translateX(0) rotate(0)";
-                        cardEl.style.opacity = "1";
-                    }, 50);
-                }, 300);
+                animateCardChange('right');
             }
+        }
+
+        function animateCardChange(direction) {
+            // Apply out animation
+            const outClass = direction === 'left' ? 'animate-out-left' : 'animate-out-right';
+            const inClass = direction === 'left' ? 'animate-in-right' : 'animate-in-left';
+            
+            cardEl.classList.add(outClass);
+            
+            // Listen for animation end
+            cardEl.addEventListener('animationend', function handler(e) {
+                if (e.animationName === 'swipeOutLeft' || e.animationName === 'swipeOutRight') {
+                    cardEl.removeEventListener('animationend', handler);
+                    
+                    // Update content while invisible
+                    if (currentDeck.length > 0) {
+                        loadCardData();
+                        cardEl.classList.remove(outClass);
+                        cardEl.classList.add(inClass);
+                        
+                        // Listen for in-animation end
+                        cardEl.addEventListener('animationend', function handlerIn(e2) {
+                            if (e2.animationName === 'swipeInRight' || e2.animationName === 'swipeInLeft') {
+                                cardEl.removeEventListener('animationend', handlerIn);
+                                cardEl.classList.remove(inClass);
+                                isAnimating = false;
+                                setButtonsDisabled(false);
+                            }
+                        });
+                    } else {
+                        // Deck empty
+                        cardEl.classList.remove(outClass);
+                        updateUI(); 
+                        isAnimating = false;
+                        setButtonsDisabled(false);
+                    }
+                }
+            });
+            
+            // Pre-update UI for progress bar immediately
+            document.getElementById('countDisplay').innerText = `${masteredCount} / ${totalCards} Mastered`;
+            const pct = totalCards === 0 ? 0 : (masteredCount / totalCards) * 100;
+            document.getElementById('progressFill').style.width = `${pct}%`;
         }
 
         function resetDeck() {
@@ -297,7 +369,7 @@
                 conf.style.left = Math.random() * 100 + 'vw';
                 conf.style.top = -10 + 'px';
                 conf.style.backgroundColor = ['#ff3b30', '#34c759', '#0071e3', '#ffcc00'][Math.floor(Math.random()*4)];
-                conf.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                conf.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
                 document.body.appendChild(conf);
                 setTimeout(() => conf.remove(), 3000);
             }
