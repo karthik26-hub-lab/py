@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Mastery</title>
+    <title>Python Mastery - Tamil ML Edition</title>
     
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
@@ -27,12 +27,7 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; background-color: var(--bg-color); color: var(--text-primary); display: flex; height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
 
         /* --- CINEMATIC INTRO OVERLAY --- */
-        .intro-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; color: #fff; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
-        }
+        .intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s; }
         .intro-overlay.hidden { opacity: 0; visibility: hidden; }
         .intro-content { text-align: center; max-width: 800px; animation: slideUp 1s ease 0.5s both;}
         @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
@@ -51,11 +46,11 @@
         .menu-toggle:hover { transform: scale(1.1); }
         .brand { font-weight: 600; font-size: 1.2rem; letter-spacing: -0.5px;}
 
-        .nav-actions { display: flex; align-items: center; gap: 20px; }
-        .cheat-btn { background: #1d1d1f; color: #fff; border: none; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;}
-        .cheat-btn:hover { background: #333; transform: scale(1.05); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+        .nav-btn { background: #1d1d1f; color: #fff; border: none; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; text-decoration: none;}
+        .nav-btn:hover { background: #333; transform: scale(1.05); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         
-        .player-profile { display: flex; align-items: center; gap: 10px; }
+        .player-profile { display: flex; align-items: center; gap: 10px; margin-left: 10px;}
         .level-badge { font-weight: 600; color: var(--accent); font-size: 0.95rem; }
         .xp-bar-container { width: 80px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
         .xp-bar-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
@@ -68,7 +63,6 @@
         .nav-item:hover:not(.locked) { background: rgba(0,0,0,0.04); }
         .nav-item.active { background: #e8f2ff; color: var(--accent); font-weight: 600; }
         .nav-item.locked { color: var(--text-secondary); cursor: not-allowed; opacity: 0.6; }
-        .lock-icon { font-size: 0.8rem; }
 
         .main-content { flex: 1; height: calc(100vh - 60px); margin-top: 60px; margin-left: 320px; padding: 40px; overflow-y: auto; display: flex; justify-content: center; transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .main-content.expanded { margin-left: 0; }
@@ -107,76 +101,31 @@
         .code-block { background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 12px; font-family: monospace; overflow-x: auto; margin-bottom: 20px;}
 
         .verify-box { background: #f0f7ff; border: 1px solid #cce0ff; padding: 25px; border-radius: 12px; margin-bottom: 30px; }
-        .verify-input { width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; font-family: monospace; margin-top: 10px; margin-bottom: 15px; outline: none; transition: border-color 0.2s;}
+        .verify-input { width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; font-family: monospace; margin-top: 10px; margin-bottom: 15px; outline: none;}
         .verify-input:focus { border-color: var(--accent); }
         .verify-btn { background: #000; color: #fff; padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
-        .verify-btn:hover { background: #333; }
-        #verifyStatus { margin-top: 15px; font-weight: 600; }
 
         .submit-btn { background: var(--accent); color: #fff; border: none; padding: 12px 24px; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; float: right; }
         .submit-btn:hover { background: #005bb5; }
         .submit-btn:disabled { background: var(--locked); cursor: not-allowed; color: #888;}
 
-        /* --- REALPYTHON STYLE SPLIT-PANE CHEAT SHEET MODAL --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            z-index: 10000; display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        /* --- FLOATING VIDEO DRAGGABLE --- */
+        .floating-video {
+            position: fixed; bottom: 20px; right: 20px; width: 420px; height: 260px;
+            background: #000; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            z-index: 10000; display: none; flex-direction: column; overflow: hidden;
+            transform: translate3d(0, 0, 0);
         }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .cheat-modal {
-            background: #fff; width: 95%; max-width: 1400px; height: 90vh; border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); display: flex; flex-direction: column;
-            transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+        .floating-video.active { display: flex; }
+        .video-header {
+            background: #1d1d1f; color: #fff; padding: 10px 15px; cursor: grab;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.9rem; font-weight: 600; user-select: none;
         }
-        .modal-overlay.active .cheat-modal { transform: scale(1); }
+        .video-header:active { cursor: grabbing; }
+        .floating-video iframe { flex: 1; width: 100%; border: none; }
+        .close-video { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; line-height: 1; margin-top:-2px;}
         
-        .modal-header { padding: 20px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #fbfbfd; z-index: 2;}
-        .modal-header h2 { margin: 0; font-size: 1.5rem; }
-        .close-btn { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-secondary); line-height: 1;}
-        .close-btn:hover { color: var(--error); }
-        
-        .modal-body-split { display: flex; flex: 1; overflow: hidden; }
-        
-        .cheat-sidebar {
-            width: 250px; background: #fbfbfd; border-right: 1px solid var(--border);
-            overflow-y: auto; padding: 20px 0;
-        }
-        .cheat-nav-item {
-            padding: 10px 20px; cursor: pointer; font-size: 0.95rem; font-weight: 500;
-            color: var(--text-secondary); transition: all 0.2s; border-right: 3px solid transparent;
-        }
-        .cheat-nav-item:hover, .cheat-nav-item.active {
-            background: rgba(0,0,0,0.04); color: var(--accent); border-right: 3px solid var(--accent);
-        }
-
-        .cheat-content-pane {
-            flex: 1; padding: 40px; overflow-y: auto; background: #fff; scroll-behavior: smooth;
-        }
-        .cs-section { margin-bottom: 60px; }
-        .cs-section h2 { font-size: 1.8rem; margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 10px; color: var(--text-primary);}
-        .cs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .cs-grid-full { grid-template-columns: 1fr; }
-        
-        .cs-card { background: #fbfbfd; border: 1px solid var(--border); border-radius: 12px; padding: 25px; }
-        .cs-card.highlight { border-color: #0071e3; background: #f0f7ff; }
-        .cs-card.highlight h3 { color: #005bb5; }
-        .cs-card h3 { margin-bottom: 15px; color: var(--text-primary); font-size: 1.2rem; display:flex; align-items:center; gap:8px;}
-        .cs-card p { font-size: 0.95rem; color: #555; margin-bottom: 15px; }
-        
-        .cs-code {
-            background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 8px;
-            font-family: monospace; font-size: 0.95rem; overflow-x: auto; margin-bottom: 10px;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); line-height: 1.5;
-        }
-        .k { color: #569cd6; } /* keyword */
-        .s { color: #ce9178; } /* string */
-        .f { color: #dcdcaa; } /* function */
-        .c { color: #6a9955; font-style: italic; } /* comment */
-        .n { color: #b5cea8; } /* number */
-
     </style>
 </head>
 <body>
@@ -189,14 +138,21 @@
             <div class="flowchart">
                 <div class="fc-node">Phase 1: Fundamentals</div>
                 <div class="fc-arrow">↓</div>
-                <div class="fc-node highlight">Phase 1.5: Intermediate Masterclass</div>
+                <div class="fc-node">Phase 1.5: Intermediate Masterclass</div>
                 <div class="fc-arrow">↓</div>
-                <div class="fc-node">Phase 2: Databases</div>
-                <div class="fc-arrow">↓</div>
-                <div class="fc-node">Phase 3: Algorithms</div>
+                <div class="fc-node highlight">Phase 4: Machine Learning 🤖</div>
             </div>
             <button class="begin-btn" onclick="startJourney()">Begin Journey</button>
         </div>
+    </div>
+
+    <!-- Floating Draggable Video -->
+    <div class="floating-video" id="floatVideo">
+        <div class="video-header" id="videoHeader">
+            <span>📺 Tamil ML Masterclass (11 Hrs)</span>
+            <button class="close-video" onclick="toggleVideo()">×</button>
+        </div>
+        <iframe src="https://www.youtube.com/embed/QGAuolgCTHE" allowfullscreen></iframe>
     </div>
 
     <!-- Top Navigation -->
@@ -206,7 +162,9 @@
             <div class="brand">Python Mastery</div>
         </div>
         <div class="nav-actions">
-            <button class="cheat-btn" onclick="toggleCheatSheet()">📋 Cheat Sheet</button>
+            <button class="nav-btn" onclick="toggleLanguage()" id="langToggle">🌍 EN</button>
+            <button class="nav-btn" onclick="toggleVideo()">📺 Video Player</button>
+            <a href="cheatsheet.html" target="_blank" class="nav-btn" style="background:#0071e3;">📋 Cheat Sheet</a>
             <div class="player-profile">
                 <div class="level-badge" id="levelBadge">Lvl 1</div>
                 <div class="xp-bar-container"><div class="xp-bar-fill" id="xpFill" style="width: 0%;"></div></div>
@@ -223,18 +181,57 @@
     <script src="curriculum.js"></script>
     <script>
         // --- Cinematic Intro Logic ---
-        if (!localStorage.getItem('roadmap_seen')) {
+        if (!localStorage.getItem('roadmap_seen_v2')) {
             // Show intro
         } else {
             document.getElementById('introScreen').style.display = 'none';
         }
 
         function startJourney() {
-            localStorage.setItem('roadmap_seen', 'true');
+            localStorage.setItem('roadmap_seen_v2', 'true');
             document.getElementById('introScreen').classList.add('hidden');
-            setTimeout(() => {
-                document.getElementById('introScreen').style.display = 'none';
-            }, 1000);
+            setTimeout(() => { document.getElementById('introScreen').style.display = 'none'; }, 1000);
+        }
+
+        // --- Draggable Video Logic ---
+        const floatVideo = document.getElementById('floatVideo');
+        const videoHeader = document.getElementById('videoHeader');
+        let isDragging = false; 
+        let currentX, currentY, initialX, initialY;
+        let xOffset = 0, yOffset = 0;
+
+        videoHeader.addEventListener("mousedown", dragStart);
+        document.addEventListener("mouseup", dragEnd);
+        document.addEventListener("mousemove", drag);
+
+        function dragStart(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+            if (e.target === videoHeader || e.target.parentNode === videoHeader) { isDragging = true; }
+        }
+        function dragEnd(e) { initialX = currentX; initialY = currentY; isDragging = false; }
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                currentX = e.clientX - initialX; 
+                currentY = e.clientY - initialY;
+                xOffset = currentX; 
+                yOffset = currentY;
+                setTranslate(currentX, currentY, floatVideo);
+            }
+        }
+        function setTranslate(xPos, yPos, el) { el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`; }
+        function toggleVideo() { floatVideo.classList.toggle('active'); }
+
+        // --- Language State Logic ---
+        let currentLang = localStorage.getItem('pm_lang') || 'en';
+        document.getElementById('langToggle').innerText = currentLang === 'en' ? '🌍 EN' : '🌍 தமிழ்';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ta' : 'en';
+            localStorage.setItem('pm_lang', currentLang);
+            document.getElementById('langToggle').innerText = currentLang === 'en' ? '🌍 EN' : '🌍 தமிழ்';
+            if (currentLesson) loadLesson(currentGlobalIndex); // Re-render text
         }
 
         // --- UI Logic ---
@@ -251,9 +248,7 @@
         
         let flatCurriculum = [];
         for (const phase in curriculum) {
-            curriculum[phase].forEach(topic => {
-                flatCurriculum.push({ ...topic, phaseName: phase });
-            });
+            curriculum[phase].forEach(topic => { flatCurriculum.push({ ...topic, phaseName: phase }); });
         }
 
         function updateProfileUI() {
@@ -264,16 +259,12 @@
         }
 
         function renderSidebar() {
-            let html = '';
-            let globalIndex = 0;
-
+            let html = ''; let globalIndex = 0;
             for (const phase in curriculum) {
                 html += `<div class="nav-group"><div class="nav-title">${phase}</div>`;
-                
                 curriculum[phase].forEach((topic) => {
                     let isUnlocked = globalIndex <= maxUnlockedIndex;
                     let isCompleted = globalIndex < maxUnlockedIndex;
-                    
                     let statusIcon = isCompleted ? '✅' : (isUnlocked ? '🟢' : '🔒');
                     let lockClass = isUnlocked ? '' : 'locked';
                     let activeClass = (globalIndex === currentGlobalIndex) ? 'active' : '';
@@ -291,7 +282,7 @@
         }
 
         // --- Lesson Engine ---
-        let currentGlobalIndex = 0; // Default to 0
+        let currentGlobalIndex = 0;
         let currentLesson = null;
         let quizzesPassed = 0;
         let codeVerified = false;
@@ -304,8 +295,10 @@
             
             renderSidebar(); 
 
-            let theoryHtml = `<p>${currentLesson.theory}</p>
-                              ${currentLesson.theory_examples ? `<h3 style="margin-top:20px;">Real-Life Examples</h3><ul>${currentLesson.theory_examples.map(ex => `<li>${ex}</li>`).join('')}</ul>` : ''}`;
+            // LANGUAGE RESOLUTION
+            let theoryData = currentLang === 'ta' && currentLesson.theory_tamil ? currentLesson.theory_tamil : currentLesson.theory;
+            
+            let theoryHtml = `<p>${theoryData}</p>`;
 
             let codeHtml = `<div class="code-block"><pre>${currentLesson.code}</pre></div>`;
             if (currentLesson.code_breakdown) {
@@ -318,33 +311,26 @@
             let interviewHtml = '';
             if (currentLesson.interviews) {
                 currentLesson.interviews.forEach(int => {
-                    interviewHtml += `
-                        <div class="interview-card">
+                    interviewHtml += `<div class="interview-card">
                             <div class="interview-q">Q: ${int.q}</div>
                             <div class="interview-a">A: ${int.a}</div>
-                            ${int.example ? `<div style="margin-top:10px; font-size:0.9rem; color:var(--accent);"><em>Example: ${int.example}</em></div>` : ''}
-                        </div>
-                    `;
+                        </div>`;
                 });
             }
 
             let missionHtml = ``;
-            
             if (currentLesson.quizzes) {
                 missionHtml += `<h3>Step 1: Concept Verification</h3><p>You must pass the evaluation before writing code.</p>`;
                 currentLesson.quizzes.forEach((qObj, qIdx) => {
-                    missionHtml += `
-                        <div class="quiz-card" id="quiz-${qIdx}">
+                    missionHtml += `<div class="quiz-card" id="quiz-${qIdx}">
                             <div class="quiz-q">${qIdx + 1}. ${qObj.q}</div>
                             ${qObj.options.map((opt, optIdx) => `
                                 <div class="quiz-opt" onclick="handleQuizClick(${qIdx}, ${optIdx}, ${qObj.ans}, this)">${opt}</div>
                             `).join('')}
-                        </div>
-                    `;
+                        </div>`;
                 });
             }
 
-            // CRITICAL FIX: Empty py-repl, injected dynamically via textContent to preserve newlines!
             missionHtml += `
                 <h3 style="margin-top:30px;">Step 2: Interactive Coding Task</h3>
                 <p>${currentLesson.exercise}</p>
@@ -357,12 +343,10 @@
                     <p style="font-size:0.95rem; color:#555; margin-bottom:0;">Run your code above. What exactly did it print in the terminal?</p>
                     <input type="text" id="verifyInput" class="verify-input" placeholder="Type terminal output here..." autocomplete="off">
                     <button class="verify-btn" onclick="verifyOutput()">Verify Code Output</button>
-                    <div id="verifyStatus"></div>
+                    <div id="verifyStatus" style="margin-top: 15px; font-weight: 600;"></div>
                 </div>
-
                 <button id="submitBtn" class="submit-btn" disabled onclick="submitMission()">Complete Mission & Unlock Next 🚀</button>
-                <div style="clear:both;"></div>
-            `;
+                <div style="clear:both;"></div>`;
 
             let html = `
                 <h1>${currentLesson.title}</h1>
@@ -380,12 +364,9 @@
             
             document.getElementById('lessonContainer').innerHTML = html;
             
-            // FIX: Safely inject raw Python code into the REPL to preserve pure formatting
             setTimeout(() => {
                 const repl = document.getElementById('mission-repl');
-                if (repl) {
-                    repl.textContent = currentLesson.starter_code;
-                }
+                if (repl) repl.textContent = currentLesson.starter_code;
             }, 50);
 
             checkMissionUnlock();
@@ -401,15 +382,11 @@
 
         window.handleQuizClick = function(qIdx, optIdx, correctAns, element) {
             if (element.classList.contains('disabled') || element.classList.contains('correct')) return;
-
             if (optIdx === correctAns) {
                 element.classList.add('correct');
                 const parent = document.getElementById(`quiz-${qIdx}`);
-                parent.querySelectorAll('.quiz-opt').forEach(opt => {
-                    if (opt !== element) opt.classList.add('disabled');
-                });
-                quizzesPassed++;
-                checkMissionUnlock();
+                parent.querySelectorAll('.quiz-opt').forEach(opt => { if (opt !== element) opt.classList.add('disabled'); });
+                quizzesPassed++; checkMissionUnlock();
             } else {
                 element.classList.add('wrong');
                 setTimeout(() => element.classList.remove('wrong'), 400);
@@ -419,44 +396,28 @@
         window.verifyOutput = function() {
             const input = document.getElementById('verifyInput').value.trim();
             const expected = String(currentLesson.expected_output);
-            
             if (input === expected) {
                 document.getElementById('verifyStatus').innerText = "✅ Output Verified! Great job.";
                 document.getElementById('verifyStatus').style.color = "var(--success)";
                 document.getElementById('verifyInput').disabled = true;
-                codeVerified = true;
-                checkMissionUnlock();
+                codeVerified = true; checkMissionUnlock();
             } else {
-                document.getElementById('verifyStatus').innerText = "❌ Incorrect output. Run your code in the REPL and check the terminal!";
+                document.getElementById('verifyStatus').innerText = "❌ Incorrect output. Check the REPL terminal!";
                 document.getElementById('verifyStatus').style.color = "var(--error)";
             }
         }
 
         function checkMissionUnlock() {
             const requiredQuizzes = currentLesson.quizzes ? currentLesson.quizzes.length : 0;
-            if (quizzesPassed >= requiredQuizzes && codeVerified) {
-                const btn = document.getElementById('submitBtn');
-                btn.disabled = false;
-            }
+            if (quizzesPassed >= requiredQuizzes && codeVerified) { document.getElementById('submitBtn').disabled = false; }
         }
 
         function submitMission() {
-            playerXP += 100;
-            localStorage.setItem('pm_xp', playerXP);
-            updateProfileUI();
-
-            if (currentGlobalIndex === maxUnlockedIndex) {
-                maxUnlockedIndex++;
-                localStorage.setItem('pm_max_index', maxUnlockedIndex);
-            }
-            
+            playerXP += 100; localStorage.setItem('pm_xp', playerXP); updateProfileUI();
+            if (currentGlobalIndex === maxUnlockedIndex) { maxUnlockedIndex++; localStorage.setItem('pm_max_index', maxUnlockedIndex); }
             renderSidebar();
-            
-            if (currentGlobalIndex + 1 < flatCurriculum.length) {
-                loadLesson(currentGlobalIndex + 1);
-            } else {
-                alert("Course Complete! You are a Python Master.");
-            }
+            if (currentGlobalIndex + 1 < flatCurriculum.length) { loadLesson(currentGlobalIndex + 1); } 
+            else { alert("Course Complete! You are a Python ML Master."); }
         }
 
         // Init
@@ -468,4 +429,3 @@
     </script>
 </body>
 </html>
-
