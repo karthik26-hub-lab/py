@@ -2,91 +2,91 @@ const curriculum = {
     "Phase 1: Python Programming Mastery": [
         {
             "title": "1. Core Python & Type Hinting",
-            "theory": "Pro-level Python engineering demands strict adherence to typing and memory management. In large-scale enterprise applications, relying on dynamic typing often leads to catastrophic runtime errors that are notoriously difficult to debug. By utilizing Python's PEP 484 type hinting, we explicitly define the expected data types for function arguments and return values. This practice not only acts as self-documenting code but also empowers IDEs to catch type mismatches before the code is even executed.\n\nFurthermore, understanding how Python handles variable assignment (pass-by-object-reference) is crucial. When you pass a mutable object like a list into a function, you are passing a reference to the original memory address, meaning unintended modifications can bleed into the global state. Type hinting, combined with immutability where possible, forms the bedrock of writing resilient, production-ready machine learning pipelines.",
-            "theory_tamil": "Pro-level Python பொறியியலுக்கு, typing மற்றும் memory management-ஐ கடுமையாகப் பின்பற்றுவது அவசியம். பெரிய அளவிலான enterprise applications-ல், dynamic typing-ஐ நம்பியிருப்பது பெரும் இயக்கநேர (runtime) பிழைகளுக்கு வழிவகுக்கும், இவற்றை debug செய்வது மிகவும் கடினம். Python-ன் PEP 484 type hinting-ஐப் பயன்படுத்துவதன் மூலம், function arguments மற்றும் return values-க்கான தரவு வகைகளை (data types) தெளிவாக வரையறுக்கிறோம். இது குறியீட்டைப் புரிந்துகொள்ள உதவுவதோடு, code இயங்கும் முன்பே பிழைகளை சுட்டிக்காட்ட IDE-களுக்கு உதவுகிறது.\n\nமேலும், Python எவ்வாறு variable assignment-ஐ கையாளுகிறது (pass-by-object-reference) என்பதைப் புரிந்துகொள்வது மிக முக்கியம். List போன்ற மாற்றக்கூடிய (mutable) object-ஐ function-க்குள் அனுப்பும்போது, நீங்கள் அதன் memory முகவரியையே அனுப்புகிறீர்கள். எனவே, எதிர்பாராத மாற்றங்கள் global state-ஐ பாதிக்கும் அபாயம் உள்ளது. Type hinting மற்றும் அவசியமான இடங்களில் immutability-ஐ பயன்படுத்துவதே உறுதியான ML pipelines அமைப்பதற்கான அடித்தளமாகும்.",
-            "code": "def calculate_loss(predictions: list[float], targets: list[float]) -> float:\n    if len(predictions) != len(targets):\n        raise ValueError('Dimension mismatch: Predictions and targets must have the same length.')\n    \n    # Using a generator expression inside sum() for memory efficiency (no intermediate list created)\n    return sum((p - t)**2 for p, t in zip(predictions, targets)) / len(targets)",
+            "theory": "Welcome to your first day as an AI Engineer! Imagine Python as a massive, magical warehouse. In this warehouse, you need to store things in boxes (variables). If you just throw items into boxes without labeling them, you'll eventually lose track of what's inside, leading to a huge mess. That's what we call 'dynamic typing'—it's fast at first, but chaotic later.\n\nTo become a pro, we use 'Type Hinting'. This is like slapping a bright, clear label on every box (e.g., 'This box ONLY holds numbers'). By explicitly declaring what data goes where (using PEP 484), we make our code incredibly easy to read and prevent our AI models from crashing because they expected a number but received a word. It's the first secret to writing code that doesn't just work, but works beautifully.",
+            "theory_tamil": "AI பொறியியலாளராக உங்கள் முதல் நாளுக்கு நல்வரவு! Python-ஐ ஒரு பெரிய மேஜிக் குடோனாக கற்பனை செய்துகொள்ளுங்கள். இதில், நீங்கள் பொருட்களை பெட்டிகளில் (variables) சேமிக்க வேண்டும். பெட்டிகளில் என்ன இருக்கிறது என்று லேபிள் ஒட்டாமல் பொருட்களைப் போட்டால், பின்னாளில் பெரும் குழப்பம் ஏற்படும். இதையே நாம் 'dynamic typing' என்கிறோம்—ஆரம்பத்தில் இது வேகமாக இருந்தாலும், பிறகு பெரும் குழப்பத்தை விளைவிக்கும்.\n\nஒரு சிறந்த பொறியாளராக மாற, நாம் 'Type Hinting'-ஐப் பயன்படுத்துகிறோம். அதாவது ஒவ்வொரு பெட்டியிலும் தெளிவான லேபிள் ஒட்டுவது போன்றது (எ.கா: 'இந்தப் பெட்டியில் எண்கள் மட்டுமே இருக்கும்'). தரவுகள் எங்கே செல்ல வேண்டும் என்பதைத் தெளிவாகக் குறிப்பிடுவதன் மூலம் (PEP 484), குறியீட்டைப் படிப்பது மிகவும் எளிதாகிறது. ஒரு மாடல் எண்ணை எதிர்பார்க்கும் போது வார்த்தை வந்தால் ஏற்படும் பிழைகளையும் இது தடுக்கிறது. இதுவே அழகாகவும் சரியாகவும் இயங்கும் குறியீட்டை எழுதுவதற்கான முதல் ரகசியம்.",
+            "code": "def calculate_loss(predictions: list[float], targets: list[float]) -> float:\n    # We check if both lists have the same number of items\n    if len(predictions) != len(targets):\n        raise ValueError('Oops! The lists are not the same length.')\n    \n    # We calculate the error between prediction and target\n    return sum((p - t)**2 for p, t in zip(predictions, targets)) / len(targets)",
             "code_breakdown": [
-                "list[float]: Type hints explicitly declare that the lists must contain floating-point numbers.",
-                "-> float: Declares that the function will guarantee a floating-point return value.",
-                "generator expression: (p-t)**2 avoids creating a massive new list in RAM, computing values on-the-fly."
+                "list[float]: This is our label! It tells everyone 'predictions' is a list of decimal numbers.",
+                "-> float: This promises that when the function finishes, it will hand back a single decimal number.",
+                "raise ValueError: A polite way of making the program stop and scream if something goes wrong."
             ],
             "interviews": [
                 {
-                    "q": "Why use type hinting in Python if it is fundamentally a dynamically typed language?",
-                    "a": "While Python ignores type hints at runtime, they are vital for static analysis tools (like mypy) and IDEs. They prevent a huge class of bugs in CI/CD pipelines and drastically improve the readability of large codebases."
+                    "q": "If Python doesn't enforce type hints, why do we use them?",
+                    "a": "Think of type hints like a spell-checker. Python itself might not care, but tools like our code editors (IDEs) will read the hints and warn us of mistakes before we even run the program!"
                 }
             ],
             "quizzes": [
                 {
-                    "q": "What happens if you pass a string to a function type-hinted to expect an integer?",
+                    "q": "What is the main benefit of Type Hinting?",
                     "options": [
-                        "Python instantly crashes",
-                        "It runs fine, but static linters will flag an error",
-                        "It converts the string to an int automatically"
+                        "It makes Python run faster",
+                        "It makes code easier to read and catches bugs early",
+                        "It automatically converts text to numbers"
                     ],
                     "ans": 1
                 }
             ],
-            "exercise": "Define a type-hinted function `greet` that takes a string `name` and returns a string.",
+            "exercise": "Define a function `greet` that expects a string and returns a string.",
             "starter_code": "def greet(name: str) -> str:\n    return 'Hello ' + name\nprint(greet('AI'))",
             "expected_output": "Hello AI"
         },
         {
             "title": "2. Advanced Data Structures",
-            "theory": "Data structures are the architectural blueprints for how data is stored and retrieved in memory. Standard lists are versatile but highly inefficient for searching, taking O(N) linear time to scan. In performance-critical AI systems, choosing the correct optimized data structure is non-negotiable.\n\nSets are built upon Hash Tables, allowing for lightning-fast O(1) membership testing and deduplication. If you need to check if an element exists among millions of records, a Set accomplishes this instantly. Tuples are immutable arrays; once created in memory, they cannot be altered. This immutability ensures data integrity for critical hyperparameter configurations and allows them to be used as dictionary keys. Dictionaries (Hash Maps) map unique keys to values, forming the absolute backbone of JSON web APIs, configurations, and internal state management in frameworks like PyTorch.",
-            "theory_tamil": "தரவுக் கட்டமைப்புகள் (Data structures) என்பவை தரவுகள் memory-ல் எவ்வாறு சேமிக்கப்பட்டு மீட்டெடுக்கப்படுகின்றன என்பதற்கான வரைபடங்களாகும். சாதாரண Lists பல்துறை பயன்பாடு கொண்டவை என்றாலும், தரவை தேடுவதற்கு O(N) நேரம் எடுப்பதால் அவை மெதுவானவை. அதிக செயல்திறன் தேவைப்படும் AI அமைப்புகளில், சரியான optimize செய்யப்பட்ட data structure-ஐத் தேர்ந்தெடுப்பது கட்டாயமாகும்.\n\nSets என்பவை Hash Tables அடிப்படையில் அமைந்தவை, இதனால் ஒரு தரவு உள்ளதா என்பதை O(1) நேரத்தில் (கணப்பொழுதில்) கண்டுபிடிக்க முடியும். பல மில்லியன் தரவுகளில் ஒரு மதிப்பு உள்ளதா எனத் தேட Set பயன்படுகிறது. Tuples என்பவை மாற்ற முடியாத (immutable) arrays. இவை memory-ல் உருவான பின் மாற்றி அமைக்க முடியாதவை. இந்தத் தன்மை, முக்கிய configurations மாறாமல் பாதுகாக்க உதவுகிறது. Dictionaries (Hash Maps) என்பவை Keys-ஐ Values-உடன் இணைக்கின்றன. JSON APIs மற்றும் PyTorch போன்ற frameworks-ன் உள் கட்டமைப்புகளுக்கு இவையே ஆணிவேராகும்.",
-            "code": "from typing import Dict, Set, Tuple\n\n# Sets guarantee O(1) membership checks and instant deduplication\nactive_users: Set[str] = {'user_101', 'user_202', 'user_101'}\n\n# Tuples guarantee immutability (read-only state)\nhyperparams: Tuple[float, int] = (0.001, 64) \n\n# Dictionaries form the backbone of configuration payloads\nmodel_config: Dict[str, any] = {\n    'learning_rate': hyperparams[0],\n    'batch_size': hyperparams[1],\n    'optimizer': 'AdamW'\n}",
+            "theory": "If you're building a house, you wouldn't use a hammer for every single job—you need a full toolkit. In Python, Data Structures are your toolkit for organizing information. Standard Lists are like a bookshelf; if you want to find a specific book, you have to scan every single shelf, which is slow (O(N) time).\n\nLet me introduce you to the pro tools. A 'Set' is like an exclusive VIP club—it instantly kicks out any duplicate items, and it can check if someone is on the guest list in a fraction of a second (O(1) time). A 'Tuple' is a sealed time capsule; once you put data inside, it can never be changed, which is great for protecting important settings. Finally, a 'Dictionary' works exactly like a real-life dictionary: you look up a specific 'Word' (Key) and instantly get its 'Meaning' (Value). Dictionaries are the beating heart of how computers talk to each other across the internet.",
+            "theory_tamil": "நீங்கள் ஒரு வீடு கட்டினால், எல்லா வேலைகளுக்கும் சுத்தியலை மட்டுமே பயன்படுத்த மாட்டீர்கள்—உங்களுக்கு ஒரு முழுமையான கருவிப்பெட்டி தேவை. Python-ல், Data Structures என்பவை தகவல்களை ஒழுங்கமைப்பதற்கான உங்கள் கருவிப்பெட்டியாகும். சாதாரண Lists ஒரு புத்தக அலமாரி போன்றவை; ஒரு புத்தகத்தைத் தேட, நீங்கள் அலமாரி முழுவதையும் தேட வேண்டும், இது மிகவும் மெதுவானது (O(N) நேரம்).\n\nஇப்போது சில சிறப்பு கருவிகளைப் பார்ப்போம். 'Set' என்பது ஒரு VIP கிளப் போன்றது—இதில் ஒரே நபர் இருமுறை வரமுடியாது (duplicates இல்லை), மேலும் ஒருவர் விருந்தினர் பட்டியலில் உள்ளாரா என்பதை நொடிப்பொழுதில் சொல்லிவிடும் (O(1) நேரம்). 'Tuple' ஒரு மூடி சீல் வைக்கப்பட்ட பெட்டி போன்றது; உள்ளே வைத்த தரவை மாற்ற முடியாது, இது முக்கிய அமைப்புகளைப் பாதுகாக்கச் சிறந்தது. 'Dictionary' உண்மையான அகராதியைப் போலவே செயல்படுகிறது: ஒரு 'வார்த்தையை' (Key) தேடினால் அதன் 'அர்த்தம்' (Value) உடனே கிடைக்கும். இணையத்தில் கணினிகள் பேசிக்கொள்ள இந்த Dictionaries தான் உயிர்நாடி.",
+            "code": "from typing import Dict, Set, Tuple\n\n# A Set acts like a VIP club. The second 'user_101' is instantly kicked out!\nactive_users: Set[str] = {'user_101', 'user_202', 'user_101'}\n\n# A Tuple is a sealed vault. We use it to lock in our settings.\nhyperparams: Tuple[float, int] = (0.001, 64) \n\n# A Dictionary connects Keys to Values instantly.\nmodel_config: Dict[str, any] = {\n    'learning_rate': hyperparams[0],\n    'batch_size': hyperparams[1],\n    'optimizer': 'AdamW'\n}",
             "code_breakdown": [
-                "Set[str]: A set of strings. The duplicate 'user_101' is instantly destroyed.",
-                "Tuple[float, int]: A fixed-size, immutable array. Attempting to change hyperparams[0] will throw an error.",
-                "Dict[str, any]: Standard pattern for flexible ML configurations."
+                "Set: Eliminates duplicates automatically. Fast searches.",
+                "Tuple: A read-only list. You cannot accidentally overwrite hyperparams[0].",
+                "Dict: A structured way to organize key-value pairs, heavily used in AI configurations."
             ],
             "interviews": [
                 {
-                    "q": "Explain the time complexity difference between checking if an item exists in a List vs a Set.",
-                    "a": "A List requires iterating through potentially every element, making it O(N) time complexity. A Set hashes the element and looks up its memory address directly, making it O(1) constant time complexity."
+                    "q": "When would you use a Tuple instead of a List?",
+                    "a": "Imagine you have GPS coordinates for a city. They shouldn't change while your program is running! Using a Tuple prevents you (or another programmer) from accidentally changing the data."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which data structure is immutable and can be used as a Dictionary key?",
+                    "q": "Which data structure is best for instantly checking if a user ID exists in a massive database of millions of users?",
                     "options": [
                         "List",
                         "Set",
                         "Tuple"
                     ],
-                    "ans": 2
+                    "ans": 1
                 }
             ],
-            "exercise": "Remove duplicates from the list by converting it to a set, then check if 'Adam' exists in it.",
-            "starter_code": "opts = ['Adam', 'SGD', 'Adam']\nopts_set = set(opts)\nprint('Adam' in opts_set)",
-            "expected_output": "True"
+            "exercise": "Remove duplicates from the list by converting it to a set.",
+            "starter_code": "opts = ['Adam', 'SGD', 'Adam']\nprint(set(opts))",
+            "expected_output": "{'Adam', 'SGD'}"
         },
         {
             "title": "3. Functions & Scopes",
-            "theory": "In Python, functions are 'first-class citizens', meaning they are objects that can be assigned to variables, passed into other functions as arguments, and returned from other functions. This functional programming paradigm is crucial for writing clean, composable AI architectures and building complex data transformation pipelines.\n\nFurthermore, mastering function signatures via `*args` and `**kwargs` allows you to create highly flexible, variadic functions. `*args` packs an infinite number of positional arguments into a Tuple, while `**kwargs` packs keyword arguments into a Dictionary. This pattern is extensively used in almost every major ML library (like Scikit-Learn and PyTorch) to allow developers to pass dynamic configuration parameters without explicitly hardcoding hundreds of arguments in the function definition.",
-            "theory_tamil": "Python-ல் functions என்பவை 'first-class citizens'. அதாவது, அவற்றை variables-க்கு assign செய்யலாம், மற்ற functions-க்குள் arguments ஆக அனுப்பலாம். இந்த Functional Programming முறை, தெளிவான AI கட்டமைப்புகளை உருவாக்கவும், சிக்கலான data pipelines-ஐ கையாளவும் மிகவும் முக்கியமானது.\n\nமேலும், `*args` மற்றும் `**kwargs` மூலம் நெகிழ்வான (flexible) functions-ஐ உருவாக்கலாம். `*args` பல positional arguments-ஐ ஒரு Tuple ஆகவும், `**kwargs` பல keyword arguments-ஐ ஒரு Dictionary ஆகவும் மாற்றுகின்றன. Scikit-Learn மற்றும் PyTorch போன்ற பெரிய ML libraries-ல், நூற்றுக்கணக்கான arguments-ஐ hardcode செய்யாமல், மாறும் parameters-ஐ (dynamic configurations) அனுப்ப இந்த முறை பெருமளவில் பயன்படுத்தப்படுகிறது.",
-            "code": "def build_model(architecture: str, *layers: int, **kwargs):\n    print(f\"Building {architecture} Architecture...\")\n    print(f\"Hidden Layers: {layers}\")\n    \n    # Iterate through dynamic configuration dictionary\n    for param, value in kwargs.items():\n        print(f\"Config - {param}: {value}\")\n\n# We pass variable positional args (128, 64) and variable kwargs (dropout, activation)\nbuild_model('DeepNet', 128, 64, dropout=0.2, activation='relu')",
+            "theory": "Think of a function like a magical recipe box. You put ingredients (arguments) in the top, the box does some cooking, and a finished meal (return value) comes out the bottom. But what if you don't know exactly how many ingredients someone wants to put in?\n\nEnter the magic of `*args` and `**kwargs`. By putting a little star (`*`) in front of a word, you tell Python: 'Take all the extra items they give me, and wrap them up into a neat little Tuple.' Two stars (`**`) mean: 'Take all the extra labeled items, and pack them into a Dictionary!' This gives you incredible flexibility. It's how giant AI frameworks allow you to pass dozens of different customization options to a model without the creators having to write a million different rules.",
+            "theory_tamil": "Function-ஐ ஒரு மேஜிக் சமையல் பெட்டியாக நினைத்துக் கொள்ளுங்கள். நீங்கள் சில பொருட்களை (arguments) உள்ளே போட்டால், அது சமைத்து ஒரு உணவை (return value) வெளியே தரும். ஆனால், ஒருவர் எத்தனை பொருட்களை உள்ளே போடுவார் என்று உங்களுக்குத் தெரியாவிட்டால் என்ன செய்வது?\n\nஇங்குதான் `*args` மற்றும் `**kwargs`-ன் மேஜிக் தொடங்குகிறது. ஒரு வார்த்தைக்கு முன் ஒரு நட்சத்திரம் (`*`) போட்டால், 'கூடுதலாக வரும் அனைத்துப் பொருட்களையும் சேர்த்து ஒரு Tuple ஆக மாற்று' என்று அர்த்தம். இரண்டு நட்சத்திரங்கள் (`**`) போட்டால், 'லேபிள் செய்யப்பட்ட கூடுதல் பொருட்களை ஒரு Dictionary ஆக மாற்று!' என்று அர்த்தம். இது உங்களுக்கு அபாரமான நெகிழ்வுத்தன்மையைத் (flexibility) தருகிறது. பெரிய AI frameworks-ல் பயனர்கள் தங்களுக்குத் தேவையான பல அமைப்புகளை எளிதாக உள்ளிட இந்த முறையே பயன்படுகிறது.",
+            "code": "def build_model(architecture: str, *layers: int, **kwargs):\n    print(f\"Building {architecture}...\")\n    print(f\"Layers provided: {layers}\")\n    \n    # We loop through our dictionary of extra labeled settings\n    for param, value in kwargs.items():\n        print(f\"Setting {param} to {value}\")\n\n# We give 1 string, 2 extra numbers (*args), and 2 labeled settings (**kwargs)!\nbuild_model('DeepNet', 128, 64, dropout=0.2, activation='relu')",
             "code_breakdown": [
-                "*layers: Collects all extra positional arguments (128, 64) into a Tuple.",
-                "**kwargs: Collects all explicitly named keyword arguments into a Dictionary.",
-                "kwargs.items(): Extracts the key-value pairs for iteration."
+                "*layers: Collects '128' and '64' into a Tuple: (128, 64).",
+                "**kwargs: Collects 'dropout' and 'activation' into a Dictionary.",
+                "kwargs.items(): A handy trick to get both the Key and Value from a dictionary at the same time."
             ],
             "interviews": [
                 {
-                    "q": "What is variable shadowing in Python scope?",
-                    "a": "Variable shadowing occurs when a variable declared within a local scope (like inside a function) has the same name as a variable in the outer global scope. The local variable 'shadows' the global one, preventing access to the global variable within that function."
+                    "q": "What is 'Scope' in Python?",
+                    "a": "Think of Scope like a one-way mirror in an interrogation room. A function can look outside the room and see global variables, but the outside world cannot look inside the function to see its private, local variables."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "If you pass 3 extra positional arguments to a function with *args, what data structure does *args become?",
+                    "q": "If you use **kwargs in a function, how does Python store the data internally?",
                     "options": [
-                        "Dictionary",
-                        "Tuple",
-                        "List"
+                        "As a List",
+                        "As a Tuple",
+                        "As a Dictionary"
                     ],
-                    "ans": 1
+                    "ans": 2
                 }
             ],
             "exercise": "Print the length of the kwargs dictionary.",
@@ -95,29 +95,29 @@ const curriculum = {
         },
         {
             "title": "4. Object-Oriented ML",
-            "theory": "Object-Oriented Programming (OOP) is the definitive paradigm used to abstract complex Artificial Intelligence models. In the OOP paradigm, an AI model is conceptualized as a `Class` blueprint. When instantiated into an object, the model's internal weights, biases, and hyperparameter states are stored as instance attributes (variables attached to `self`). The model's behaviors—such as its forward pass predicting data, or its backward pass learning from error—are defined as methods (functions attached to the class).\n\nOOP allows for immense architectural flexibility through Inheritance and Polymorphism. In PyTorch, every single neural network you build will inherit from the base `nn.Module` class, allowing your custom network to automatically inherit powerful internal mechanics (like gradient tracking and parameter management) without having to write them from scratch.",
-            "theory_tamil": "Object-Oriented Programming (OOP) மூலமே சிக்கலான AI மாதிரிகள் (models) வடிவமைக்கப்படுகின்றன. OOP முறையில், ஒரு AI model என்பது ஒரு `Class` blueprint ஆகக் கருதப்படுகிறது. அதை ஒரு object ஆக உருவாக்கும்போது, model-ன் weights, biases மற்றும் hyperparameters ஆகியவை அதனுடைய properties (அதாவது `self`-உடன் இணைக்கப்பட்ட variables) ஆக சேமிக்கப்படுகின்றன. Data-ஐ கணிக்கும் forward pass அல்லது பிழையிலிருந்து கற்கும் backward pass ஆகியவை methods (செயல்பாடுகள்) ஆக வரையறுக்கப்படுகின்றன.\n\nOOP-ன் Inheritance மற்றும் Polymorphism மூலம் மிகச் சிறந்த கட்டமைப்பு நெகிழ்வுத்தன்மை (architectural flexibility) கிடைக்கிறது. PyTorch-ல் நீங்கள் உருவாக்கும் ஒவ்வொரு neural network-ம் `nn.Module` என்ற அடிப்படை class-ல் இருந்து inherit செய்யப்படும். இதனால், gradient tracking போன்ற கடினமான அம்சங்களை நீங்கள் புதிதாக எழுதத் தேவையில்லை, அவை தானாகவே உங்கள் network-க்கு கிடைக்கும்.",
-            "code": "class MLModel:\n    # Constructor initializes the state of the object\n    def __init__(self, model_name: str):\n        self.model_name = model_name\n        self.is_trained = False\n        self.weights = None\n        \n    # Method defines the behavior of the object\n    def fit(self, data: list):\n        print(f'Training {self.model_name} on {len(data)} samples...')\n        self.weights = [0.5, -0.2, 0.8] # Simulated learned weights\n        self.is_trained = True\n        print('Training Complete.')\n\nmodel = MLModel('RandomForest')\nmodel.fit([10, 20, 30])",
+            "theory": "Let's say you want to build a robot factory. Instead of building every robot completely from scratch, step-by-step, wouldn't it be easier to just draw a 'Blueprint' once, and then use that blueprint to stamp out as many robots as you need?\n\nThat is Object-Oriented Programming (OOP) in a nutshell! A `Class` is just the blueprint. When you use the blueprint to actually build a robot, that robot is called an `Object`. The robot has things it *owns* (like its battery level or its name)—we call these 'Attributes' (variables). The robot also has things it can *do* (like walk or talk)—we call these 'Methods' (functions). In AI, every single Machine Learning model is just an Object built from a Class blueprint. It remembers its own training data, and it has a method to make predictions!",
+            "theory_tamil": "நீங்கள் ஒரு ரோபோ தொழிற்சாலையை உருவாக்க வேண்டும் என வைத்துக்கொள்வோம். ஒவ்வொரு ரோபோவையும் புதிதாக, படிப்படியாக உருவாக்குவதற்குப் பதிலாக, ஒரே ஒரு 'வரைபடத்தை' (Blueprint) உருவாக்கி, அதை வைத்து எத்தனை ரோபோக்களை வேண்டுமானாலும் தயாரிப்பது எளிதல்லவா?\n\nஇதுவே Object-Oriented Programming (OOP)-ன் மையக்கருத்தாகும்! `Class` என்பது அந்த வரைபடம். வரைபடத்தைப் பயன்படுத்தி நீங்கள் உருவாக்கும் உண்மையான ரோபோவுக்குப் பெயர் `Object`. அந்த ரோபோவுக்குச் சொந்தமான சில விஷயங்கள் இருக்கும் (எ.கா: அதன் பேட்டரி அளவு, பெயர்)—இவற்றை 'Attributes' (மாறிகள்) என்கிறோம். ரோபோவால் சில செயல்களைச் செய்ய முடியும் (எ.கா: நடப்பது, பேசுவது)—இவற்றை 'Methods' (செயல்பாடுகள்) என்கிறோம். AI-ல், ஒவ்வொரு Machine Learning மாடலும் ஒரு Class-லிருந்து உருவாக்கப்பட்ட Object மட்டுமே. அது தன்னிடம் உள்ள தரவை நினைவில் வைத்துக்கொண்டு, கணிப்புகளைச் (predictions) செய்யக்கூடிய திறனைக் கொண்டுள்ளது!",
+            "code": "class MLModel:\n    # The __init__ method is the 'constructor'. It runs the moment a new object is born!\n    def __init__(self, model_name: str):\n        self.model_name = model_name  # The object remembers its own name\n        self.is_trained = False       # The object remembers it hasn't learned anything yet\n        \n    # A method is just a function that lives inside the object\n    def train(self):\n        print(f'{self.model_name} is now learning...')\n        self.is_trained = True\n\n# We use the blueprint to create a real object!\nmy_robot = MLModel('RandomForest')\nmy_robot.train()",
             "code_breakdown": [
-                "__init__: The constructor method that fires automatically when the object is instantiated.",
-                "self: A mandatory reference to the specific instance of the object in memory, allowing access to its isolated state.",
-                "model = MLModel(): Instantiates a new object from the MLModel blueprint."
+                "class MLModel:: We are drawing the blueprint here.",
+                "def __init__(self): The birth ceremony of the object. 'self' means 'me'—the specific object being created.",
+                "self.is_trained: We attach a sticky note to the object so it remembers its state."
             ],
             "interviews": [
                 {
-                    "q": "What is the concept of Encapsulation in OOP?",
-                    "a": "Encapsulation is the bundling of data (attributes) and methods that operate on that data into a single unit (a class), and restricting direct outside access to some of the object's internal state (using private variables like `_weights`) to prevent unintended interference."
+                    "q": "What does the keyword 'self' actually do?",
+                    "a": "Imagine you have 10 identical robots. If you shout 'Turn off!', how do they know WHICH one should turn off? The word 'self' is how a robot refers to its own specific body. It ensures changing one object's battery doesn't change another's."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which of the following is true about the `self` parameter?",
+                    "q": "What do we call the special function `__init__` in a class?",
                     "options": [
-                        "It is a reserved Python keyword that cannot be renamed.",
-                        "It refers to the blueprint class itself.",
-                        "It refers to the specific object instance being created."
+                        "The Destructor",
+                        "The Constructor",
+                        "The Blueprint"
                     ],
-                    "ans": 2
+                    "ans": 1
                 }
             ],
             "exercise": "Print the model's `is_trained` attribute after initialization.",
@@ -126,32 +126,31 @@ const curriculum = {
         },
         {
             "title": "5. Generators & Decorators",
-            "theory": "When training AI models on massive, terabyte-sized datasets (like millions of high-res images), standard lists will instantly crash your system via an Out-Of-Memory (OOM) error. Generators solve this. Using the `yield` keyword, a generator acts as a lazy evaluator, pausing its execution and generating data exactly one batch at a time, keeping RAM utilization incredibly low.\n\nDecorators are a powerful metaprogramming feature in Python. They allow you to 'decorate' a function with another function, dynamically altering its behavior without permanently modifying its source code. In MLOps, decorators are heavily used for applying authentication checks to API endpoints, implementing retry logic for brittle network calls, or logging the execution time of slow training loops.",
-            "theory_tamil": "மில்லியன் கணக்கான images போன்ற terabyte அளவிலான பெரிய datasets-ல் AI models-ஐ train செய்யும்போது, சாதாரண lists உங்கள் system-ல் Out-Of-Memory (OOM) error-ஐ ஏற்படுத்தி செயலிழக்கச் செய்யும். Generators இதற்கு சிறந்த தீர்வாகும். `yield` keyword-ஐப் பயன்படுத்தி, ஒரு generator தரவை (data) ஒரேயடியாக ஏற்றாமல், தேவைப்படும்போது ஒவ்வொரு batch ஆகக் கொடுக்கிறது. இதனால் RAM பயன்பாடு மிகக் குறைவாக இருக்கும்.\n\nDecorators என்பவை Python-ல் உள்ள ஒரு சக்திவாய்ந்த metaprogramming அம்சமாகும். ஒரு function-ன் source code-ஐ மாற்றாமலேயே, அதன் செயல்பாட்டை மாற்றி அமைக்க (decorate) இது உதவுகிறது. MLOps-ல் API endpoints-க்கு authentication சரிபார்க்க, தோல்வியடையும் network calls-ஐ மீண்டும் முயற்சிக்க (retry logic), அல்லது மெதுவான training loops-ன் execution time-ஐ log செய்ய decorators பெருமளவில் பயன்படுகின்றன.",
-            "code": "import time\n\n# A decorator that measures how long a function takes to execute\ndef time_execution(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Execution Time: {end_time - start_time:.4f} seconds\")\n        return result\n    return wrapper\n\n# A generator simulating reading massive chunks of data lazily\ndef load_data_lazily():\n    for i in range(1, 4):\n        yield f\"Batch_{i}\"\n        time.sleep(0.1) # Simulate slow disk I/O\n\n@time_execution\ndef training_loop():\n    # The loop consumes the generator one batch at a time\n    for batch in load_data_lazily():\n        pass\n\ntraining_loop()",
+            "theory": "Imagine you are at a pizza buffet. If the chef brings out 100 pizzas all at once, there's no room on the table, the pizzas get cold, and it's a disaster. Instead, the chef brings out one pizza, waits for you to eat it, and then brings the next. This is exactly how a `Generator` works in Python! When training AI on massive datasets (like a million photos), trying to load them all into memory at once crashes your computer. Using the magical `yield` keyword, a generator hands you one photo, hits the pause button, and waits until you're ready for the next. It saves your computer from a memory explosion.\n\nNow, imagine you want to add a cool shiny wrapper to a gift, but you don't want to open the box and ruin the present inside. That is a `Decorator`. It's a clever way to 'wrap' a function with extra features (like checking if a user is logged in, or measuring how fast the function runs) without ever modifying the original function's code!",
+            "theory_tamil": "நீங்கள் ஒரு பீட்சா கடைக்குச் செல்கிறீர்கள் என கற்பனை செய்து கொள்ளுங்கள். சமையல்காரர் 100 பீட்சாக்களையும் ஒரே நேரத்தில் கொண்டு வந்து வைத்தால், மேஜையில் இடமிருக்காது, எல்லாம் வீணாகிவிடும். அதற்குப் பதிலாக, அவர் ஒரு பீட்சாவைக் கொண்டுவந்து, நீங்கள் சாப்பிட்ட பிறகு அடுத்ததைக் கொண்டு வருகிறார். Python-ல் உள்ள `Generator` இப்படித்தான் வேலை செய்கிறது! ஒரு மில்லியன் புகைப்படங்களை ஒரே நேரத்தில் memory-ல் ஏற்றினால் கணினி முடங்கிவிடும். மேஜிக்கலான `yield` keyword-ஐப் பயன்படுத்தும்போது, generator ஒரு புகைப்படத்தைக் கொடுத்துவிட்டு, 'பாஸ்' (pause) பட்டனை அழுத்தி, நீங்கள் அடுத்ததைக் கேட்கும் வரை காத்திருக்கும். இது கணினியை முடங்காமல் காக்கிறது.\n\nஇப்போது, ஒரு பரிசுப் பெட்டிக்குள் உள்ள பரிசைப் பிரிக்காமலேயே அதன் மேல் ஒரு அழகான காகிதத்தைச் சுற்ற வேண்டும் என நினைத்துக்கொள்ளுங்கள். இதுதான் `Decorator`. ஒரு function-ன் உண்மையான குறியீட்டை மாற்றாமலேயே, அதற்கு கூடுதல் அம்சங்களை (எ.கா: ஒரு பயனர் உள்நுழைந்துள்ளாரா என்பதைச் சரிபார்த்தல், அல்லது function எவ்வளவு வேகமாக இயங்குகிறது என்பதை அளவிடுதல்) 'சுற்றிவைக்க' (wrap) இது ஒரு புத்திசாலித்தனமான வழியாகும்!",
+            "code": "import time\n\n# A Decorator: It wraps another function to add a timer to it!\ndef timer_wrapper(func):\n    def inner_box(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs) # We run the original function here\n        print(f\"Finished in {time.time() - start:.4f} seconds\")\n        return result\n    return inner_box\n\n# A Generator: Notice we use 'yield' instead of 'return'\ndef slow_pizza_maker():\n    for i in range(1, 4):\n        yield f\"Pizza {i}\"\n        time.sleep(0.1) # Pretend it takes time to bake\n\n@timer_wrapper\ndef eat_buffet():\n    # The loop asks the generator for one pizza at a time\n    for pizza in slow_pizza_maker():\n        pass\n\neat_buffet()",
             "code_breakdown": [
-                "@time_execution: Syntactic sugar that passes the training_loop() function into the time_execution() function.",
-                "wrapper(*args, **kwargs): Ensures the decorator can accept and pass along any arguments given to the original function.",
-                "yield: Pauses the generator's state, returning the current batch, and waits to be called again."
+                "@timer_wrapper: This is the 'gift wrap'. It magically attaches the timer to our eat_buffet function.",
+                "yield: Unlike 'return' which kills the function forever, 'yield' just hits the pause button, saving its spot for next time."
             ],
             "interviews": [
                 {
-                    "q": "What happens internally when a function hits a `yield` statement?",
-                    "a": "The function's state (including local variables and execution pointer) is completely frozen and saved in memory. It yields the value back to the caller, and only resumes execution from that exact frozen point when `next()` is called again."
+                    "q": "Why does a generator save memory?",
+                    "a": "Because it only ever holds ONE item in your computer's RAM at any given time, no matter if there are 10 items or 10 billion items waiting in line."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Why are Generators critical for Deep Learning data pipelines?",
+                    "q": "Which keyword acts like a 'pause button' in a function, turning it into a generator?",
                     "options": [
-                        "They train models faster on GPUs.",
-                        "They prevent RAM exhaustion by loading data sequentially.",
-                        "They automatically normalize image pixels."
+                        "return",
+                        "yield",
+                        "stop"
                     ],
                     "ans": 1
                 }
             ],
-            "exercise": "Write a generator yielding 1 then 2, and print the list.",
+            "exercise": "Write a generator yielding 1 then 2.",
             "starter_code": "def gen():\n    yield 1\n    yield 2\nprint(list(gen()))",
             "expected_output": "[1, 2]"
         }
@@ -159,27 +158,27 @@ const curriculum = {
     "Phase 2: The Data Science Toolkit": [
         {
             "title": "6. NumPy & Linear Algebra",
-            "theory": "NumPy (Numerical Python) is the absolute foundation of the entire data science and machine learning ecosystem. Under the hood, Python lists are fragmented arrays of pointers to scattered objects in memory, making numerical loops agonizingly slow. NumPy replaces these with contiguous C-backed arrays, ensuring extreme cache-locality and blistering performance.\n\nThe true power of NumPy lies in Vectorization and Linear Algebra. Vectorization allows you to apply mathematical operations across entire arrays simultaneously without writing explicit `for` loops in Python. Furthermore, operations like the Matrix Dot Product (`np.dot` or `@`) form the core mathematics behind every forward pass in deep neural networks. Understanding matrix dimensions, broadcasting (extending smaller matrices to match larger ones), and tensor operations is non-negotiable for AI engineering.",
-            "theory_tamil": "NumPy (Numerical Python) என்பது முழு Data Science மற்றும் Machine Learning-க்கான அடிப்படை அஸ்திவாரமாகும். பொதுவாக Python lists என்பவை memory-ல் ஆங்காங்கே சிதறிக் கிடக்கும் objects-ஐக் குறிக்கும் pointers ஆகும், இதனால் எண்களை loop செய்வது மிகவும் மெதுவாக இருக்கும். NumPy இதை மாற்றி, C-மொழியில் எழுதப்பட்ட contiguous (தொடர்ச்சியான) arrays-ஐ பயன்படுத்துகிறது. இதனால் cache-locality மற்றும் அதிவேக performance கிடைக்கிறது.\n\nNumPy-ன் உண்மையான சக்தி Vectorization மற்றும் Linear Algebra ஆகியவற்றில் உள்ளது. Vectorization மூலம், Python-ல் `for` loops எழுதாமலேயே முழு arrays-க்கும் ஒரே நேரத்தில் கணித செயல்பாடுகளைச் செய்ய முடியும். மேலும், Matrix Dot Product (`np.dot` அல்லது `@`) போன்ற செயல்பாடுகளே neural networks-ன் forward pass-க்கான முக்கிய கணிதமாகும். Matrix dimensions, broadcasting (சிறிய matrices-ஐ பெரிய matrices-க்கு ஏற்ப மாற்றுதல்), மற்றும் tensor operations ஆகியவற்றைப் புரிந்துகொள்வது AI பொறியியலுக்கு மிகவும் கட்டாயமாகும்.",
-            "code": "import numpy as np\n\n# Creating highly optimized 2D Matrices\nX = np.array([[1, 2], \n              [3, 4]])\n              \n# Weights Matrix\nW = np.array([[0.5, 0.5], \n              [0.5, 0.5]])\n\n# Vectorized matrix dot product (The core of Neural Networks)\noutput = np.dot(X, W) # Or X @ W\n\n# Broadcasting: Adding a scalar to a matrix instantly\noutput = output + 1.5 \n\nprint(output.shape)",
+            "theory": "Welcome to the real engine room of AI! While Python is easy to read, it's actually quite slow at doing heavy math. Imagine having to add together 10 million numbers using a standard `for` loop—it would take ages. \n\nEnter **NumPy** (Numerical Python). NumPy is basically a hyper-fast C-language engine wearing a friendly Python mask. Instead of normal lists, NumPy uses highly structured blocks of memory called Arrays. Because of how closely they are packed in the computer's memory, NumPy can use a superpower called **Vectorization**. Vectorization means NumPy can add, multiply, or divide millions of numbers all at the exact same time in a single swooping operation, rather than one-by-one. When AI models 'learn', they are essentially just multiplying massive grids of numbers together (Matrix Dot Products). NumPy is the library that makes this math happen at lightning speed.",
+            "theory_tamil": "AI-ன் உண்மையான இயந்திர அறைக்கு நல்வரவு! Python படிக்க எளிதானது என்றாலும், பெரிய அளவிலான கணிதங்களைச் செய்வதில் அது மிகவும் மெதுவானது. ஒரு சாதாரண `for` loop-ஐப் பயன்படுத்தி 10 மில்லியன் எண்களைக் கூட்ட வேண்டும் என்றால், அதற்கு நீண்ட நேரம் எடுக்கும்.\n\nஇங்குதான் **NumPy** (Numerical Python) வருகிறது. NumPy என்பது, அன்பான Python முகமூடி அணிந்த ஒரு அதிவேக C-மொழி இயந்திரமாகும். சாதாரண Lists-க்குப் பதிலாக, NumPy மிக நேர்த்தியாக அடுக்கப்பட்ட Arrays எனப்படும் நினைவகத் தொகுதிகளைப் (memory blocks) பயன்படுத்துகிறது. அவை நெருக்கமாக அடுக்கப்பட்டிருப்பதால், NumPy-ஆல் **Vectorization** என்ற வல்லமையைப் பயன்படுத்த முடிகிறது. Vectorization என்றால், பல மில்லியன் எண்களை ஒவ்வொன்றாகக் கூட்டாமல், ஒரே நொடியில் மொத்தமாகக் கூட்டவோ பெருக்கவோ முடியும் என்பதாகும். AI மாடல்கள் 'கற்கும்' போது, அவை அடிப்படையில் பெரிய எண் கட்டங்களை (Matrix Dot Products) பெருக்குகின்றன. இந்தக் கணிதத்தை மின்னல் வேகத்தில் செய்ய உதவுவது NumPy நூலகமே.",
+            "code": "import numpy as np\n\n# Creating a 2D Array (A Matrix) - think of it as a grid of numbers\nX = np.array([[1, 2], \n              [3, 4]])\n\n# Without a single 'for' loop, we instantly multiply every number by 10!\nscaled_X = X * 10\n\n# We can multiply two matrices together (The core math of AI)\nW = np.array([[0.5, 0.5], \n              [0.5, 0.5]])\n\noutput = np.dot(X, W) # Or simply X @ W\nprint(output.shape)",
             "code_breakdown": [
-                "np.array(): Instantiates the highly optimized, homogeneous N-dimensional array.",
-                "np.dot(X, W): Computes the dot product. Row 1 of X is multiplied with Col 1 of W, returning the new matrix.",
-                "output + 1.5: Broadcasting automatically expands the scalar 1.5 into a 2x2 matrix to complete the addition instantly."
+                "np.array(): Converts a slow Python list into a blazing-fast C-array.",
+                "X * 10: Vectorization in action! It multiplies every cell instantly without needing a loop.",
+                "np.dot(): Calculates the Matrix Dot Product. Row 1 multiplied by Column 1, etc."
             ],
             "interviews": [
                 {
-                    "q": "Explain Locality of Reference and why it makes NumPy faster than Python lists.",
-                    "a": "Python lists store elements scattered randomly across memory (Heap). NumPy arrays store elements side-by-side in a single contiguous block of memory. The CPU cache can load this block all at once (Spatial Locality), making access times orders of magnitude faster."
+                    "q": "Why is NumPy faster than standard Python lists?",
+                    "a": "Python lists are like a scavenger hunt; the data is scattered all over your computer's memory. NumPy arrays store all the data perfectly side-by-side in one continuous block, so the computer can process it in one giant gulp."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "What is the NumPy feature that allows operations between arrays of different shapes?",
+                    "q": "What is it called when NumPy performs math on an entire array instantly without a 'for' loop?",
                     "options": [
+                        "Iteration",
                         "Vectorization",
-                        "Broadcasting",
-                        "Slicing"
+                        "Broadcasting"
                     ],
                     "ans": 1
                 }
@@ -189,30 +188,30 @@ const curriculum = {
             "expected_output": "(2, 3)"
         },
         {
-            "title": "7. Pandas DataFrames & Pipelines",
-            "theory": "Pandas is the industry-standard library for tabular data manipulation. While NumPy handles raw tensors, Pandas introduces the `DataFrame`—a powerful, programmatic equivalent of an Excel spreadsheet equipped with labeled columns, mixed data types, and sophisticated index alignment mechanisms.\n\nReal-world data is notoriously messy. It contains missing values, extreme outliers, mismatched datetime formats, and corrupt strings. As an AI engineer, a massive portion of your time is spent in Pandas performing 'Data Wrangling' or 'ETL' (Extract, Transform, Load). Instead of mutating dataframes in a chaotic, bug-prone way, professionals build robust Pandas Method-Chaining pipelines. This functional approach applies transformations sequentially, explicitly dropping NaNs, engineering new features, and scaling metrics while preserving the integrity of the original dataset.",
-            "theory_tamil": "Pandas என்பது tabular data (அட்டவணை தரவு) கையாளுவதற்கான industry-standard library ஆகும். NumPy raw tensors-ஐ கையாளும் நிலையில், Pandas `DataFrame`-ஐ அறிமுகப்படுத்துகிறது. இது Excel spreadsheet போன்ற ஒரு சக்திவாய்ந்த programmatic அமைப்பாகும். இதில் labeled columns, mixed data types மற்றும் சிறந்த index alignment வசதிகள் உள்ளன.\n\nஉண்மையான உலகத் தரவுகள் (Real-world data) எப்போதுமே குறைபாடுகள் நிறைந்தவை. அதில் விடுபட்ட மதிப்புகள் (missing values), outliers, தவறான datetime formats மற்றும் பிழையான strings இருக்கும். ஒரு AI பொறியியலாளராக, உங்களின் பெரும்பாலான நேரம் Pandas-ல் 'Data Wrangling' அல்லது 'ETL' (Extract, Transform, Load) செய்வதிலேயே செலவாகும். Dataframes-ஐ கண்டபடி மாற்றுவதற்குப் பதிலாக, வல்லுநர்கள் Pandas Method-Chaining pipelines-ஐ உருவாக்குகிறார்கள். இந்த முறையின் மூலம், விடுபட்ட தரவுகளை நீக்குதல், புதிய features உருவாக்குதல் ஆகியவற்றை வரிசையாகவும் பாதுகாப்பாகவும் செய்யலாம்.",
-            "code": "import pandas as pd\nimport numpy as np\n\nraw_data = {'Name': ['A', 'B', 'C'], 'Age': [25, np.nan, 30], 'Salary': [50000, 60000, 70000]}\ndf = pd.DataFrame(raw_data)\n\n# Professional Method Chaining Pipeline for Data Cleaning\nclean_df = (\n    df.copy()\n    .dropna(subset=['Age']) # Drop rows where Age is missing\n    .assign(Salary_Bonus=lambda x: x['Salary'] * 1.1) # Engineer a new feature on the fly\n    .rename(columns={'Name': 'Employee_Name'})\n)\n\nprint(clean_df.shape)",
+            "title": "7. Pandas DataFrames",
+            "theory": "If NumPy is the engine, **Pandas** is the steering wheel. Data in the real world is rarely just a grid of numbers. It's spreadsheets with column names like 'Age' or 'Income', filled with messy text, missing values, and weird formats. \n\nPandas introduces the `DataFrame`. Imagine a DataFrame as Excel on steroids, controlled entirely by code. It allows you to load massive datasets, filter out the bad data, and clean it up before feeding it to your AI model. In AI, there's a golden rule: 'Garbage In, Garbage Out'. If you train a model on corrupt data with blank spots, the model will be corrupt. Using Pandas, we build professional 'Data Cleaning Pipelines' to elegantly scrub our data, fill in the blanks, and engineer new insightful columns in just a few lines of code.",
+            "theory_tamil": "NumPy ஒரு இயந்திரம் என்றால், **Pandas** தான் ஸ்டீயரிங் (Steering wheel). நிஜ உலகத் தரவுகள் எப்போதுமே எண்கள் அடங்கிய கட்டங்களாக இருக்காது. அவை 'வயது' அல்லது 'வருமானம்' போன்ற தலைப்புகளைக் கொண்ட அட்டவணைகளாக இருக்கும். அவற்றில் விடுபட்ட தகவல்கள், தவறான வார்த்தைகள் என பல குழப்பங்கள் இருக்கும்.\n\nPandas `DataFrame` என்ற அமைப்பை அறிமுகப்படுத்துகிறது. இதை குறியீட்டால் (code) கட்டுப்படுத்தப்படும் ஒரு அதிநவீன Excel அட்டவணையாக கற்பனை செய்து கொள்ளுங்கள். பெரிய தரவுகளை (datasets) பதிவிறக்கி, தவறானவற்றைக் களைந்து, AI மாடலுக்குக் கொடுக்கும் முன் சுத்தப்படுத்த இது உதவுகிறது. AI-ல் ஒரு பொன்விதி உள்ளது: 'Garbage In, Garbage Out' (குப்பையை உள்ளே போட்டால் குப்பைதான் வெளியே வரும்). பிழையான தரவுகளை வைத்து மாடலைப் பயிற்றுவித்தால், மாடலும் பிழையாகவே இருக்கும். Pandas மூலம் சில வரிக் குறியீடுகளிலேயே தரவுகளைச் சுத்தப்படுத்தி, குறைகளை நீக்கி, புதிய தரவுகளை உருவாக்கும் 'Data Cleaning Pipelines'-ஐ நாம் வடிவமைக்கலாம்.",
+            "code": "import pandas as pd\nimport numpy as np\n\n# Creating a messy dataset with a missing value (np.nan)\nraw_data = {'Name': ['Alice', 'Bob', 'Charlie'], 'Age': [25, np.nan, 30], 'Salary': [50k, 60k, 70k]}\ndf = pd.DataFrame(raw_data)\n\n# A beautiful Pandas method chain (Pipeline) to clean the data\nclean_df = (\n    df.copy()\n    .dropna() # Instantly deletes any row with missing information\n    .assign(Bonus=lambda x: x['Salary'] * 1.1) # Calculates a 10% bonus column on the fly\n)\n\nprint(clean_df.shape)",
             "code_breakdown": [
-                ".copy(): Ensures we don't accidentally mutate the original raw dataset in memory.",
-                ".dropna(subset=['Age']): Prevents the ML model from crashing by ejecting rows with Null values in the critical Age column.",
-                ".assign(lambda x: ...): Dynamically creates a new column based on existing data without breaking the chain."
+                "pd.DataFrame(): Creates our super-powered spreadsheet.",
+                ".dropna(): The easiest way to deal with missing data (NaNs) is to just drop those rows completely.",
+                ".assign(): Creates a brand new column dynamically based on existing data."
             ],
             "interviews": [
                 {
-                    "q": "What is the difference between `.loc` and `.iloc` in Pandas?",
-                    "a": "`.loc` is label-based indexing, meaning you select rows/columns by their explicit string names or index labels. `.iloc` is integer-position-based indexing, meaning you select rows/columns strictly by their numerical 0-based index."
+                    "q": "What is the difference between a Pandas Series and a DataFrame?",
+                    "a": "A Series is a single 1-Dimensional column of data. A DataFrame is a 2-Dimensional table made up of multiple Series glued together side-by-side."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which method is the safest way to create new columns dynamically in a Pandas pipeline?",
+                    "q": "Which method removes missing values (NaN) from a DataFrame?",
                     "options": [
-                        "df['new'] = ...",
-                        "df.insert()",
-                        "df.assign()"
+                        "df.delete_blank()",
+                        "df.dropna()",
+                        "df.clean()"
                     ],
-                    "ans": 2
+                    "ans": 1
                 }
             ],
             "exercise": "Print the number of columns in df.",
@@ -221,27 +220,26 @@ const curriculum = {
         },
         {
             "title": "8. EDA & Visualization",
-            "theory": "Exploratory Data Analysis (EDA) is the critical investigative phase of any machine learning project. The golden rule of AI is 'Garbage In, Garbage Out'. If you feed a model heavily skewed, highly correlated, or outlier-ridden data, the resulting predictions will be fundamentally flawed. EDA acts as our diagnostic tool to uncover the underlying statistical reality of the dataset.\n\nWe utilize visualization libraries like Matplotlib and Seaborn to graphically interpret complex data. Histograms reveal whether continuous features follow a normal Gaussian distribution or are skewed. Boxplots instantly flag extreme statistical anomalies (outliers). Heatmaps utilizing the Pearson Correlation Coefficient expose multicollinearity—when two features are so highly correlated that they provide redundant information, confusing the model. Thorough EDA heavily dictates the feature engineering steps required in the next phase.",
-            "theory_tamil": "Exploratory Data Analysis (EDA) என்பது எந்தவொரு ML திட்டத்தின் முக்கிய ஆய்வுக் கட்டமாகும். AI-ன் பொன்விதி 'Garbage In, Garbage Out'. ஒரு model-க்கு முரண்பாடான, மிக அதிக correlation உள்ள, அல்லது outliers நிறைந்த தரவுகளைக் கொடுத்தால், அதன் கணிப்புகள் (predictions) முற்றிலும் தவறாகிவிடும். தரவுகளின் உண்மையான புள்ளிவிவர நிலையைக் கண்டறிய EDA ஒரு பரிசோதனை கருவியாகச் செயல்படுகிறது.\n\nசிக்கலான தரவுகளை வரைபடங்கள் மூலம் புரிந்துகொள்ள Matplotlib மற்றும் Seaborn போன்ற visualization libraries-ஐ பயன்படுத்துகிறோம். Histograms, தரவுகள் normal Gaussian distribution-ல் உள்ளதா அல்லது கோணலாக உள்ளதா என்பதைக் காட்டுகின்றன. Boxplots மிகத் துல்லியமாக outliers-ஐ சுட்டிக்காட்டுகின்றன. Pearson Correlation Coefficient-ஐப் பயன்படுத்தும் Heatmaps, இரண்டு features ஒன்றுக்கொன்று மிக நெருங்கிய தொடர்புடையதாக இருந்து மாடலைக் குழப்பும் நிலையை (multicollinearity) வெளிப்படுத்துகின்றன. இந்த EDA ஆய்வே, அடுத்த கட்டத்தில் எத்தகைய feature engineering தேவை என்பதைத் தீர்மானிக்கிறது.",
-            "code": "import matplotlib.pyplot as plt\nimport seaborn as sns\nimport numpy as np\nimport pandas as pd\n\n# Generate synthetic correlated data\nnp.random.seed(42)\nage = np.random.normal(30, 10, 1000)\nincome = age * 2000 + np.random.normal(0, 10000, 1000)\ndf = pd.DataFrame({'Age': age, 'Income': income})\n\n# 1. Plotting a Correlation Heatmap (Pseudo-execution)\ncorrelation_matrix = df.corr()\n# sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')\n\n# 2. Plotting a Distribution with KDE\n# sns.histplot(df['Income'], kde=True)\n\nprint('Visualization Diagnostics Complete')",
+            "theory": "Before a detective solves a crime, they must survey the scene and gather clues. In AI, this detective work is called **Exploratory Data Analysis (EDA)**. You should never blindly throw data into an algorithm. You need to 'look' at it first to understand its story.\n\nAre most of your customers in their 20s or 50s? Do people with higher incomes tend to buy more products? Is there one crazy outlier who spent a million dollars and is skewing your averages? We answer these questions by drawing pictures! Using libraries like Matplotlib and Seaborn, we create visual graphs. Histograms show us the shape of our data. Boxplots instantly flag extreme weirdos (outliers). Heatmaps show us 'Correlations'—like how 'Ice Cream Sales' closely track with 'Summer Temperatures'. Only after we understand the data visually can we decide how to train our model.",
+            "theory_tamil": "ஒரு துப்பறியும் நிபுணர் குற்றத்தைக் கண்டுபிடிக்கும் முன், அந்த இடத்தைப் பார்வையிட்டு தடயங்களைச் சேகரிப்பார். AI-ல், இந்தத் துப்பறியும் வேலைக்கு **Exploratory Data Analysis (EDA)** என்று பெயர். எப்போதுமே தரவுகளை கண்மூடித்தனமாக ஒரு அல்காரிதமுக்குள் (algorithm) போடக்கூடாது. அதன் கதையைப் புரிந்துகொள்ள முதலில் அதை 'பார்க்க' வேண்டும்.\n\nஉங்கள் வாடிக்கையாளர்களில் பெரும்பாலானோர் 20 வயதிலா அல்லது 50 வயதிலா உள்ளனர்? அதிக வருமானம் உள்ளவர்கள் அதிக பொருட்களை வாங்குகிறார்களா? யாராவது ஒருவர் மட்டும் ஒரு மில்லியன் டாலர் செலவு செய்து உங்கள் சராசரியையே மாற்றிவிட்டாரா? (outlier). இதுபோன்ற கேள்விகளுக்கு வரைபடங்கள் மூலம் நாம் விடை காண்கிறோம்! Matplotlib மற்றும் Seaborn போன்ற நூலகங்களைப் பயன்படுத்தி வரைபடங்களை உருவாக்குகிறோம். Histograms தரவின் வடிவத்தைக் காட்டுகின்றன. Boxplots மிக வித்தியாசமான தரவுகளை (outliers) சுட்டிக்காட்டுகின்றன. Heatmaps 'Correlations'-ஐ காட்டுகின்றன—அதாவது 'ஐஸ்கிரீம் விற்பனை' எப்படி 'கோடை வெப்பத்தோடு' தொடர்புடையது என்பதைப் போல. தரவை வரைபடமாகப் புரிந்துகொண்ட பிறகே மாடலை எப்படிப் பயிற்றுவிப்பது என்பதை நாம் முடிவு செய்ய வேண்டும்.",
+            "code": "import matplotlib.pyplot as plt\nimport seaborn as sns\nimport numpy as np\nimport pandas as pd\n\n# Creating some fake data: As Age goes up, Income tends to go up\nage = np.array([22, 25, 30, 35, 40])\nincome = age * 2000 + np.random.normal(0, 5000, 5)\ndf = pd.DataFrame({'Age': age, 'Income': income})\n\n# 1. We ask pandas how strongly Age is related to Income (Correlation)\ncorrelation_matrix = df.corr()\n\n# 2. We use Seaborn to draw a beautiful Heatmap (Commented out so the script runs)\n# sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')\n\nprint('EDA Clues Gathered!')",
             "code_breakdown": [
-                "df.corr(): Calculates the pairwise Pearson correlation of columns. Values near 1 or -1 indicate strong linear relationships.",
-                "sns.heatmap(): Renders a color-coded matrix. Dark red indicates high positive correlation.",
-                "kde=True: Kernel Density Estimate overlays a smooth probability density curve on top of the histogram."
+                "df.corr(): Calculates the correlation. A score of 1.0 means a perfect relationship. A score of 0 means absolutely no relationship.",
+                "sns.heatmap(): Takes that correlation score and turns it into a color-coded grid for easy viewing."
             ],
             "interviews": [
                 {
-                    "q": "What is Multicollinearity and why is it dangerous for models like Linear Regression?",
-                    "a": "Multicollinearity occurs when independent features are highly correlated with each other (e.g., 'Years of Experience' and 'Age'). It destabilizes the mathematical calculation of feature weights (coefficients), making it impossible to determine which feature actually drives the prediction."
+                    "q": "What is an Outlier and why is it dangerous?",
+                    "a": "An outlier is a data point that is wildly different from the rest (like a 120-year-old person in a dataset of teenagers). It is dangerous because it can pull the 'average' wildly off-center, confusing the machine learning model."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which plot is universally used to detect statistical outliers via the Interquartile Range (IQR)?",
+                    "q": "Which plot is used to see the correlation between two different variables?",
                     "options": [
+                        "Pie Chart",
                         "Scatter Plot",
-                        "Box Plot",
-                        "Histogram"
+                        "Bar Chart"
                     ],
                     "ans": 1
                 }
@@ -254,29 +252,29 @@ const curriculum = {
     "Phase 3: Traditional Machine Learning": [
         {
             "title": "9. Supervised ML & Pipelines",
-            "theory": "Supervised Machine Learning relies on algorithms mapping labeled inputs (Features, `X`) to known outputs (Targets, `y`). However, algorithms like Logistic Regression or Support Vector Machines cannot process raw data effectively. The data must first be mathematically transformed: categorical text must be One-Hot Encoded, and varying numerical ranges (like Age vs Income) must be Standardized so that large numbers don't unfairly dominate the gradient descent process.\n\nAmateur data scientists apply these transformations manually to their training set and then separately to their test set. This frequently causes 'Data Leakage'—where statistical properties of the test set leak into the training process, causing overly optimistic accuracy scores. To prevent this, Scikit-Learn provides the `Pipeline` object. Pipelines fuse the preprocessing steps and the model into a single cohesive unit, guaranteeing that test data is completely isolated and transformed exactly like the training data.",
-            "theory_tamil": "Supervised Machine Learning ஆனது labeled தரவுகளை (Features, `X`) அறியப்பட்ட முடிவுகளுடன் (Targets, `y`) பொருத்தும் algorithms-ஐ நம்பியுள்ளது. இருப்பினும், Logistic Regression அல்லது SVM போன்ற algorithms மூலத் தரவை (raw data) நேரடியாகக் கையாள முடியாது. Categorical text-ஐ One-Hot Encode செய்ய வேண்டும், மற்றும் வெவ்வேறு எண் அளவீடுகளை (எ.கா. Age vs Income) Standardize செய்ய வேண்டும், இதனால் பெரிய எண்கள் gradient descent செயல்முறையை ஆக்கிரமிப்பதைத் தடுக்கலாம்.\n\nபுதிய data scientists இந்த மாற்றங்களை train set-க்கும் test set-க்கும் தனித்தனியாக செய்வார்கள். இதனால் 'Data Leakage' ஏற்படுகிறது—அதாவது test set-ன் புள்ளிவிவரங்கள் training செயல்முறைக்குள் கசிந்து, accuracy முடிவுகளை மிகைப்படுத்திக் காட்டும். இதைத் தடுக்க, Scikit-Learn `Pipeline` object-ஐ வழங்குகிறது. Pipelines, தரவு மாற்றங்களையும் model-ஐயும் ஒரே கட்டமைப்பாக இணைத்து, test data முற்றிலுமாக தனிமைப்படுத்தப்பட்டு train data போலவே மாற்றப்படுவதை உறுதி செய்கின்றன.",
-            "code": "from sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier\n\n# Constructing a robust ML Pipeline\nml_pipeline = Pipeline([\n    # Step 1: Scale features to have mean=0 and variance=1\n    ('scaler', StandardScaler()),\n    # Step 2: Define the estimator algorithm\n    ('classifier', RandomForestClassifier(n_estimators=100, random_state=42))\n])\n\n# Simulated execution to prevent Data Leakage\n# ml_pipeline.fit(X_train, y_train) \n# predictions = ml_pipeline.predict(X_test)\nprint('Robust ML Pipeline Built')",
+            "theory": "Machine Learning sounds intimidating, but **Supervised Learning** is actually quite simple: it's learning by example. You show a toddler 100 pictures of cats (the inputs, or `X`) and explicitly tell them 'This is a cat' (the label, or `y`). Eventually, the toddler learns the pattern and can recognize a new cat they've never seen before. That is exactly what algorithms like Random Forests or Logistic Regression do!\n\nHowever, a computer can't process raw text or vastly different number scales (like Age vs. House Price). The data needs to be pre-processed and 'scaled' down. But if we do this sloppily, we might accidentally let the model cheat by peeking at the final exam answers (Data Leakage). To keep things strict and professional, we use a Scikit-Learn **Pipeline**. Think of a Pipeline as an automated factory assembly line. The raw data goes in, gets scaled automatically, gets encoded, and then gets fed to the algorithm—all in one perfectly safe, leak-proof step.",
+            "theory_tamil": "Machine Learning என்ற பெயரைக் கேட்டால் மிரட்சியாக இருக்கலாம், ஆனால் **Supervised Learning** என்பது மிகவும் எளிதானது: உதாரணங்களைப் பார்த்துப் படிப்பதே இது. ஒரு குழந்தையிடம் 100 பூனைகளின் படங்களைக் காட்டி (உள்ளீடுகள் அல்லது `X`), 'இது பூனை' (Label அல்லது `y`) என்று நீங்கள் சொல்கிறீர்கள். இறுதியில் குழந்தை அந்த அமைப்பைப் புரிந்துகொண்டு, முன்பு பார்த்திராத புதிய பூனையையும் அடையாளம் கண்டுகொள்கிறது. Random Forests அல்லது Logistic Regression போன்ற algorithms இதைத்தான் செய்கின்றன!\n\nஇருப்பினும், கணினியால் நேரடியாக உரையையோ (text) அல்லது முற்றிலும் மாறுபட்ட எண்களையோ (எ.கா: வயது மற்றும் வீட்டின் விலை) கையாள முடியாது. தரவு முதலில் மாற்றி அமைக்கப்பட்டு (pre-processed) 'scale' செய்யப்பட வேண்டும். இதை நாம் கவனக்குறைவாகச் செய்தால், இறுதித் தேர்வின் விடைகளை மாடல் முன்கூட்டியே பார்ப்பது போன்ற தவறு நடந்துவிடும் (Data Leakage). இதைத் தடுக்கவே, நாம் Scikit-Learn **Pipeline**-ஐப் பயன்படுத்துகிறோம். Pipeline-ஐ ஒரு தானியங்கி தொழிற்சாலை வரிசையாக (assembly line) நினைத்துக்கொள்ளுங்கள். மூலத் தரவு உள்ளே செல்கிறது, தானாகவே மாற்றி அமைக்கப்படுகிறது, அதன்பின் அல்காரிதமுக்குச் செல்கிறது—இவை அனைத்தும் எவ்விதத் தவறுக்கும் இடமளிக்காமல் பாதுகாப்பாக நடக்கிறது.",
+            "code": "from sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier\n\n# We build an automated assembly line (Pipeline)\nml_pipeline = Pipeline([\n    # Station 1: The Scaler shrinks all huge numbers down to a standard size\n    ('scaler', StandardScaler()),\n    # Station 2: The Classifier actually learns the patterns\n    ('classifier', RandomForestClassifier(n_estimators=100))\n])\n\n# We feed the training data into the start of the pipeline\n# ml_pipeline.fit(X_train, y_train) \nprint('Automated Pipeline Ready!')",
             "code_breakdown": [
-                "StandardScaler(): standardizes features by removing the mean and scaling to unit variance. Z = (x - u) / s.",
-                "RandomForestClassifier(): An ensemble learning method that constructs a multitude of decision trees and outputs the mode of their classes.",
-                "Pipeline(): Encapsulates the scaler and classifier. When .predict(X_test) is called, it scales X_test using the parameters learned STRICTLY from X_train."
+                "StandardScaler(): Mathematical shrink-ray! It ensures big numbers (like Salary=80000) don't overpower small numbers (like Age=25) during training.",
+                "RandomForestClassifier(): An algorithm that builds a 'forest' of decision-making trees, and takes a majority vote on the final answer.",
+                "Pipeline(): Chains the scaler and the forest together so you only have to call `.fit()` once!"
             ],
             "interviews": [
                 {
-                    "q": "Explain Data Leakage and how Pipelines prevent it.",
-                    "a": "Data leakage occurs when you fit a scaler (like StandardScaler) on your ENTIRE dataset before splitting it. This means the scaler learns the mean/variance of the Test data, giving the model an unfair advantage. A Pipeline ensures the scaler is fit ONLY on the Training data during cross-validation."
+                    "q": "What is Data Leakage?",
+                    "a": "It's when information from outside the training dataset (like the test set) accidentally leaks into the model creation process. It causes the model to look like a genius during testing, but fail miserably in the real world."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which scaler is highly sensitive to outliers and scales data strictly between 0 and 1?",
+                    "q": "What does a StandardScaler do?",
                     "options": [
-                        "StandardScaler",
-                        "RobustScaler",
-                        "MinMaxScaler"
+                        "Deletes missing values",
+                        "Standardizes features to have a mean of 0",
+                        "Converts text into numbers"
                     ],
-                    "ans": 2
+                    "ans": 1
                 }
             ],
             "exercise": "Print 'Pipeline Ready'.",
@@ -285,27 +283,27 @@ const curriculum = {
         },
         {
             "title": "10. Model Evaluation Metrics",
-            "theory": "Relying purely on 'Accuracy' is the most common pitfall for junior ML engineers. In imbalanced datasets—such as detecting credit card fraud where 99.9% of transactions are legitimate—a model that blindly guesses 'Not Fraud' every single time will achieve 99.9% Accuracy, yet it is completely useless.\n\nInstead, professionals dissect the Confusion Matrix using targeted metrics. **Precision** measures quality: out of all the cases the model flagged as fraud, how many were actually fraud? High precision minimizes False Positives (false alarms). **Recall** measures quantity: out of all the actual fraud cases in reality, how many did the model detect? High recall minimizes False Negatives (missed frauds). Because there is a mathematical tradeoff between the two, the **F1-Score** combines them into a harmonic mean, providing a single, trustworthy metric for evaluating highly skewed classification systems.",
-            "theory_tamil": "சாதாரண 'Accuracy'-ஐ மட்டுமே நம்பியிருப்பது ML பொறியியலாளர்கள் செய்யும் மிகப் பெரிய தவறாகும். Imbalanced datasets-ல்—உதாரணமாக 99.9% பரிவர்த்தனைகள் உண்மையானதாக இருக்கும் credit card மோசடி கண்டறிதலில்—ஒரு model எல்லாமே 'மோசடி இல்லை' என கணித்தால் 99.9% Accuracy கிடைக்கும், ஆனால் அது முற்றிலும் பயனற்றது.\n\nஇதற்குப் பதிலாக வல்லுநர்கள் Confusion Matrix-ஐப் பயன்படுத்தி குறிப்பிட்ட அளவீடுகளை (metrics) ஆராய்கின்றனர். **Precision** தரத்தை அளவிடுகிறது: மாடல் 'மோசடி' என கணித்தவற்றில் உண்மையில் எத்தனை மோசடி? அதிக precision False Positives-ஐக் (false alarms) குறைக்கிறது. **Recall** அளவை அளவிடுகிறது: உண்மையில் நடந்த மொத்த மோசடிகளில் மாடல் எத்தனையைக் கண்டுபிடித்தது? அதிக recall False Negatives-ஐக் (தவறவிடப்பட்ட மோசடிகள்) குறைக்கிறது. இவையிரண்டுக்கும் இடையே முரண்பாடு இருப்பதால், **F1-Score** இவை இரண்டையும் இணைத்து harmonic mean-ஐ வழங்குகிறது. இது imbalanced datasets-ஐ மதிப்பிட மிகவும் நம்பகமான அளவீடாகும்.",
-            "code": "from sklearn.metrics import classification_report, confusion_matrix\n\n# Imbalanced medical scenario (0: Healthy, 1: Cancer)\ny_true = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1] # 8 Healthy, 2 Cancer\ny_pred = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1] # Model missed one cancer patient\n\n# Confusion matrix reveals True Positives, False Positives, etc.\n# cm = confusion_matrix(y_true, y_pred)\n\n# Generates Precision, Recall, and F1-Score for each class automatically\nreport = classification_report(y_true, y_pred, zero_division=0)\nprint('Evaluation Metrics Calculated')",
+            "theory": "Imagine you build an AI to detect a super rare disease that only affects 1 in 100 people. Your lazy AI decides to just guess 'Healthy' every single time. Out of 100 people, it gets 99 right. It boasts a '99% Accuracy'! But it missed the 1 sick person, meaning it's completely useless. This is why pros don't just rely on 'Accuracy'.\n\nInstead, we look at a **Confusion Matrix**, which breaks down the wins and losses into specific categories. **Precision** asks: 'When you cried wolf, was there actually a wolf?' (Minimizing False Alarms). **Recall** asks: 'Out of all the actual wolves out there, how many did you catch?' (Minimizing Missed Dangers). You usually have to balance these two. The **F1-Score** is a special math formula that averages Precision and Recall together, giving you one honest, reliable score for how good your AI really is.",
+            "theory_tamil": "100 பேரில் ஒருவருக்கு மட்டுமே வரும் ஒரு அரிய நோயைக் கண்டறிய நீங்கள் ஒரு AI-ஐ உருவாக்குவதாக கற்பனை செய்துகொள்ளுங்கள். உங்கள் சோம்பேறி AI எல்லோரையும் 'ஆரோக்கியம்' என்றே கணிக்கிறது. 100 பேரில் 99 பேருக்கு அது சொன்னது சரி. எனவே இது '99% Accuracy' என்று பெருமைப்படும்! ஆனால் நோய்வாய்ப்பட்ட ஒருவரை அது தவறவிட்டுவிட்டது, எனவே இது முற்றிலும் பயனற்றது. இதனால்தான் வல்லுநர்கள் வெறும் 'Accuracy'-ஐ மட்டும் நம்புவதில்லை.\n\nஅதற்குப் பதிலாக, வெற்றிகளையும் தோல்விகளையும் பிரித்துக் காட்டும் **Confusion Matrix**-ஐப் பார்க்கிறோம். **Precision** என்பது: 'நீ ஓநாய் வருகிறது என்று கத்தியபோது, உண்மையிலேயே ஓநாய் வந்ததா?' (தவறான எச்சரிக்கைகளைக் குறைப்பது). **Recall** என்பது: 'உண்மையாக வந்த ஓநாய்களில், எத்தனையைக் கண்டுபிடித்தாய்?' (ஆபத்துகளைத் தவறவிடுவதைக் குறைப்பது). இவை இரண்டையும் நாம் சமன் செய்ய வேண்டும். **F1-Score** என்பது Precision மற்றும் Recall இரண்டையும் இணைத்து சராசரி காணும் ஒரு சிறப்பு சூத்திரமாகும். இது உங்கள் AI உண்மையில் எவ்வளவு சிறந்தது என்ற நேர்மையான மதிப்பீட்டை வழங்குகிறது.",
+            "code": "from sklearn.metrics import classification_report\n\n# Ground Truth (Reality): 0 is Healthy, 1 is Sick\nreality   = [0, 0, 0, 0, 1, 1]\n# What our AI Predicted\npredicted = [0, 0, 0, 0, 0, 1] # It missed one sick person! (A False Negative)\n\n# This function automatically grades the AI on Precision, Recall, and F1-Score\nreport = classification_report(reality, predicted, zero_division=0)\nprint('Model Graded!')",
             "code_breakdown": [
-                "y_true / y_pred: The ground truth reality vs the model's actual predictions.",
-                "False Negative (FN): The model predicted 0 (Healthy), but the reality was 1 (Cancer). This is a catastrophic failure in medicine.",
-                "classification_report: Automatically computes the harmonic mean (F1-score) and support (number of occurrences in the dataset)."
+                "reality / predicted: We compare the model's guesses against the real-world answer key.",
+                "False Negative: The worst error in medicine. The AI said 'Negative' (Healthy), but it was False (they were sick).",
+                "classification_report: A magical function that prints out a beautiful report card for your model."
             ],
             "interviews": [
                 {
-                    "q": "When building an email spam filter, which metric would you optimize for and why?",
-                    "a": "Precision. A False Positive means a highly critical work email gets sent to the spam folder and deleted. It is better to have lower Recall (a few spam emails hit the inbox) than to ruin the user experience by deleting vital emails."
+                    "q": "If you are building an AI to detect spam emails, do you care more about Precision or Recall?",
+                    "a": "Precision! A False Positive means a highly important work email gets thrown into the spam folder, which is terrible. It's better to let a few spam emails slip through (lower recall) to protect the user's inbox."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which metric focuses strictly on minimizing False Negatives?",
+                    "q": "Which metric combines both Precision and Recall into a single score?",
                     "options": [
-                        "Precision",
-                        "Recall",
-                        "Specificity"
+                        "Accuracy",
+                        "F1-Score",
+                        "R-Squared"
                     ],
                     "ans": 1
                 }
@@ -316,27 +314,27 @@ const curriculum = {
         },
         {
             "title": "11. Hyperparameter Tuning",
-            "theory": "Algorithms possess two types of parameters. Internal parameters (like the weights in a neural network or the slope in linear regression) are mathematically learned from the data during training. Hyperparameters (like the depth of a decision tree or the learning rate) are architectural configurations set manually by the engineer before training begins. Choosing the wrong hyperparameters can lead to severe Underfitting (the model learns nothing) or Overfitting (the model memorizes the data perfectly but fails in the real world).\n\nTo find the optimal hyperparameters, we cannot simply train and test multiple variations, as this leads to overfitting on the test set. Instead, we use K-Fold Cross Validation. The training data is split into K chunks. The model trains on K-1 chunks and validates on the remaining chunk, rotating until every chunk has been a validation set. We automate this exhaustive search over a matrix of possibilities using Scikit-Learn's `GridSearchCV` or optimize search speed using `RandomizedSearchCV`.",
-            "theory_tamil": "Algorithms-ல் இரண்டு வகையான parameters உள்ளன. Internal parameters (எ.கா. neural network-ன் weights) பயிற்சி (training) மூலம் தரவிலிருந்து தானாகவே கற்கப்படுகின்றன. Hyperparameters (எ.கா. decision tree-ன் ஆழம், learning rate) பயிற்சி தொடங்கும் முன்பே பொறியாளரால் அமைக்கப்படும் கட்டமைப்புகள் ஆகும். தவறான hyperparameters-ஐ அமைத்தால் அது Underfitting-க்கு (மாடல் எதையும் கற்காது) அல்லது Overfitting-க்கு (மாடல் தரவை மனப்பாடம் செய்துவிடும், ஆனால் புதிய தரவில் தோல்வியடையும்) வழிவகுக்கும்.\n\nசரியான hyperparameters-ஐக் கண்டறிய, பல வகைகளில் train செய்து test செய்வது மட்டும் போதாது, இது test set-ல் overfitting-ஐ ஏற்படுத்தும். இதற்குப் பதிலாக, நாம் K-Fold Cross Validation-ஐ பயன்படுத்துகிறோம். Training data K பகுதிகளாகப் பிரிக்கப்படுகிறது. மாடல் K-1 பகுதிகளில் train செய்யப்பட்டு மீதமுள்ள 1 பகுதியில் validate செய்யப்படுகிறது. இது எல்லாப் பகுதிகளும் validate செய்யப்படும் வரை சுழலும். Scikit-Learn-ன் `GridSearchCV` அல்லது `RandomizedSearchCV` மூலம் இந்த தேடலை (search) நாம் தானியங்குபடுத்துகிறோம்.",
-            "code": "from sklearn.model_selection import GridSearchCV\nfrom sklearn.svm import SVC\n\n# Defining the hyperparameter search space\nparam_grid = {\n    'C': [0.1, 1, 10, 100], \n    'kernel': ['linear', 'rbf'],\n    'gamma': ['scale', 'auto']\n}\n\n# Initialize exhaustively searching Grid with 5-Fold Cross Validation\ngrid_search = GridSearchCV(estimator=SVC(), param_grid=param_grid, cv=5, scoring='f1')\n\n# grid_search.fit(X_train, y_train)\n# print(grid_search.best_params_)\nprint('Hyperparameter Grid Ready')",
+            "theory": "Think of a Machine Learning algorithm like a fancy new guitar. As you play it (train the model), it naturally figures out the chords on its own from the music sheet (data). But before you even start playing, you have to turn the tuning pegs at the top of the guitar to set the baseline pitch. These tuning pegs are called **Hyperparameters**.\n\nHyperparameters are settings you, the engineer, must choose before training begins (like 'how deep should my decision tree grow?' or 'how fast should the model learn?'). If you set them wrong, the model will sound terrible. To find the perfect tuning, we don't just guess. We use a method called **Grid Search**. We hand the computer a list of different tuning peg settings, and it exhaustively tests every single combination to find the absolute perfect setup! It's like having a robot automatically tune your guitar until it finds the sweetest sound.",
+            "theory_tamil": "Machine Learning அல்காரிதமை ஒரு புதிய கிட்டார் போல நினைத்துக்கொள்ளுங்கள். நீங்கள் வாசிக்கத் தொடங்கும்போது (மாடலைப் பயிற்றுவிக்கும்போது), அது தரவுகளிலிருந்து (data) இசையைத் தானாகவே கற்றுக்கொள்கிறது. ஆனால் நீங்கள் வாசிக்கத் தொடங்கும் முன்பே, கிட்டாரின் மேலுள்ள திருகுகளை (tuning pegs) முறுக்கி சரியான சுருதியை அமைக்க வேண்டும். இந்தத் திருகுகளுக்கே **Hyperparameters** என்று பெயர்.\n\nHyperparameters என்பவை மாடலைப் பயிற்றுவிக்கத் தொடங்கும் முன் ஒரு பொறியாளராகிய நீங்கள் முடிவு செய்ய வேண்டிய அமைப்புகளாகும் (எ.கா: 'என் decision tree எவ்வளவு ஆழமாக வளர வேண்டும்?' அல்லது 'மாடல் எவ்வளவு வேகமாக கற்க வேண்டும்?'). இவற்றைத் தவறாக அமைத்தால், மாடல் மோசமாகச் செயல்படும். சரியான அமைப்பைக் கண்டறிய நாம் சும்மா யூகிப்பதில்லை. அதற்கு **Grid Search** என்ற முறையைப் பயன்படுத்துகிறோம். பல்வேறு அமைப்புகளின் பட்டியலை கணினியிடம் கொடுத்துவிடுவோம், அது அனைத்துக் கலவைகளையும் (combinations) சோதித்து, மிகச் சரியான அமைப்பைக் கண்டறியும்! இது ஒரு ரோபோ தானாகவே உங்கள் கிட்டாரை மிக இனிமையான சத்தத்திற்கு ட்யூன் செய்வது போன்றது.",
+            "code": "from sklearn.model_selection import GridSearchCV\nfrom sklearn.svm import SVC\n\n# We provide a menu of different tuning peg options to test\ntuning_pegs = {\n    'C': [0.1, 1, 10], \n    'kernel': ['linear', 'rbf']\n}\n\n# GridSearch will test all 6 combinations (3 x 2) to find the best one!\ngrid_search = GridSearchCV(estimator=SVC(), param_grid=tuning_pegs, cv=3)\n\n# grid_search.fit(X_train, y_train)\nprint('Tuning Complete!')",
             "code_breakdown": [
-                "param_grid: A dictionary of hyperparameters. GridSearchCV will test 4 * 2 * 2 = 16 different model variations.",
-                "cv=5: Each of the 16 models will be trained 5 times on different data splits, meaning 80 total training iterations.",
-                "scoring='f1': Forces the grid search to optimize for the F1-Score rather than default Accuracy."
+                "tuning_pegs (param_grid): The dictionary holding the different options we want to test out.",
+                "GridSearchCV: The automated robot that tests every single option for us.",
+                "cv=3: Cross-Validation. It tests each combination 3 different times on different chunks of data to be absolutely sure it's good."
             ],
             "interviews": [
                 {
-                    "q": "Why is RandomizedSearchCV often preferred over GridSearchCV in deep learning?",
-                    "a": "GridSearchCV suffers from the 'Curse of Dimensionality'. If you add more hyperparameters, the number of combinations explodes exponentially, taking days to train. RandomizedSearchCV samples a fixed number of random combinations, which studies show yields near-optimal results in a fraction of the compute time."
+                    "q": "What is the danger of overfitting during Hyperparameter Tuning?",
+                    "a": "If you tune your model over and over again on the exact same test data, your model is essentially 'memorizing the answers to the test'. This is why we use Cross-Validation to constantly mix up the test data during tuning."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "In K-Fold Cross Validation (cv=5), what percentage of the training data is used for validation in each fold?",
+                    "q": "What do we call the parameters that the engineer sets manually BEFORE training begins?",
                     "options": [
-                        "5%",
-                        "20%",
-                        "80%"
+                        "Internal Weights",
+                        "Hyperparameters",
+                        "Features"
                     ],
                     "ans": 1
                 }
@@ -349,27 +347,27 @@ const curriculum = {
     "Phase 4: Deep Learning & PyTorch": [
         {
             "title": "12. PyTorch Tensors & Autograd",
-            "theory": "PyTorch is the undisputed heavyweight framework for deep learning research and production. At its core lies the `Tensor`—an N-dimensional array almost identical to a NumPy array, but with one critical superpower: it can be instantly transferred to a GPU (Graphics Processing Unit) to accelerate highly parallel matrix multiplications by orders of magnitude.\n\nHowever, the true magic of PyTorch is its Automatic Differentiation engine, known as `Autograd`. Training a neural network requires calculus (the Chain Rule) to compute gradients—the direction and magnitude required to adjust the weights to lower the error. When you set `requires_grad=True` on a Tensor, PyTorch builds a dynamic computational graph in the background, recording every mathematical operation. When you call `.backward()`, PyTorch traverses this graph backwards, instantly computing the exact partial derivatives for millions of parameters without you writing a single line of calculus.",
-            "theory_tamil": "Deep learning ஆராய்ச்சி மற்றும் பயன்பாட்டில் PyTorch-ன் ஆதிக்கம் அளப்பரியது. இதன் மையமாக இருப்பது `Tensor`—இது NumPy array-ஐப் போன்றதே, ஆனால் இதில் ஒரு முக்கிய சக்தி உள்ளது: இதனை உடனடியாக GPU-க்கு (Graphics Processing Unit) மாற்றி, அதிவேக matrix multiplications-ஐ செய்ய முடியும்.\n\nPyTorch-ன் உண்மையான மேஜிக் அதன் Automatic Differentiation engine ஆன `Autograd` ஆகும். ஒரு neural network-ஐ train செய்ய, பிழையை (error) குறைக்க weights-ஐ எவ்வாறு மாற்ற வேண்டும் என்பதைக் கணக்கிட calculus (Chain Rule) தேவைப்படுகிறது. ஒரு Tensor-ல் `requires_grad=True` என அமைக்கும்போது, PyTorch பின்புலத்தில் ஒரு dynamic computational graph-ஐ உருவாக்கி அனைத்து கணித செயல்பாடுகளையும் பதிவு செய்கிறது. நீங்கள் `.backward()` என அழைக்கும்போது, PyTorch இந்த வரைபடத்தின் பின்னோக்கிச் சென்று, நீங்கள் calculus குறியீடுகளை எழுதாமலேயே பல மில்லியன் parameters-க்கான துல்லியமான derivatives-ஐ கணக்கிடுகிறது.",
-            "code": "import torch\n\n# Initialize a tensor and tell PyTorch to track its gradients\n# x represents a learnable weight in our network\nx = torch.tensor([3.0], requires_grad=True)\n\n# Forward Pass: A complex mathematical operation (y = 2x^2)\ny = 2 * (x ** 2)\n\n# Backward Pass: PyTorch automatically computes the calculus derivative (dy/dx = 4x)\ny.backward()\n\n# Since x=3, dy/dx = 4(3) = 12.0\nprint(f\"Computed Gradient: {x.grad.item()}\")",
+            "theory": "Welcome to Deep Learning! The absolute king of this domain is a library built by Facebook called **PyTorch**. Everything in PyTorch revolves around a special object called a `Tensor`. If you remember NumPy arrays, a Tensor is exactly the same thing—a grid of numbers—but with an amazing superpower: it can run on a Graphics Card (GPU). GPUs can do thousands of math problems at the exact same time, making AI training incredibly fast.\n\nBut here is the real magic: Neural Networks learn through heavy Calculus (finding derivatives). For decades, scientists had to write this complex math by hand. PyTorch introduces **Autograd** (Automatic Differentiation). If you tell a Tensor `requires_grad=True`, PyTorch secretly records every single math operation you do to it. When you are done, you just yell `.backward()!`, and PyTorch instantly does all the calculus backwards in time for you, figuring out exactly how to adjust the network to make it smarter. It's like having a math genius living inside your computer.",
+            "theory_tamil": "Deep Learning-க்கு நல்வரவு! இந்தத் துறையின் முடிசூடா மன்னன் Facebook உருவாக்கிய **PyTorch** நூலகமே. PyTorch-ல் எல்லாமே `Tensor` எனப்படும் ஒரு சிறப்புப் பொருளைச் சுற்றியே சுழல்கிறது. உங்களுக்கு NumPy arrays நினைவிருந்தால், Tensor-ம் கிட்டத்தட்ட அதே போன்ற ஒரு எண் கட்டம்தான்—ஆனால் இதில் ஒரு வியக்கத்தக்க சக்தி உள்ளது: இதை Graphics Card-ல் (GPU) இயக்க முடியும். GPUs பல்லாயிரக்கணக்கான கணிதப் புதிர்களை ஒரே நேரத்தில் தீர்க்கக்கூடியவை, இதனால் AI training மிக வேகமாக நடக்கும்.\n\nஆனால் உண்மையான மேஜிக் இங்குதான் உள்ளது: Neural Networks கடினமான Calculus (derivatives) மூலமே கற்கின்றன. பல தசாப்தங்களாக விஞ்ஞானிகள் இந்தக் கடினமான கணிதத்தை கையாலேயே எழுதினர். PyTorch **Autograd** (Automatic Differentiation) என்ற முறையை அறிமுகப்படுத்தியது. ஒரு Tensor-ல் `requires_grad=True` என நீங்கள் கூறினால், நீங்கள் செய்யும் ஒவ்வொரு கணிதச் செயல்பாட்டையும் PyTorch ரகசியமாகப் பதிவு செய்துகொள்ளும். இறுதியில் நீங்கள் `.backward()!` என அழைக்கும்போது, PyTorch உங்களுக்காக அனைத்து calculus கணக்குகளையும் பின்னோக்கிச் செய்து, நெட்வொர்க்கை எப்படி புத்திசாலியாக மாற்றுவது என்பதைத் துல்லியமாகக் கண்டறியும். இது உங்கள் கணினிக்குள் ஒரு கணித மேதை குடியிருப்பது போன்றது.",
+            "code": "import torch\n\n# We create a Tensor (number) and ask PyTorch to watch it closely (requires_grad)\nx = torch.tensor([3.0], requires_grad=True)\n\n# We do some math. Equation: y = 2 * (x squared)\ny = 2 * (x ** 2)\n\n# MAGIC TIME! We ask PyTorch to do the Calculus derivative backwards!\ny.backward()\n\n# The derivative of 2x^2 is 4x. Since x is 3, the answer is 12!\nprint(f\"The gradient is: {x.grad.item()}\")",
             "code_breakdown": [
-                "requires_grad=True: Flags the tensor to be tracked by the Autograd engine.",
-                "y.backward(): Triggers backpropagation. PyTorch calculates the derivatives for all tensors leading up to y.",
-                "x.grad: Stores the calculated gradient. The optimizer will later subtract a fraction of this gradient from x to minimize the error."
+                "requires_grad=True: Turns on the secret camera to record the math operations.",
+                "y.backward(): Triggers the Autograd engine to calculate the derivatives (slopes).",
+                "x.grad: The secret pocket where PyTorch stores the final calculus answer."
             ],
             "interviews": [
                 {
-                    "q": "What is the purpose of `torch.no_grad()`?",
-                    "a": "During the model inference or evaluation phase, we do not need to update weights, meaning we don't need calculus. Wrapping the evaluation block in `with torch.no_grad():` disables the Autograd engine, drastically reducing memory consumption and speeding up predictions."
+                    "q": "Why do GPUs make Deep Learning so much faster than CPUs?",
+                    "a": "A CPU has a few very smart, very fast cores (like 8 professors). A GPU has thousands of slower, simpler cores (like 3,000 students). Since deep learning is just doing millions of very simple addition and multiplication problems, 3,000 students working at the same time finish the job much faster than 8 professors."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "What hardware component is a PyTorch Tensor optimized to run on for massive parallel computations?",
+                    "q": "What engine inside PyTorch automatically performs the calculus for you?",
                     "options": [
-                        "CPU",
-                        "GPU",
-                        "SSD"
+                        "TensorFlow",
+                        "Autograd",
+                        "NumPy"
                     ],
                     "ans": 1
                 }
@@ -380,27 +378,27 @@ const curriculum = {
         },
         {
             "title": "13. Building Neural Networks",
-            "theory": "Deep Learning models are vast webs of interconnected mathematical equations. In PyTorch, we encapsulate this complexity using the Object-Oriented paradigm. Every custom neural network you build must inherit from the base `torch.nn.Module` class. \n\nThe architecture is split into two mandatory components. First, the `__init__` constructor, where you instantiate and define the learnable layers (like `nn.Linear`, which applies a matrix transformation `Wx + b`). Second, the `forward()` method, which defines the strict sequence in which the data flows through those layers. Crucially, we must inject non-linear Activation Functions (like ReLU) between the linear layers. Without non-linearity, a neural network of 1,000 layers mathematically collapses into a single linear equation, rendering it completely incapable of learning complex patterns like images or text.",
-            "theory_tamil": "Deep Learning மாடல்கள் ஒன்றோடொன்று இணைக்கப்பட்ட கணித சமன்பாடுகளின் பெரிய வலைகளாகும். PyTorch-ல், இந்தச் சிக்கலை Object-Oriented முறை மூலம் சுருக்குகிறோம். நீங்கள் உருவாக்கும் ஒவ்வொரு custom neural network-ம் `torch.nn.Module` class-ல் இருந்து கட்டாயமாக inherit செய்யப்பட வேண்டும்.\n\nஇந்தக் கட்டமைப்பு இரண்டு முக்கிய பகுதிகளைக் கொண்டது. முதல் பகுதி `__init__` constructor, இங்கு layers-ஐ (எ.கா. `nn.Linear`, இது `Wx + b` என்ற matrix transformation-ஐ செய்யும்) வரையறுக்கிறோம். இரண்டாம் பகுதி `forward()` method, இது தரவு எந்த வரிசையில் layers வழியாகச் செல்ல வேண்டும் என்பதைத் தீர்மானிக்கிறது. மிக முக்கியமாக, linear layers-க்கு இடையே non-linear Activation Functions-ஐ (எ.கா. ReLU) நாம் புகுத்த வேண்டும். Non-linearity இல்லாவிட்டால், 1,000 layers கொண்ட network கூட ஒரே ஒரு நேரியல் சமன்பாடாக (linear equation) சுருங்கிவிடும், இதனால் படங்கள் அல்லது உரைகள் போன்ற சிக்கலான வடிவங்களைக் கற்க முடியாமல் போய்விடும்.",
-            "code": "import torch\nimport torch.nn as nn\nimport torch.nn.functional as F\n\n# Inherit from nn.Module to unlock PyTorch superpowers\nclass MultiLayerPerceptron(nn.Module):\n    def __init__(self, input_dim: int, hidden_dim: int, output_dim: int):\n        super().__init__()\n        # Define the learnable weight matrices\n        self.layer_1 = nn.Linear(input_dim, hidden_dim)\n        self.layer_2 = nn.Linear(hidden_dim, output_dim)\n        \n    def forward(self, x: torch.Tensor) -> torch.Tensor:\n        # Data flows through Layer 1\n        x = self.layer_1(x)\n        # Inject Non-Linearity (Rectified Linear Unit)\n        x = F.relu(x)\n        # Data flows through output layer\n        return self.layer_2(x)\n\nprint('Network Architecture Built')",
+            "theory": "Building a Neural Network is like building a multi-layer cake. The data goes in the bottom layer, passes through the middle (hidden) layers where the 'thinking' happens, and pops out the top layer as an answer (like 'Dog' or 'Cat'). In PyTorch, we build this cake using Object-Oriented Classes.\n\nEvery network you build must inherit from `torch.nn.Module`. Think of it as the ultimate cake pan—it handles all the heavy lifting behind the scenes. Inside the network, we connect layers using 'Linear' connections, which is just multiplying the inputs by weights. But if we only multiply, the network can only draw straight lines; it can't solve complex, twisty problems! So, we add **Activation Functions** (like ReLU) between the layers. ReLU acts as a gatekeeper: if a number is negative, it turns it to zero. If it's positive, it lets it pass. This simple 'bend' in the math gives the network the superpower of non-linearity, allowing it to learn virtually anything.",
+            "theory_tamil": "ஒரு Neural Network-ஐ உருவாக்குவது பல அடுக்குகள் கொண்ட ஒரு கேக்கை (multi-layer cake) உருவாக்குவது போன்றது. தரவு கீழடுக்கில் உள்ளே செல்கிறது, நடுவில் உள்ள அடுக்குகளில் (hidden layers) 'சிந்தனை' நடக்கிறது, மேல் அடுக்கில் அது ஒரு பதிலை ('நாய்' அல்லது 'பூனை') வெளியிடுகிறது. PyTorch-ல், இந்த கேக்கை Object-Oriented Classes மூலம் உருவாக்குகிறோம்.\n\nநீங்கள் உருவாக்கும் ஒவ்வொரு நெட்வொர்க்கும் `torch.nn.Module`-ல் இருந்து கட்டாயமாக inherit செய்யப்பட வேண்டும். இதை ஒரு சிறந்த கேக் பாத்திரமாக நினைத்துக்கொள்ளுங்கள்—இது பின்னணியில் உள்ள அனைத்து கடினமான வேலைகளையும் பார்த்துக்கொள்ளும். நெட்வொர்க்கின் உள்ளே, நாம் 'Linear' தொடர்புகள் மூலம் அடுக்குகளை இணைக்கிறோம் (உள்ளீடுகளை weights-ஆல் பெருக்குவது). ஆனால் பெருக்கலை மட்டுமே செய்தால், நெட்வொர்க்கால் நேர்கோடுகளை மட்டுமே வரைய முடியும்; சிக்கலான வளைந்த பிரச்சனைகளைத் தீர்க்க முடியாது! எனவே, அடுக்குகளுக்கு இடையே **Activation Functions**-ஐ (எ.கா: ReLU) சேர்க்கிறோம். ReLU ஒரு காவலாளியைப் போலச் செயல்படுகிறது: ஒரு எண் negative ஆக இருந்தால் அதை பூஜ்ஜியமாக்குகிறது, positive ஆக இருந்தால் அனுமதிக்கிறது. கணிதத்தில் நடக்கும் இந்தச் சிறிய 'வளைவு', நெட்வொர்க்கிற்கு non-linearity என்ற அபார சக்தியைக் கொடுத்து, எதை வேண்டுமானாலும் கற்கும் திறனை அளிக்கிறது.",
+            "code": "import torch\nimport torch.nn as nn\nimport torch.nn.functional as F\n\n# We build our network blueprint, inheriting the powers of nn.Module\nclass SimpleBrain(nn.Module):\n    def __init__(self):\n        super().__init__()\n        # We define the layers: Input (784) -> Hidden (128) -> Output (10)\n        self.layer1 = nn.Linear(784, 128)\n        self.layer2 = nn.Linear(128, 10)\n        \n    # The forward function acts as the map for how data flows through the layers\n    def forward(self, x):\n        x = self.layer1(x) # Data passes through layer 1\n        x = F.relu(x)      # The magic gatekeeper (Activation Function) bends the math\n        x = self.layer2(x) # Data passes through the output layer\n        return x\n\nprint('Brain Built!')",
             "code_breakdown": [
-                "super().__init__(): A mandatory call to initialize the heavy lifting mechanisms of the parent nn.Module class.",
-                "nn.Linear(input, output): Applies a linear transformation. It automatically creates and initializes the Weight and Bias tensors.",
-                "F.relu(): The activation function. It converts all negative numbers to zero and keeps positive numbers as they are, introducing non-linearity."
+                "nn.Linear(): A layer of artificial neurons. It automatically holds the secret 'Weights and Biases' that the model will learn.",
+                "forward(): The GPS path the data takes from the start to the end.",
+                "F.relu(): The most popular activation function. It simply turns any negative number into a 0, preventing the math from becoming a boring straight line."
             ],
             "interviews": [
                 {
-                    "q": "Explain the Exploding and Vanishing Gradient problem.",
-                    "a": "During backpropagation in deep networks, gradients are repeatedly multiplied by the weights of each layer. If weights are > 1, the gradients explode to infinity, crashing the model. If weights are < 1, gradients vanish to zero, meaning the early layers of the network never receive updates and stop learning entirely."
+                    "q": "What happens if you build a Neural Network with 100 layers, but you forget to use Activation Functions?",
+                    "a": "Math is funny! Multiplying 100 linear layers together mathematically simplifies down to just ONE single linear layer. Without activation functions to add 'bends' (non-linearity), a 100-layer deep network is no smarter than a 1-layer basic regression model."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "What prevents a deep neural network from behaving like a single linear regression model?",
+                    "q": "Which function introduces non-linearity to a Neural Network?",
                     "options": [
-                        "Batch Normalization",
-                        "Activation Functions (ReLU)",
-                        "Gradient Descent"
+                        "Linear",
+                        "ReLU",
+                        "Autograd"
                     ],
                     "ans": 1
                 }
@@ -411,29 +409,28 @@ const curriculum = {
         },
         {
             "title": "14. CNNs & Computer Vision",
-            "theory": "Standard Multilayer Perceptrons (MLPs) are terrible at processing images. If you flatten a 2D image into a 1D array of pixels, the network loses all spatial relationships—it no longer understands that an 'eye' pixel is structurally next to a 'nose' pixel. Furthermore, connecting every pixel to every neuron creates an explosive number of parameters, ensuring catastrophic overfitting.\n\nConvolutional Neural Networks (CNNs) solve this elegantly. Instead of processing the whole image at once, a CNN uses small matrices called Kernels (or Filters) that slide (convolve) across the image. These filters act as feature extractors. The early layers learn to detect simple edges and gradients. As the network deepens, pooling layers downsample the image, allowing later filters to detect complex, high-level features like eyes, wheels, or faces, all while using drastically fewer parameters through weight sharing.",
-            "theory_tamil": "சாதாரண MLPs படங்களை (images) கையாளுவதற்கு மிகவும் மோசமானவை. ஒரு 2D படத்தை 1D array ஆக மாற்றினால், அதிலுள்ள இடஞ்சார்ந்த உறவுகள் (spatial relationships) அழிந்துவிடும்—அதாவது 'கண்' pixel-க்கு அருகில் 'மூக்கு' pixel உள்ளது என்பதை நெட்வொர்க் மறந்துவிடும். மேலும், ஒவ்வொரு pixel-ஐயும் ஒவ்வொரு neuron-உடனும் இணைப்பது parameters-ன் எண்ணிக்கையை கற்பனைக்கு எட்டாத அளவில் அதிகரித்து, overfitting-ஐ உருவாக்கும்.\n\nConvolutional Neural Networks (CNNs) இதற்கு நேர்த்தியான தீர்வை வழங்குகின்றன. முழுப் படத்தையும் ஒரே நேரத்தில் ஆராய்வதற்குப் பதிலாக, CNN சிறிய Kernels (அல்லது Filters) எனப்படும் matrices-ஐ படத்தின் மீது நகர்த்தி (convolve) ஆராய்கிறது. இந்த filters படத்தின் features-ஐ பிரித்தெடுக்கின்றன. ஆரம்ப layers எளிய விளிம்புகளைக் (edges) கண்டுபிடிக்கின்றன. Network ஆழமாகச் செல்லும்போது, pooling layers படத்தின் அளவைக் குறைக்கின்றன. இதனால் பிந்தைய filters கண்கள், சக்கரங்கள், முகங்கள் போன்ற சிக்கலான அமைப்புகளை மிகக் குறைந்த parameters-ஐப் பயன்படுத்திக் கண்டுபிடிக்க முடிகிறது.",
-            "code": "import torch.nn as nn\n\nclass ImageClassifierCNN(nn.Module):\n    def __init__(self):\n        super().__init__()\n        # 1 input channel (Grayscale), 16 output filters, 3x3 sliding kernel\n        self.conv1 = nn.Conv2d(in_channels=1, out_channels=16, kernel_size=3, padding=1)\n        self.relu = nn.ReLU()\n        \n        # Downsamples the image by half, keeping only the most prominent features\n        self.pool = nn.MaxPool2d(kernel_size=2, stride=2)\n        \n    def forward(self, x):\n        x = self.conv1(x)\n        x = self.relu(x)\n        x = self.pool(x)\n        return x\n\nprint('CNN Architecture Built')",
+            "theory": "Standard Neural Networks are awful at looking at pictures. If you feed a picture into a normal network, it breaks the image into a single, long, straight line of pixels. It completely forgets that a nose is supposed to be next to an eye! It loses all sense of space.\n\nTo solve this, scientists invented **Convolutional Neural Networks (CNNs)**. Instead of looking at the whole scrambled picture at once, a CNN acts like a magnifying glass. It takes a tiny square (a Filter) and slides it across the image, looking for patterns. The first layers look for simple things, like straight lines or curves. The middle layers combine those lines into shapes. The final layers combine those shapes to recognize a 'Face' or a 'Car'. By sliding this magnifying glass (Convolution) and periodically shrinking the image down to save memory (Pooling), CNNs became the undisputed champions of Computer Vision.",
+            "theory_tamil": "சாதாரண Neural Networks-ஆல் படங்களைப் (pictures) பார்ப்பதில் சிறப்பாகச் செயல்பட முடியாது. ஒரு படத்தை சாதாரண நெட்வொர்க்கில் செலுத்தினால், அது படத்தை ஒரே நீளமான கோடாகப் பிரித்துவிடும். மூக்கு என்பது கண்ணுக்குப் பக்கத்தில் இருக்க வேண்டும் என்பதை அது முற்றிலுமாக மறந்துவிடும்! இடத்தைப் பற்றிய புரிதலே அதற்கு இருக்காது.\n\nஇதைத் தீர்க்கவே விஞ்ஞானிகள் **Convolutional Neural Networks (CNNs)**-ஐ உருவாக்கினர். முழுப் படத்தையும் ஒரே நேரத்தில் குழப்பமாகப் பார்ப்பதற்குப் பதிலாக, CNN ஒரு பூதக்கண்ணாடியைப் போலச் செயல்படுகிறது. அது ஒரு சிறிய கட்டத்தை (Filter) எடுத்து, படத்தின் மீது நகர்த்தி அமைப்புகளைத் (patterns) தேடுகிறது. முதல் அடுக்குகள் நேர்கோடுகள் அல்லது வளைவுகள் போன்ற எளிய வடிவங்களைத் தேடுகின்றன. நடு அடுக்குகள் அவற்றை இணைத்து பெரிய வடிவங்களை உருவாக்குகின்றன. இறுதி அடுக்குகள் அந்த வடிவங்களை இணைத்து 'முகம்' அல்லது 'கார்' என்பதைக் கண்டறிகின்றன. இந்தப் பூதக்கண்ணாடியை நகர்த்துவதன் (Convolution) மூலமும், நினைவகத்தைச் சேமிக்கப் படத்தை அவ்வப்போது சுருக்குவதன் (Pooling) மூலமும், CNN-கள் Computer Vision-ன் முடிசூடா மன்னர்களாக மாறின.",
+            "code": "import torch.nn as nn\n\nclass ImageScanner(nn.Module):\n    def __init__(self):\n        super().__init__()\n        # The Magnifying Glass! It sweeps a 3x3 square across the image\n        self.conv1 = nn.Conv2d(in_channels=1, out_channels=16, kernel_size=3)\n        self.relu = nn.ReLU()\n        \n        # The Shrinker! It cuts the image size in half to save memory\n        self.pool = nn.MaxPool2d(kernel_size=2)\n        \n    def forward(self, x):\n        x = self.conv1(x)\n        x = self.relu(x)\n        x = self.pool(x)\n        return x\n\nprint('CNN Eye Created!')",
             "code_breakdown": [
-                "nn.Conv2d: Sweeps the 3x3 kernel over the 2D image. The network mathematically learns the values inside this kernel to detect features.",
-                "padding=1: Adds a border of zeros around the image so the convolution doesn't shrink the output size.",
-                "nn.MaxPool2d: Slides a 2x2 window and only keeps the maximum pixel value, throwing away 75% of the data to drastically compress spatial dimensions and prevent overfitting."
+                "nn.Conv2d: The 2D Convolutional layer. 'kernel_size=3' means the magnifying glass is a 3x3 pixel square.",
+                "nn.MaxPool2d: Slides over the image and only keeps the 'loudest' (maximum) pixel value, shrinking the image while keeping the most important features."
             ],
             "interviews": [
                 {
-                    "q": "What is Translation Invariance in CNNs?",
-                    "a": "Because the exact same filter sweeps across the entire image (Weight Sharing), a CNN can detect a feature (like a cat's ear) regardless of whether it appears in the top-left or bottom-right corner of the image."
+                    "q": "Why do CNNs have drastically fewer parameters (weights) than standard networks?",
+                    "a": "Because of 'Weight Sharing'. In a normal network, every pixel gets its own dedicated weight. In a CNN, the exact same 3x3 Filter (with the exact same weights) slides across the entire image. This saves massive amounts of memory."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which CNN layer is specifically designed to compress image dimensions and reduce parameter counts?",
+                    "q": "Which layer is responsible for sliding a small filter over an image to extract features?",
                     "options": [
-                        "Convolutional Layer",
+                        "Linear Layer",
                         "Pooling Layer",
-                        "Fully Connected Layer"
+                        "Convolutional Layer"
                     ],
-                    "ans": 1
+                    "ans": 2
                 }
             ],
             "exercise": "Print 'Vision Ready'.",
@@ -444,27 +441,27 @@ const curriculum = {
     "Phase 5: Generative AI & LLMs": [
         {
             "title": "15. Transformer Architecture",
-            "theory": "Before 2017, NLP relied on Recurrent Neural Networks (RNNs) and LSTMs. These processed text sequentially, word by word, making them impossible to parallelize on GPUs and causing them to 'forget' early context in long paragraphs. Google's landmark paper, 'Attention Is All You Need', introduced the Transformer architecture, completely eradicating recurrence.\n\nThe core of the Transformer is the Self-Attention mechanism. Instead of reading sequentially, the network processes the entire sentence simultaneously. Every single word dynamically computes a mathematical 'Attention Score' with every other word in the sentence, allowing the model to perfectly capture long-range contextual dependencies (e.g., determining if 'bank' means a financial institution or a river edge based on surrounding words). This highly parallelizable architecture paved the way for massive Large Language Models (LLMs) like GPT-4 and Llama.",
-            "theory_tamil": "2017-க்கு முன்பு, NLP-க்கு Recurrent Neural Networks (RNNs) மற்றும் LSTMs பயன்பட்டன. இவை உரையை (text) வார்த்தைக்கு வார்த்தை வரிசையாகப் படித்ததால், இவற்றை GPUs-ல் இணையாக (parallel) இயக்க முடியவில்லை, மேலும் நீண்ட பத்திகளில் முந்தைய வார்த்தைகளை மறந்துவிடும் குறைபாடும் இருந்தது. Google-ன் 'Attention Is All You Need' ஆய்வறிக்கை Transformer கட்டமைப்பை அறிமுகப்படுத்தி, இந்த recurrence முறையை முற்றிலுமாக ஒழித்தது.\n\nTransformer-ன் மையம் Self-Attention முறையாகும். வரிசையாகப் படிப்பதற்குப் பதிலாக, நெட்வொர்க் முழு வாக்கியத்தையும் ஒரே நேரத்தில் கையாளுகிறது. ஒவ்வொரு வார்த்தையும் வாக்கியத்தில் உள்ள மற்ற அனைத்து வார்த்தைகளுடனும் ஒப்பிட்டு ஒரு 'Attention Score'-ஐ கணக்கிடுகிறது. இதன் மூலம், வார்த்தைகளுக்கிடையேயான நீண்ட தூரத் தொடர்புகளை மாடல் கச்சிதமாகப் புரிந்துகொள்கிறது (எ.கா. சுற்றியுள்ள வார்த்தைகளை வைத்து 'bank' என்பது வங்கியையா அல்லது நதிக்கரையையா குறிக்கிறது என்பதை அறிதல்). இந்த அதிவேகக் கட்டமைப்பு GPT-4, Llama போன்ற மாபெரும் Large Language Models (LLMs) உருவாகக் காரணமானது.",
-            "code": "import torch\nimport torch.nn.functional as F\n\n# Simulated Transformer Self-Attention Calculation\n# Batch of 1, Sequence length of 4 words, 64-dimensional embeddings\nquery = torch.rand(1, 4, 64) \nkey = torch.rand(1, 4, 64)\nvalue = torch.rand(1, 4, 64)\n\n# 1. Compute raw attention scores via Query-Key Matrix Multiplication\nraw_scores = torch.bmm(query, key.transpose(1, 2))\n\n# 2. Scale and apply Softmax to get percentages (Attention Weights)\nattention_weights = F.softmax(raw_scores / (64 ** 0.5), dim=-1)\n\n# 3. Multiply weights against the Value to get the final contextualized output\noutput = torch.bmm(attention_weights, value)\nprint('Contextualized Output Shape:', output.shape)",
+            "theory": "Imagine trying to read a book, but you're only allowed to look at one word at a time, forgetting the word before it. That's how old AI read text. It was slow and constantly lost the plot. Then, in 2017, Google released a paper that changed the world: they invented the **Transformer**.\n\nThe Transformer introduced a superpower called **Self-Attention**. Instead of reading word-by-word, the Transformer reads the ENTIRE sentence at the exact same time. It then asks: 'Which words are looking at each other?' For example, in the sentence 'The bank of the river', the word 'bank' pays high 'Attention' to the word 'river', so the AI instantly knows it's about water, not money. Because it processes everything simultaneously, engineers could run it across thousands of GPUs at once, allowing them to feed it the entire internet. This birthed the massive Large Language Models (LLMs) like ChatGPT we know today.",
+            "theory_tamil": "ஒரு புத்தகத்தைப் படிக்கும்போது, ஒரு நேரத்தில் ஒரு வார்த்தையை மட்டுமே பார்க்க முடியும், முந்தைய வார்த்தையை மறந்துவிட வேண்டும் என்று கற்பனை செய்துகொள்ளுங்கள். பழைய AI-கள் இப்படித்தான் உரையைப் படித்தன. அவை மெதுவாக இருந்தன, அடிக்கடி கதையை மறந்துவிட்டன. பின்னர் 2017-ல், Google வெளியிட்ட ஒரு ஆய்வறிக்கை உலகத்தையே மாற்றியது: அவர்கள் **Transformer**-ஐக் கண்டுபிடித்தனர்.\n\nTransformer **Self-Attention** என்ற அபார சக்தியை அறிமுகப்படுத்தியது. வார்த்தைக்கு வார்த்தை படிப்பதற்குப் பதிலாக, Transformer முழு வாக்கியத்தையும் ஒரே நேரத்தில் படிக்கிறது. பின்னர், 'எந்த வார்த்தைகள் ஒன்றையொன்று சார்ந்துள்ளன?' என்று கேட்கிறது. உதாரணமாக, 'The bank of the river' என்ற வாக்கியத்தில், 'bank' என்ற வார்த்தை 'river' மீது அதிக 'கவனம்' (Attention) செலுத்துகிறது, எனவே இது நீர் சம்பந்தப்பட்டது, பணம் சம்பந்தப்பட்டது அல்ல என்பதை AI உடனே புரிந்துகொள்கிறது. அனைத்தையும் ஒரே நேரத்தில் கையாளுவதால், பொறியாளர்களால் இதை ஆயிரக்கணக்கான GPUs-ல் இணையாக இயக்கி முழு இணையத்தையே இதற்குக் கற்பிக்க முடிந்தது. இதுவே இன்று நாம் காணும் ChatGPT போன்ற மாபெரும் Large Language Models (LLMs) உருவாகக் காரணமாக அமைந்தது.",
+            "code": "import torch\nimport torch.nn.functional as F\n\n# Imagine 1 sentence, 4 words, each represented by 64 numbers (Embeddings)\nquery = torch.rand(1, 4, 64) \nkey = torch.rand(1, 4, 64)\nvalue = torch.rand(1, 4, 64)\n\n# 1. Words ask 'What context do I need?' (Query) and match with 'What context I have' (Key)\nraw_attention = torch.bmm(query, key.transpose(1, 2))\n\n# 2. Convert matches into percentages (Attention Weights)\nattention_weights = F.softmax(raw_attention, dim=-1)\n\n# 3. Apply the attention to the actual Value of the words\nfinal_thought = torch.bmm(attention_weights, value)\nprint('Contextualized Output Shape:', final_thought.shape)",
             "code_breakdown": [
-                "Query, Key, Value (QKV): Metaphorically, a word asks 'what context am I looking for' (Query), broadcasts 'what context I contain' (Key), and provides its 'actual meaning' (Value).",
-                "torch.bmm: Batch Matrix Multiplication. The core mathematical engine that computes how much attention every word should pay to every other word.",
-                "F.softmax: Normalizes the raw scores into probabilities that sum to 1.0."
+                "Query, Key, Value: Think of it like a library. The Query is your search term. The Key is the book title on the shelf. The Value is the actual text inside the book.",
+                "torch.bmm: Batch Matrix Multiplication. The heavy math that calculates the connection between every single word and every other word instantly.",
+                "F.softmax: Turns the math scores into nice percentages that add up to 100%."
             ],
             "interviews": [
                 {
-                    "q": "If Transformers process all words simultaneously, how do they know the order of words in a sentence?",
-                    "a": "They use Positional Encoding. Before the text enters the attention mechanism, sine and cosine mathematical vectors are added to the word embeddings to artificially stamp them with a spatial position."
+                    "q": "If Transformers read everything at once, how do they know what order the words are in?",
+                    "a": "They use a trick called 'Positional Encoding'. Before the words go into the Transformer, a mathematical timestamp (sine/cosine waves) is glued to each word, telling the AI exactly where that word was standing in the sentence."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which operation in the Transformer allows a word to weigh its contextual relevance against all other words?",
+                    "q": "What mechanism allows the Transformer to understand the context of a word based on the surrounding words?",
                     "options": [
                         "Convolution",
                         "Self-Attention",
-                        "Gradient Descent"
+                        "Recurrence"
                     ],
                     "ans": 1
                 }
@@ -475,28 +472,28 @@ const curriculum = {
         },
         {
             "title": "16. Hugging Face & Open Source LLMs",
-            "theory": "Training a foundational Large Language Model from scratch requires tens of thousands of specialized GPUs, Petabytes of training data, and millions of dollars. For 99.9% of developers, this is impossible. Hugging Face revolutionized AI by creating an open-source hub—the 'GitHub of Machine Learning'.\n\nUsing the Hugging Face `transformers` library, engineers can instantly download and run pre-trained, world-class models (like Meta's Llama 3 or Mistral) locally on their own machines or cloud servers. The library abstracts away the agonizing complexity of model graphs, providing unified APIs. Crucially, it provides Tokenizers, which translate raw string text into the mathematical integer arrays that the neural networks require. You can then use techniques like LoRA (Low-Rank Adaptation) to cheaply fine-tune these massive models on your own specialized, private data.",
-            "theory_tamil": "ஒரு Large Language Model-ஐ புதிதாக உருவாக்க பல்லாயிரக்கணக்கான GPUs, Petabytes அளவிலான தரவுகள் மற்றும் பல மில்லியன் டாலர்கள் தேவைப்படும். 99.9% டெவலப்பர்களுக்கு இது சாத்தியமற்றது. Hugging Face ஒரு open-source மையத்தை (Machine Learning-க்கான GitHub) உருவாக்கி AI-ல் பெரும் புரட்சியை ஏற்படுத்தியது.\n\nHugging Face `transformers` library-ஐப் பயன்படுத்தி, பொறியாளர்கள் உலகத்தரம் வாய்ந்த மாடல்களை (Meta's Llama 3 அல்லது Mistral) உடனடியாகப் பதிவிறக்கித் தங்கள் கணினிகளிலோ அல்லது cloud-லோ இயக்க முடியும். இந்த library, model-ன் சிக்கலான கணித வரைபடங்களை மறைத்து, எளிமையான API-களை வழங்குகிறது. முக்கியமாக, இது Tokenizers-ஐ வழங்குகிறது, இவை உரை வடிவ வார்த்தைகளை (raw text) neural networks-க்குப் புரியும் எண்களாக மாற்றுகின்றன. மேலும், LoRA (Low-Rank Adaptation) போன்ற முறைகளைப் பயன்படுத்தி, இந்த மாபெரும் மாடல்களை மிகக் குறைந்த செலவில் உங்களின் தனிப்பட்ட தரவுகளுக்கு ஏற்ப fine-tune செய்ய முடியும்.",
-            "code": "from transformers import pipeline\n\n# The pipeline API abstracts away Tokenization, Model Inference, and Output Decoding\n# Using a lightweight, pre-trained model for text summarization\n# summarizer = pipeline(\"summarization\", model=\"sshleifer/distilbart-cnn-12-6\")\n\nlong_text = \"Hugging Face is a collaborative platform that allows ML engineers to host and collaborate on models, datasets, and applications. It drastically lowers the barrier to entry for AI.\"\n\n# result = summarizer(long_text, max_length=15, min_length=5, do_sample=False)\n# print(result[0]['summary_text'])\nprint('Hugging Face Pipeline Abstracted')",
+            "theory": "Training a massive AI like ChatGPT from scratch costs millions of dollars in electricity and requires thousands of specialized supercomputers. For normal developers, this is impossible. That is why **Hugging Face** is the hero of modern AI. \n\nHugging Face is like the 'App Store' or 'GitHub' for Machine Learning. Through their amazing open-source library called `transformers`, anybody can download pre-trained, world-class models (like Meta's Llama or Mistral) for absolutely free. With just three lines of Python code, you can load a super-smart AI onto your own laptop and ask it to summarize text, translate languages, or write code. It hides all the horrifyingly complex math behind a beautifully simple command called `pipeline`.",
+            "theory_tamil": "ChatGPT போன்ற ஒரு பிரம்மாண்டமான AI-ஐ புதிதாகப் பயிற்றுவிக்க பல மில்லியன் டாலர் மின்சாரம் மற்றும் ஆயிரக்கணக்கான சிறப்பு சூப்பர்கம்ப்யூட்டர்கள் தேவை. சாதாரண டெவலப்பர்களுக்கு இது சாத்தியமற்றது. இதனால்தான் **Hugging Face** நவீன AI-ன் ஹீரோவாகத் திகழ்கிறது.\n\nHugging Face என்பது Machine Learning-க்கான 'App Store' அல்லது 'GitHub' போன்றது. இவர்களின் `transformers` என்ற அருமையான திறந்தமூல (open-source) நூலகத்தின் மூலம், எவரும் உலகத்தரம் வாய்ந்த மாடல்களை (Meta-வின் Llama அல்லது Mistral போல) முற்றிலும் இலவசமாகப் பதிவிறக்கலாம். வெறும் மூன்று வரி Python குறியீட்டின் மூலம், அதிபுத்திசாலி AI-ஐ உங்கள் லேப்டாப்பிலேயே ஏற்றி, உரையைச் சுருக்கவோ, மொழிகளை மொழிபெயர்க்கவோ, அல்லது குறியீடு எழுதவோ செய்ய முடியும். இது மிகவும் கடினமான கணிதங்கள் அனைத்தையும் `pipeline` என்ற ஒரு எளிய கட்டளைக்குப் பின்னால் மறைத்துவிடுகிறது.",
+            "code": "from transformers import pipeline\n\n# The 'pipeline' is the ultimate magic wand. It handles downloading the model and all the math.\n# Here, we ask it for a Sentiment Analysis AI.\n# ai_helper = pipeline(\"sentiment-analysis\")\n\nmy_text = \"I am absolutely thrilled about learning Generative AI!\"\n\n# We simply pass the text in, and it gives us the answer!\n# result = ai_helper(my_text)\n# print(result)\n\nprint('Hugging Face Magic Initialized!')",
             "code_breakdown": [
-                "pipeline(): The highest-level abstraction in Hugging Face. You declare the task (e.g., 'summarization', 'text-generation') and it handles the complex tensor mathematics behind the scenes.",
-                "model=\"...\": Specifies which pre-trained weights to download from the Hugging Face Hub."
+                "pipeline(): The easiest way to use AI. You just tell it what task you want (like 'text-generation' or 'translation'), and it does the rest.",
+                "Tokenization (Behind the scenes): AI can't read English letters. The pipeline secretly cuts the text into pieces and turns them into numbers (Tokens) before feeding it to the AI."
             ],
             "interviews": [
                 {
-                    "q": "What is the difference between Fine-Tuning and Pre-Training an LLM?",
-                    "a": "Pre-training is teaching the model the basic rules of human language by predicting the next word on massive, general internet data (expensive). Fine-tuning is taking that smart model and training it slightly on a small, specific dataset (like medical records) to make it an expert in a specific domain (cheap)."
+                    "q": "What is the difference between Pre-training and Fine-tuning?",
+                    "a": "Pre-training is teaching the AI the rules of language by reading the whole internet (Super expensive!). Fine-tuning is taking that already-smart AI and giving it a small, specialized textbook (like medical records) to make it an expert in one specific subject (Very cheap!)."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "What component translates human readable text strings into the integer IDs required by an LLM?",
+                    "q": "What is the popular open-source hub where developers share AI models?",
                     "options": [
-                        "Optimizer",
-                        "Tokenizer",
-                        "Activation Function"
+                        "Hugging Face",
+                        "Kaggle",
+                        "TensorFlow"
                     ],
-                    "ans": 1
+                    "ans": 0
                 }
             ],
             "exercise": "Print 'HF Ready'.",
@@ -505,29 +502,29 @@ const curriculum = {
         },
         {
             "title": "17. RAG (Retrieval-Augmented Gen)",
-            "theory": "Large Language Models have two fatal flaws: they confidently hallucinate incorrect information, and their knowledge cutoff is frozen in time, meaning they have zero access to your company's proprietary or real-time data. Retrieval-Augmented Generation (RAG) is the definitive enterprise solution to this problem, effectively granting the LLM an external memory brain.\n\nRAG operates in two phases. First, Ingestion: your private documents (PDFs, wikis) are passed through an embedding model, which translates the text into dense mathematical vectors (capturing semantic meaning) and stores them in a Vector Database (like Pinecone or ChromaDB). Second, Retrieval: when a user asks a question, the question is also vectorized. The Vector DB performs a lightning-fast mathematical similarity search (Cosine Similarity) to find the most relevant document chunks. These chunks are dynamically injected into the LLM's prompt as context, forcing the LLM to answer strictly using your private data, eliminating hallucinations.",
-            "theory_tamil": "Large Language Models-ல் இரண்டு பெரும் குறைகள் உள்ளன: அவை தவறான தகவல்களை மிக நம்பிக்கையுடன் (hallucinate) கூறும், மேலும் அவற்றின் அறிவு ஒரு குறிப்பிட்ட காலகட்டத்தோடு உறைந்திருக்கும், அதாவது உங்களின் நிறுவனத் தரவுகளோ அல்லது சமீபத்திய தகவல்களோ அவற்றுக்குத் தெரியாது. இதற்குச் சரியான தீர்வாக Retrieval-Augmented Generation (RAG) அமைகிறது, இது LLM-க்கு ஒரு வெளிப்புற நினைவக மூளையை வழங்குகிறது.\n\nRAG இரண்டு கட்டங்களாகச் செயல்படுகிறது. முதல் கட்டம் (Ingestion): உங்கள் தனிப்பட்ட ஆவணங்கள் (PDFs, wikis) ஒரு embedding model வழியாகச் செலுத்தப்பட்டு, அடர்த்தியான கணித vectors ஆக மாற்றப்பட்டு Vector Database-ல் (Pinecone, ChromaDB) சேமிக்கப்படுகின்றன. இரண்டாம் கட்டம் (Retrieval): பயனர் ஒரு கேள்வியைக் கேட்கும்போது, அக்கேள்வியும் vector ஆக மாற்றப்படுகிறது. Vector DB துல்லியமான கணித ஒப்பீடு (Cosine Similarity) செய்து, தொடர்புடைய ஆவணப் பகுதிகளைக் கண்டுபிடிக்கிறது. இந்தப் பகுதிகள் LLM-ன் prompt-ல் context ஆகச் சேர்க்கப்படுகின்றன. இதனால் LLM தன் கற்பனையை விட்டுவிட்டு, உங்கள் தனிப்பட்ட தரவுகளை மட்டுமே பயன்படுத்தி துல்லியமாகப் பதிலளிக்கிறது.",
-            "code": "# Enterprise RAG Pipeline (Pseudo-Architecture utilizing LangChain principles)\n\n# 1. User asks a private question\nuser_query = \"What is the Q3 revenue for Project X?\"\n\n# 2. Convert query to Semantic Vector Space\n# query_vector = embedding_model.embed(user_query)\n\n# 3. Vector Database performs Cosine Similarity search instantly over millions of docs\n# retrieved_context = vector_db.similarity_search(query_vector, top_k=3)\n\n# 4. Dynamic Prompt Injection\nprompt = f\"\"\"\nUse the following strictly verified context to answer the user.\nContext: {retrieved_context}\nQuestion: {user_query}\n\"\"\"\n\n# 5. LLM generates grounded, hallucination-free answer\n# final_answer = llm.generate(prompt)\nprint('Enterprise RAG Architecture Initialized')",
+            "theory": "Imagine asking a super-smart professor a question, but they aren't allowed to look at any books, and they confidently make up an answer that sounds correct but is actually completely wrong. That is what LLMs do (called 'Hallucination'). Also, the professor has no idea about your company's private, secret documents.\n\nTo fix this, we use **RAG (Retrieval-Augmented Generation)**. We give the AI an open-book test! First, we chop all your private PDF documents into pieces and turn them into numbers (Embeddings), storing them in a special **Vector Database**. When you ask a question, the database instantly searches for the 3 most relevant paragraphs. We then secretly grab those paragraphs and staple them to your question, telling the AI: 'Use THIS exact text to answer the question.' Now, the AI has your private facts and is banned from making things up!",
+            "theory_tamil": "ஒரு அதிபுத்திசாலி பேராசிரியரிடம் ஒரு கேள்வியைக் கேட்கிறீர்கள், ஆனால் அவர் எந்தப் புத்தகத்தையும் பார்க்கக் கூடாது, மேலும் அவர் மிகவும் நம்பிக்கையுடன் ஒரு தவறான பதிலைச் சொல்கிறார் என்று கற்பனை செய்துகொள்ளுங்கள். LLM-கள் இப்படித்தான் செய்கின்றன (இதை 'Hallucination' என்பார்கள்). மேலும், உங்கள் நிறுவனத்தின் தனிப்பட்ட, ரகசிய ஆவணங்களைப் பற்றி அந்தப் பேராசிரியருக்கு எதுவும் தெரியாது.\n\nஇதைத் தீர்க்கவே **RAG (Retrieval-Augmented Generation)** முறையைப் பயன்படுத்துகிறோம். நாம் AI-க்கு ஒரு open-book தேர்வு வைக்கிறோம்! முதலில், உங்கள் தனிப்பட்ட PDF ஆவணங்கள் அனைத்தையும் சிறு பகுதிகளாக வெட்டி, அவற்றை எண்களாக (Embeddings) மாற்றி, ஒரு சிறப்பு **Vector Database**-ல் சேமிக்கிறோம். நீங்கள் ஒரு கேள்வியைக் கேட்கும்போது, டேட்டாபேஸ் உடனடியாகத் தொடர்புடைய 3 பத்திகளைத் தேடி எடுக்கிறது. அந்தப் பத்திகளை எடுத்து உங்கள் கேள்வியோடு சேர்த்து AI-யிடம்: 'கேள்விக்குப் பதிலளிக்க இந்தத் தகவலை மட்டுமே பயன்படுத்து' என்று கூறுகிறோம். இப்போது AI-யிடம் உங்கள் தனிப்பட்ட உண்மைகள் உள்ளன, மேலும் அது தானாக எதையும் கற்பனை செய்ய முடியாது!",
+            "code": "# Pseudo-code to understand the RAG Workflow\n\nuser_question = \"What is the Wi-Fi password for the guest room?\"\n\n# Step 1: The Vector Database searches through thousands of company documents instantly\n# found_facts = vector_db.search(user_question)\n# found_facts -> \"The guest Wi-Fi password is 'Welcome2024'.\"\n\n# Step 2: We inject the facts into a strict instruction template\nprompt = f\"\"\"\nListen closely AI. Only use the Facts below to answer the user.\nFacts: {found_facts}\nQuestion: {user_question}\n\"\"\"\n\n# Step 3: The AI reads the facts and answers perfectly!\n# answer = ai.chat(prompt)\nprint('RAG System Configured!')",
             "code_breakdown": [
-                "Embedding: Converting text into high-dimensional float arrays (e.g., 1536 dimensions) where words with similar meanings are mathematically close together.",
-                "Similarity Search: Comparing the angles between vectors. A small angle indicates high semantic similarity.",
-                "Prompt Injection: The act of shoving the retrieved text directly into the hidden system prompt sent to the LLM API."
+                "Embeddings: Turning words into lists of numbers. Words with similar meanings have numbers that are close to each other.",
+                "Vector Database: A special database designed to search for matching lists of numbers (Embeddings) incredibly fast.",
+                "Prompt Injection: The trick where we intercept the user's question, glue the retrieved facts to it, and hand it to the LLM."
             ],
             "interviews": [
                 {
-                    "q": "Why is Chunking important in a RAG pipeline?",
-                    "a": "LLMs have a strictly limited 'Context Window' (how much text they can process at once). You cannot inject a 500-page PDF into the prompt. Chunking breaks the PDF into small, overlapping paragraphs before embedding them, allowing you to retrieve and inject only the 3 most relevant paragraphs."
+                    "q": "Why do we chop documents into chunks before putting them in the database?",
+                    "a": "Because AI models have a 'Context Window'—a strict limit on how many words they can read at once. You can't feed a 10,000-page manual into an AI. Chunking lets us retrieve only the exact 2 paragraphs that actually contain the answer."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "What database architecture is optimized specifically for storing and searching high-dimensional semantic data?",
+                    "q": "What is the primary problem that RAG solves?",
                     "options": [
-                        "Relational Database (SQL)",
-                        "Graph Database",
-                        "Vector Database"
+                        "Slow training times",
+                        "AI Hallucinations and lack of private data",
+                        "High electricity costs"
                     ],
-                    "ans": 2
+                    "ans": 1
                 }
             ],
             "exercise": "Print 'RAG Built'.",
@@ -538,29 +535,29 @@ const curriculum = {
     "Phase 6: MLOps & Production": [
         {
             "title": "18. FastAPI Model Serving",
-            "theory": "Training a state-of-the-art AI model is only 50% of the battle. An ML model is ultimately just a Python object loaded in RAM; it is useless if external systems cannot interact with it. MLOps dictates that models must be deployed as scalable web services. We wrap our models in RESTful APIs so that mobile apps, frontend websites, or microservices can send data over HTTP and receive predictions in real-time.\n\nFastAPI has become the absolute industry standard for this task, obliterating older frameworks like Flask. FastAPI natively supports asynchronous asynchronous programming (async/await), allowing it to handle thousands of concurrent requests without blocking—crucial for slow LLM generations. Furthermore, it strictly enforces data validation using Pydantic, ensuring that if a client sends invalid JSON formats to your model, the API blocks the request before it can crash the Python engine.",
-            "theory_tamil": "ஒரு சிறந்த AI மாடலை உருவாக்குவது சவாலின் 50% மட்டுமே. ML model என்பது RAM-ல் உள்ள ஒரு Python object மட்டுமே; வெளி அமைப்புகள் இதனுடன் தொடர்பு கொள்ள முடியாவிட்டால் இது பயனற்றது. MLOps விதிமுறைகளின்படி, மாடல்கள் scalable web services ஆக வெளியிடப்பட வேண்டும். Mobile apps மற்றும் websites HTTP வழியாகத் தரவை அனுப்பி real-time கணிப்புகளைப் பெற, மாடல்களை RESTful APIs ஆக உருவாக்குகிறோம்.\n\nஇந்த பணிக்காகப் பழைய Flask போன்றவற்றை முறியடித்து, FastAPI தற்போதைய industry standard ஆக உருவெடுத்துள்ளது. FastAPI natively asynchronous (async/await) programming-ஐ ஆதரிக்கிறது, இதனால் ஆயிரக்கணக்கான requests-ஐ எவ்வித தடையுமின்றி கையாள முடியும்—மெதுவான LLM generation-க்கு இது மிக அவசியம். மேலும், இது Pydantic மூலம் தரவுகளைக் கடுமையாகச் சரிபார்க்கிறது. ஒரு client தவறான JSON format-ஐ அனுப்பினால், மாடல் crash ஆவதற்கு முன்பே API அதைத் தடுத்து நிறுத்திவிடும்.",
-            "code": "from fastapi import FastAPI\nfrom pydantic import BaseModel\n\n# Initialize the high-speed ASGI framework\napp = FastAPI(title='ML Prediction Server')\n\n# Pydantic explicitly validates incoming JSON structure and types\nclass PredictionRequest(BaseModel):\n    user_text: str\n    confidence_threshold: float = 0.5\n\n@app.post('/api/predict')\nasync def get_prediction(request: PredictionRequest):\n    # Simulated Model Inference\n    # result = my_ml_model.predict(request.user_text)\n    \n    return {\n        'status': 'success',\n        'input': request.user_text,\n        'prediction': 'Positive Sentiment'\n    }\nprint('FastAPI Server Ready')",
+            "theory": "You've trained an incredible AI model, and it lives on your laptop. But how do you let an iPhone app in another country actually talk to it? An AI model is useless if it's trapped on your computer. You need to build a bridge. In the tech world, this bridge is called a REST API.\n\nWe wrap our AI model inside **FastAPI**. FastAPI acts like a high-speed receptionist. When the iPhone app sends a message across the internet (an HTTP request), FastAPI catches it, hands the message to your AI model, waits for the model's prediction, and then sends the answer back to the phone. FastAPI is incredibly popular because it is blazingly fast and has a strict bouncer (called Pydantic) that checks the incoming data. If the phone app accidentally sends a picture instead of text, Pydantic blocks it instantly before it can crash your AI model.",
+            "theory_tamil": "நீங்கள் ஒரு அற்புதமான AI மாடலைப் பயிற்றுவித்துவிட்டீர்கள், அது உங்கள் லேப்டாப்பில் உள்ளது. ஆனால் வேறொரு நாட்டில் உள்ள iPhone app அதனுடன் எப்படித் தொடர்புகொள்ளும்? உங்கள் கணினிக்குள் சிக்கியிருக்கும் AI மாடலால் எந்தப் பயனும் இல்லை. நீங்கள் ஒரு பாலத்தை உருவாக்க வேண்டும். தொழில்நுட்ப உலகில், இந்தப் பாலத்திற்கு REST API என்று பெயர்.\n\nநமது AI மாடலை **FastAPI**-க்குள் பொதிய வைக்கிறோம். FastAPI ஒரு அதிவேக வரவேற்பாளரைப் போலச் செயல்படுகிறது. iPhone app இணையம் வழியாக ஒரு செய்தியை அனுப்பும்போது (HTTP request), FastAPI அதைப் பிடித்து உங்கள் AI மாடலிடம் கொடுக்கிறது, மாடலின் கணிப்புக்காகக் காத்திருக்கிறது, பின்னர் பதிலை மீண்டும் ஃபோனுக்கே அனுப்புகிறது. FastAPI மிகவும் பிரபலமாக இருப்பதற்கு முக்கிய காரணம் அதன் அதீத வேகம் மற்றும் அதிலுள்ள கடுமையான காவலாளி (Pydantic). ஃபோன் app தவறுதலாக உரைக்குப் (text) பதிலாகப் படத்தை அனுப்பினால், அது உங்கள் AI மாடலை செயலிழக்கச் செய்வதற்கு முன்பாகவே Pydantic அதைத் தடுத்து நிறுத்திவிடும்.",
+            "code": "from fastapi import FastAPI\nfrom pydantic import BaseModel\n\n# We hire our receptionist (FastAPI)\napp = FastAPI()\n\n# We tell the bouncer (Pydantic) exactly what the incoming message must look like\nclass MessageFromPhone(BaseModel):\n    text_to_analyze: str\n\n# We set up the endpoint URL where the phone will send the message\n@app.post('/api/predict')\ndef get_prediction(msg: MessageFromPhone):\n    # We would pass msg.text_to_analyze to our AI model here\n    return {\n        'status': 'success',\n        'ai_answer': 'I think this text is very happy!'\n    }\nprint('API Web Server Online!')",
             "code_breakdown": [
-                "BaseModel (Pydantic): If the user passes a string instead of a float for 'confidence_threshold', FastAPI automatically rejects the request with a clear 422 HTTP Error.",
-                "async def: Allows the server to accept other incoming web requests while waiting for the heavy ML model prediction to compute.",
-                "@app.post: Decorator that maps the Python function to a web URL endpoint."
+                "FastAPI(): Starts the web server engine.",
+                "BaseModel (Pydantic): The data validator. It ensures 'text_to_analyze' is strictly a String. If the user sends a number, it rejects the request safely.",
+                "@app.post(): Opens a secure channel at the URL '/api/predict' waiting to receive data."
             ],
             "interviews": [
                 {
-                    "q": "What is the benefit of FastAPI's automatic Swagger/OpenAPI integration?",
-                    "a": "FastAPI automatically generates an interactive documentation page (at /docs) based on your Pydantic schemas. This allows frontend developers to instantly see what JSON format your ML API expects and test it directly in the browser without any extra work from you."
+                    "q": "Why is FastAPI preferred over older frameworks like Flask for AI?",
+                    "a": "Because AI models can be slow to generate answers (like ChatGPT typing out a response). FastAPI natively supports 'async' (asynchronous) code. This means while the AI is busy thinking for User 1, FastAPI can still answer the phone and accept requests from User 2 and User 3 at the same time without freezing!"
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which library does FastAPI heavily rely on to perform strict data validation on incoming JSON payloads?",
+                    "q": "What tool does FastAPI use to strictly validate incoming data and prevent crashes?",
                     "options": [
-                        "SQLAlchemy",
-                        "Requests",
-                        "Pydantic"
+                        "NumPy",
+                        "Pydantic",
+                        "PyTorch"
                     ],
-                    "ans": 2
+                    "ans": 1
                 }
             ],
             "exercise": "Print 'API Active'.",
@@ -569,27 +566,27 @@ const curriculum = {
         },
         {
             "title": "19. Docker Containerization",
-            "theory": "The most dreaded phrase in software engineering is 'It works on my machine.' A Python ML model might run perfectly on your Mac, but crash spectacularly on the production Linux server due to mismatched dependency versions (e.g., PyTorch v2.0 vs v2.1) or missing OS-level C++ drivers. Docker eradicates this problem entirely.\n\nDocker packages your application code, your `requirements.txt` libraries, and an isolated micro-Operating System into a single, immutable artifact called a Docker Image. When you run this image, it becomes a Docker Container. Because the container brings its own OS and environment with it, it guarantees 100% identical execution whether it is running on your laptop, an AWS cloud cluster, or a Kubernetes pod. This containerization is the non-negotiable foundation of modern CI/CD deployment pipelines.",
-            "theory_tamil": "மென்பொருள் பொறியியலில் மிகவும் அஞ்சப்படும் சொற்றொடர் 'என் கணினியில் வேலை செய்கிறது' (It works on my machine). உங்கள் Mac-ல் மிகச் சரியாக இயங்கும் Python ML model, production Linux server-ல் dependency version மாறுபாடுகளாலோ (எ.கா. PyTorch v2.0 vs v2.1) அல்லது C++ drivers இல்லாமலோ முற்றிலும் செயலிழக்கலாம். Docker இந்தப் பிரச்சனையை முற்றிலுமாக ஒழிக்கிறது.\n\nDocker உங்கள் application code, `requirements.txt` நூலகங்கள், மற்றும் ஒரு தனிமைப்படுத்தப்பட்ட micro-OS ஆகிய அனைத்தையும் ஒரே மாற்ற முடியாத (immutable) தொகுப்பாக மாற்றுகிறது, இதை Docker Image என்கிறோம். இந்த image-ஐ இயக்கும்போது அது Docker Container ஆக மாறுகிறது. Container தனக்கான OS மற்றும் environment-ஐ தன்னோடு கொண்டு செல்வதால், உங்கள் லேப்டாப், AWS cloud, அல்லது Kubernetes என எங்கு இயங்கினாலும் 100% ஒரே மாதிரியான செயல்பாட்டை உறுதி செய்கிறது. நவீன CI/CD deployment pipelines-க்கு இது மிகவும் அடிப்படையான கட்டாயத் தேவையாகும்.",
-            "code": "# Standard MLOps Dockerfile for a FastAPI Server\n\"\"\"\n# 1. Base Image: Use a slimmed-down Linux environment with Python pre-installed\nFROM python:3.11-slim\n\n# 2. Set the working directory inside the container\nWORKDIR /app\n\n# 3. Copy only dependencies first (Takes advantage of Docker layer caching)\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\n# 4. Copy the actual ML model and API code\nCOPY . .\n\n# 5. Expose the port FastAPI runs on\nEXPOSE 8000\n\n# 6. Command executed when the container starts\nCMD [\"uvicorn\", \"main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]\n\"\"\"\nprint('Dockerfile Configured')",
+            "theory": "Have you ever downloaded a game or software, and it crashed giving you a 'Missing DLL' error? As an engineer, the worst thing you can say is, 'Well, it works on my machine!' If you send your Python code to a production server, it might crash because the server has a different operating system or the wrong version of Python installed. \n\n**Docker** solves this forever. Docker acts like a magical shipping container. You put your AI code, the exact version of Python you used, and all the required libraries inside this container, and lock the doors. When you send this container to a server in the cloud, it doesn't care what operating system the server uses. The container opens up and runs its own mini-world inside. Because everything is sealed in the box, if it works on your laptop, it is 100% guaranteed to work perfectly on any server in the world.",
+            "theory_tamil": "நீங்கள் எப்போதாவது ஒரு கேம் அல்லது சாஃப்ட்வேரை டவுன்லோட் செய்து, அது 'Missing DLL' என்ற பிழையைக் காட்டி முடங்கியது உண்டா? ஒரு பொறியாளராக, நீங்கள் சொல்லக்கூடிய மிக மோசமான வார்த்தை, 'என் கணினியில் இது வேலை செய்கிறதே!' என்பதுதான். நீங்கள் உங்கள் Python குறியீட்டை ஒரு production server-க்கு அனுப்பும்போது, அந்த சர்வரில் வேறொரு OS அல்லது தவறான Python வெர்ஷன் இருந்தால் அது முடங்கிவிடும்.\n\n**Docker** இந்தப் பிரச்சனைக்கு நிரந்தரத் தீர்வு காண்கிறது. Docker ஒரு மேஜிக் சரக்குப் பெட்டகத்தைப் (shipping container) போலச் செயல்படுகிறது. உங்கள் AI குறியீடு, நீங்கள் பயன்படுத்திய சரியான Python வெர்ஷன், மற்றும் தேவையான அனைத்து நூலகங்களையும் இந்தப் பெட்டகத்திற்குள் வைத்துப் பூட்டிவிடுகிறீர்கள். இதை நீங்கள் cloud-ல் உள்ள ஒரு சர்வருக்கு அனுப்பும்போது, அந்த சர்வரில் என்ன OS உள்ளது என்பதைப் பற்றி அது கவலைப்படுவதில்லை. பெட்டகம் திறக்கப்பட்டு தனக்குள் ஒரு சிறிய உலகத்தை இயக்கிக் கொள்கிறது. எல்லாம் பெட்டிக்குள் முத்திரையிடப்பட்டிருப்பதால், உங்கள் லேப்டாப்பில் வேலை செய்தால், அது உலகின் எந்தச் சர்வரிலும் 100% துல்லியமாக வேலை செய்யும்.",
+            "code": "# This is a 'Dockerfile' - The recipe instruction manual for building our container\n\"\"\"\n# 1. Start with a mini-computer that already has Python installed\nFROM python:3.11-slim\n\n# 2. Make a folder inside the mini-computer called /app\nWORKDIR /app\n\n# 3. Copy our list of required libraries and install them\nCOPY requirements.txt .\nRUN pip install -r requirements.txt\n\n# 4. Copy our actual AI code into the mini-computer\nCOPY . .\n\n# 5. Tell the mini-computer what command to run when it turns on\nCMD [\"python\", \"my_api_server.py\"]\n\"\"\"\nprint('Docker Shipping Container Built!')",
             "code_breakdown": [
-                "FROM python:3.11-slim: We avoid pulling heavy OS images like full Ubuntu, using 'slim' to keep the container lightweight and fast to deploy.",
-                "COPY requirements.txt . BEFORE COPY . .: A massive optimization trick. Docker caches layers. If you only change your code but not your dependencies, Docker skips the slow pip install step.",
-                "CMD: Starts the Uvicorn ASGI server to serve the FastAPI app to the outside world."
+                "FROM: The foundation. We don't want a heavy Windows/Mac OS, so we use a 'slim' Linux that only has Python.",
+                "COPY: Takes files from your actual laptop and pastes them inside the container's isolated hard drive.",
+                "CMD: The final instruction. It's the command the container runs the second it finishes booting up."
             ],
             "interviews": [
                 {
                     "q": "What is the difference between a Docker Image and a Docker Container?",
-                    "a": "A Docker Image is the static, read-only blueprint (like a Class in OOP). A Docker Container is the live, running instance of that Image in RAM (like an Object in OOP). You can spin up thousands of containers from a single image."
+                    "a": "Think of an Image as the recipe card (the instructions). Think of a Container as the actual baked cake (the running program). You can use one Image (recipe) to bake hundreds of Containers (cakes) running at the same time!"
                 }
             ],
             "quizzes": [
                 {
-                    "q": "Which Dockerfile command determines the process that runs when the container starts up?",
+                    "q": "What is the main purpose of Docker?",
                     "options": [
-                        "RUN",
-                        "CMD",
-                        "COPY"
+                        "To make Python code run faster",
+                        "To package apps so they run identically on any machine",
+                        "To train Machine Learning models"
                     ],
                     "ans": 1
                 }
@@ -600,27 +597,27 @@ const curriculum = {
         },
         {
             "title": "20. Streamlit UI Prototyping",
-            "theory": "Historically, demonstrating a Machine Learning model to stakeholders required building a full-stack web application. Data Scientists, whose expertise lies in statistics and Python, were forced to grapple with React, HTML, CSS, and complex state management just to build a simple UI. Streamlit disrupted this entirely.\n\nStreamlit is an open-source framework that allows AI engineers to build highly interactive, beautiful Web UIs directly in pure Python in a matter of minutes. Under the hood, Streamlit uses a unique execution model: every time a user interacts with a widget (like clicking a button or uploading an image), Streamlit reruns the entire Python script from top to bottom, handling all frontend rendering automatically. It natively supports plotting libraries (Matplotlib, Plotly) and Pandas dataframes, making it the industry standard for rapid AI prototyping and internal dashboards.",
-            "theory_tamil": "வரலாற்றுரீதியாக, ஒரு Machine Learning மாடலை பங்குதாரர்களிடம் (stakeholders) காட்ட ஒரு முழுமையான full-stack web application-ஐ உருவாக்க வேண்டியிருந்தது. புள்ளிவிவரங்கள் மற்றும் Python-ல் வல்லுநர்களான Data Scientists, ஒரு எளிய UI-ஐ உருவாக்க React, HTML, CSS மற்றும் state management ஆகியவற்றோடு போராட வேண்டியிருந்தது. Streamlit இதை முற்றிலுமாக மாற்றியது.\n\nStreamlit என்பது ஒரு open-source framework ஆகும், இதன் மூலம் AI பொறியாளர்கள் மிகச் சில நிமிடங்களில், முழுக்க முழுக்க Python-லேயே அழகான interactive Web UI-களை உருவாக்கலாம். இதன் பின்புலத்தில் ஒரு தனித்துவமான execution முறை உள்ளது: பயனர் ஒரு widget-ஐப் பயன்படுத்தும் போதெல்லாம் (button-ஐ click செய்தல் அல்லது image-ஐ upload செய்தல்), Streamlit மொத்த Python script-ஐயும் மேலிருந்து கீழாக மீண்டும் இயக்கி, frontend rendering-ஐ தானாகவே கையாளுகிறது. இது Matplotlib, Pandas போன்றவற்றை நேரடியாக ஆதரிப்பதால், AI prototyping மற்றும் internal dashboards உருவாக்க இதுவே industry standard ஆக விளங்குகிறது.",
-            "code": "import streamlit as st\nimport pandas as pd\n\n# Automatically renders as a large H1 tag\nst.title('🤖 AI Sentiment Analysis Portal')\n\n# Renders an interactive React-based text input on the frontend\nuser_review = st.text_area('Paste customer review here:')\n\n# Renders a button. Evaluates to True only when clicked by the user.\nif st.button('Analyze Sentiment'):\n    with st.spinner('AI is processing...'):\n        # Simulated AI inference call\n        # sentiment = model.predict(user_review)\n        \n        st.success('Prediction: HIGHLY POSITIVE')\n        st.balloons() # Triggers frontend animation\n\nprint('Streamlit App Running')",
+            "theory": "Data Scientists are brilliant at math and Python, but ask them to build a beautiful website using HTML, CSS, and React JavaScript, and they will probably run away in terror. But if you can't build a webpage, how do you show off your cool new AI model to your boss or customers?\n\nEnter **Streamlit**. Streamlit is a magical open-source library that turns pure Python scripts into beautiful, interactive web apps in minutes. You don't need to know a single drop of HTML. You just type `st.title('My App')` in Python, and Streamlit instantly draws a big, beautiful header on a webpage. When a user clicks a button or types in a text box on the website, Streamlit automatically sends that info back to your Python script, runs your AI model, and prints the result on the screen. It is the ultimate tool for rapidly turning AI ideas into clickable prototypes.",
+            "theory_tamil": "Data Scientists கணிதம் மற்றும் Python-ல் வல்லவர்கள், ஆனால் HTML, CSS மற்றும் React JavaScript-ஐப் பயன்படுத்தி ஒரு அழகான வலைத்தளத்தை (website) உருவாக்கச் சொன்னால், அவர்கள் பயந்து ஓடிவிடுவார்கள். ஆனால் உங்களால் ஒரு வலைத்தளத்தை உருவாக்க முடியாவிட்டால், உங்களின் புதிய AI மாடலை உங்கள் பாஸிடமோ அல்லது வாடிக்கையாளர்களிடமோ எப்படிக் காட்டுவீர்கள்?\n\nஇங்குதான் **Streamlit** வருகிறது. Streamlit என்பது ஒரு மேஜிக்கலான open-source நூலகமாகும். இது சாதாரண Python script-ஐயே சில நிமிடங்களில் அழகான, interactive web apps ஆக மாற்றுகிறது. உங்களுக்கு HTML சிறிதளவும் தெரிந்திருக்க வேண்டியதில்லை. Python-ல் `st.title('My App')` என்று எழுதினால் போதும், Streamlit உடனடியாக வலைத்தளத்தில் ஒரு பெரிய, அழகான தலைப்பை வரைந்துவிடும். வலைத்தளத்தில் ஒரு பயனர் ஒரு பட்டனை கிளிக் செய்தாலோ அல்லது ஒரு text box-ல் தட்டச்சு செய்தாலோ, Streamlit தானாகவே அந்தத் தகவலை உங்கள் Python script-க்கு அனுப்பி, உங்கள் AI மாடலை இயக்கி, முடிவை திரையில் காட்டும். AI ஐடியாக்களை கிளிக் செய்யக்கூடிய prototypes ஆக மாற்றுவதற்கான மிகச்சிறந்த கருவி இதுவே.",
+            "code": "import streamlit as st\n\n# Streamlit turns this Python code into a beautiful Web UI instantly!\nst.title('🤖 My First AI Web App')\n\n# This creates a text box on the website and saves what the user types\nuser_text = st.text_area('Write a sentence here:')\n\n# This creates a clickable button on the website\nif st.button('Predict Sentiment'):\n    \n    # This creates a cool loading spinner while the AI thinks\n    with st.spinner('The AI is thinking...'):\n        # ai_answer = model.predict(user_text)\n        \n        # This prints a beautiful green success box on the website\n        st.success('Prediction: POSITIVE!')\n        \n        # Drops celebration balloons on the screen!\n        st.balloons()\n\nprint('Streamlit App Code Ready!')",
             "code_breakdown": [
-                "st.title() / st.write(): Functions that translate Python strings directly into beautifully styled HTML elements.",
-                "st.text_area(): Creates a two-way binding. The text typed by the user on the webpage is instantly captured in the Python variable 'user_review'.",
-                "st.spinner(): Temporarily displays a loading UI to the user while the heavy ML model computes the answer in the background."
+                "st.title(): Draws a large, bold HTML Header.",
+                "st.text_area(): Creates an interactive input box. Whatever the user types is instantly passed into the 'user_text' Python variable.",
+                "st.spinner(): Essential for AI apps! Since AI takes a few seconds to think, the spinner tells the user the app isn't frozen."
             ],
             "interviews": [
                 {
-                    "q": "If Streamlit reruns the entire script on every button click, won't it reload the massive 5GB ML model every time and crash?",
-                    "a": "Yes, it would. To prevent this, Streamlit provides the `@st.cache_resource` decorator. You place it above your model loading function, ensuring the 5GB model is loaded into RAM only once and kept alive across all script reruns."
+                    "q": "How does Streamlit handle interactivity without using Javascript?",
+                    "a": "Streamlit uses a unique trick: Every time a user interacts with a widget (like clicking a button or moving a slider), Streamlit simply reruns the ENTIRE Python script from top to bottom, updating the screen with the new variables."
                 }
             ],
             "quizzes": [
                 {
-                    "q": "What happens to the Python script when a user clicks a Streamlit button?",
+                    "q": "What is the primary use case for Streamlit?",
                     "options": [
-                        "Only the button's callback function runs",
-                        "The entire script reruns from top to bottom",
-                        "It sends a REST API request to the backend"
+                        "Training Deep Learning Models",
+                        "Rapidly building Web UIs for AI using only Python",
+                        "Database management"
                     ],
                     "ans": 1
                 }
