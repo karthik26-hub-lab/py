@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Flashcards</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #f5f5f7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent: #5856d6;
+            --success: #34c759;
+            --border: rgba(0, 0, 0, 0.08);
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; 
+            background: url('https://www.apple.com/v/macbook-pro-14-and-16/b/images/overview/hero/hero_intro_endframe__e6khcva4hkeq_large.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            color: var(--text-primary); 
+            margin: 0; display: flex; height: 100vh; overflow: hidden; 
+            -webkit-font-smoothing: antialiased; 
+            align-items: center; justify-content: center;
+        }
+
+        .app-container { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 100%; height: 100%; 
+            background: rgba(255,255,255,0.65); 
+            backdrop-filter: saturate(180%) blur(40px); 
+            -webkit-backdrop-filter: saturate(180%) blur(40px); 
+            padding: 20px;
+        }
+
+        .header {
+            position: absolute; top: 0; left: 0; width: 100%; 
+            padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.4); border-bottom: 1px solid var(--border);
+        }
+
+        .filter-select {
+            padding: 10px 20px; border-radius: 20px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.8); font-size: 1rem; font-weight: 500; outline: none;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .progress-wrapper { display: flex; align-items: center; gap: 15px; }
+        .mastered-count { font-weight: 600; color: var(--accent); font-size: 1.1rem; }
+        .progress-bar { width: 200px; height: 8px; background: rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.4s ease; }
+
+        /* 3D Scene */
+        .scene { width: 600px; height: 400px; perspective: 1000px; margin-bottom: 40px; }
+        .card { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
+        .card.is-flipped { transform: rotateY(180deg); }
+        
+        .card-face {
+            position: absolute; width: 100%; height: 100%; 
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            background: rgba(255,255,255,0.9); border: 1px solid var(--border);
+            border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px; text-align: center;
+        }
+        
+        .card-front { background: rgba(255,255,255,0.95); }
+        .card-back { background: #fafafa; transform: rotateY(180deg); }
+
+        .card-q { font-size: 1.8rem; font-weight: 600; color: #1d1d1f; line-height: 1.4; margin-bottom: 20px;}
+        .card-a { font-size: 1.3rem; font-weight: 400; color: #333; line-height: 1.6; }
+        .topic-tag { position: absolute; top: 20px; left: 20px; background: rgba(88, 86, 214, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;}
+        
+        .hint-text { position: absolute; bottom: 20px; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.7;}
+
+        /* Controls */
+        .controls { display: flex; gap: 20px; }
+        .btn { padding: 15px 40px; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
+        .btn-skip { background: rgba(0,0,0,0.05); color: #555; }
+        .btn-skip:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
+        .btn-master { background: var(--success); color: #fff; box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3); }
+        .btn-master:hover { background: #2fb350; transform: scale(1.05); box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4); }
+
+        /* Confetti */
+        .confetti { position: absolute; width: 10px; height: 10px; background: #f00; animation: fall 1s linear forwards; pointer-events: none;}
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+
+        .end-screen { display: none; flex-direction: column; align-items: center; text-align: center; }
+        .end-screen h1 { font-size: 3rem; margin-bottom: 10px; }
+        .end-screen p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 30px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div class="header">
+            <select id="topicFilter" class="filter-select" onchange="applyFilter()">
+                <option value="All">Overall Interview Mode</option>
+                <option value="Basics">Basics & Syntax</option>
+                <option value="Data Structures">Data Structures</option>
+                <option value="OOP">Object Oriented Programming</option>
+                <option value="Advanced">Advanced (Decorators, Generators)</option>
+                <option value="Machine Learning">Machine Learning</option>
+            </select>
+            
+            <div class="progress-wrapper">
+                <div class="mastered-count" id="countDisplay">0 / 0 Mastered</div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
+        </div>
+
+        <!-- End Screen -->
+        <div class="end-screen" id="endScreen">
+            <h1>🏆 Mastery Complete!</h1>
+            <p>You have successfully mastered all questions in this category.</p>
+            <button class="btn btn-master" onclick="resetDeck()">Reset Deck</button>
+        </div>
+
+        <!-- Card UI -->
+        <div class="scene" id="cardScene">
+            <div class="card" id="flashcard" onclick="flipCard()">
+                <div class="card-face card-front">
+                    <span class="topic-tag" id="cardTopic">Topic</span>
+                    <div class="card-q" id="cardQ">Question goes here</div>
+                    <div class="hint-text">Click card to reveal answer</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-a" id="cardA">Answer goes here</div>
+                    <div class="hint-text">Click to hide</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls" id="controls">
+            <button class="btn btn-skip" onclick="skipCard()">Skip (Review Later)</button>
+            <button class="btn btn-master" onclick="masterCard()">✅ Mastered!</button>
+        </div>
+
+    </div>
+
+    <script>
+        const database = [
+            { q: "What is dynamic typing in Python?", a: "You don't have to specify the type of a variable (like int or string) when creating it. Python figures it out at runtime.", topic: "Basics" },
+            { q: "Does Python use braces {} for if statements?", a: "No, Python uses indentation (spaces/tabs) to define code blocks.", topic: "Basics" },
+            { q: "What is the difference between break and continue?", a: "Break completely exits the loop. Continue skips the rest of the current iteration and moves to the next one.", topic: "Basics" },
+            { q: "What is the difference between a parameter and an argument?", a: "Parameter is the variable in the function declaration. Argument is the actual value passed in when calling.", topic: "Basics" },
+            
+            { q: "What is the time complexity of looking up a key in a dictionary?", a: "O(1) average case, because it uses a hash table internally.", topic: "Data Structures" },
+            { q: "Are Python Tuples mutable or immutable?", a: "Immutable. Once created, you cannot change, add, or remove items. This makes them faster and more memory-efficient than Lists.", topic: "Data Structures" },
+            { q: "How do you safely avoid a KeyError in a dictionary?", a: "Use the .get() method instead of bracket notation. e.g., my_dict.get('key', 'default_value')", topic: "Data Structures" },
+            { q: "What is a List Comprehension?", a: "A concise, C-speed syntax to create a new list based on an existing list. Example: [x*x for x in nums]", topic: "Data Structures" },
+            { q: "What is the difference between shallow copy and deep copy?", a: "copy() copies outer container references. deepcopy() creates fully independent clones recursively.", topic: "Data Structures" },
+            
+            { q: "What is 'self' in a Python class?", a: "It binds the attributes with the given arguments. It's how methods know which instance of the object they belong to.", topic: "OOP" },
+            { q: "What does the super() function do?", a: "It returns a temporary object of the superclass, allowing you to call its methods (like its __init__ constructor).", topic: "OOP" },
+            { q: "Are private variables truly private in Python?", a: "No, nothing is strictly private. The __ double underscore just 'mangles' the name to prevent accidental access.", topic: "OOP" },
+            { q: "What is a dunder/magic method?", a: "Methods with double underscores before and after, like __init__ or __str__, that hook into built-in Python behaviors.", topic: "OOP" },
+            
+            { q: "What is a Decorator fundamentally?", a: "A higher-order function that takes a function as an argument and returns a modified function, without permanently changing the source code.", topic: "Advanced" },
+            { q: "Why use yield instead of return?", a: "Return sends everything at once, consuming memory. Yield streams items one at a time, creating a Generator that is highly memory-efficient.", topic: "Advanced" },
+            { q: "What do *args and **kwargs do?", a: "*args packs extra positional arguments into a Tuple. **kwargs packs extra named arguments into a Dictionary.", topic: "Advanced" },
+            { q: "What is an anonymous function?", a: "A Lambda function. A small, one-line function without a def block, used for short throwaway logic.", topic: "Advanced" },
+            
+            { q: "What is the difference between a Pandas Series and a DataFrame?", a: "A Series is a 1D column. A DataFrame is a 2D table made up of multiple Series.", topic: "Machine Learning" },
+            { q: "Why is NumPy faster than Python lists?", a: "NumPy arrays are stored continuously in memory and use C-backed vectorization to apply operations to entire arrays instantly.", topic: "Machine Learning" },
+            { q: "What does the fit() function do in Scikit-Learn?", a: "It trains the Machine Learning algorithm on the provided dataset.", topic: "Machine Learning" },
+            { q: "What is overfitting?", a: "When a model learns the training data too perfectly (memorizing noise), causing it to perform poorly on new, unseen data.", topic: "Machine Learning" }
+        ];
+
+        let currentDeck = [];
+        let currentIndex = 0;
+        let masteredCount = 0;
+        let totalCards = 0;
+        
+        const cardEl = document.getElementById('flashcard');
+        let isFlipped = false;
+
+        function applyFilter() {
+            const filter = document.getElementById('topicFilter').value;
+            if (filter === "All") {
+                currentDeck = [...database];
+            } else {
+                currentDeck = database.filter(q => q.topic === filter);
+            }
+            
+            // Shuffle
+            currentDeck.sort(() => Math.random() - 0.5);
+            
+            totalCards = currentDeck.length;
+            masteredCount = 0;
+            currentIndex = 0;
+            
+            updateUI();
+        }
+
+        function updateUI() {
+            if (currentDeck.length === 0) {
+                document.getElementById('cardScene').style.display = 'none';
+                document.getElementById('controls').style.display = 'none';
+                document.getElementById('endScreen').style.display = 'flex';
+                fireConfetti();
+            } else {
+                document.getElementById('cardScene').style.display = 'block';
+                document.getElementById('controls').style.display = 'flex';
+                document.getElementById('endScreen').style.display = 'none';
+                
+                // Unflip if flipped
+                if (isFlipped) {
+                    cardEl.classList.remove('is-flipped');
+                    isFlipped = false;
+                    setTimeout(loadCardData, 300); // Wait for flip animation
+                } else {
+                    loadCardData();
+                }
+            }
+            
+            document.getElementById('countDisplay').innerText = `${masteredCount} / ${totalCards} Mastered`;
+            const pct = (masteredCount / totalCards) * 100;
+            document.getElementById('progressFill').style.width = `${pct}%`;
+        }
+
+        function loadCardData() {
+            if(currentDeck.length > 0) {
+                document.getElementById('cardQ').innerText = currentDeck[currentIndex].q;
+                document.getElementById('cardA').innerText = currentDeck[currentIndex].a;
+                document.getElementById('cardTopic').innerText = currentDeck[currentIndex].topic;
+            }
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            cardEl.classList.toggle('is-flipped');
+        }
+
+        function skipCard() {
+            // Move to end of deck
+            const card = currentDeck.splice(currentIndex, 1)[0];
+            currentDeck.push(card);
+            
+            if (isFlipped) {
+                flipCard();
+                setTimeout(loadCardData, 300);
+            } else {
+                // Add a little slide animation
+                cardEl.style.transform = "translateX(-50px) rotate(-5deg)";
+                cardEl.style.opacity = "0";
+                setTimeout(() => {
+                    loadCardData();
+                    cardEl.style.transition = "none";
+                    cardEl.style.transform = "translateX(50px) rotate(5deg)";
+                    setTimeout(() => {
+                        cardEl.style.transition = "transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.6s";
+                        cardEl.style.transform = "translateX(0) rotate(0)";
+                        cardEl.style.opacity = "1";
+                    }, 50);
+                }, 300);
+            }
+        }
+
+        function masterCard() {
+            // Remove from deck
+            currentDeck.splice(currentIndex, 1);
+            masteredCount++;
+            
+            if (isFlipped) {
+                flipCard();
+                setTimeout(updateUI, 300);
+            } else {
+                // Slide out right
+                cardEl.style.transform = "translateX(50px) rotate(5deg)";
+                cardEl.style.opacity = "0";
+                setTimeout(() => {
+                    updateUI();
+                    cardEl.style.transition = "none";
+                    cardEl.style.transform = "translateX(-50px) rotate(-5deg)";
+                    setTimeout(() => {
+                        cardEl.style.transition = "transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.6s";
+                        cardEl.style.transform = "translateX(0) rotate(0)";
+                        cardEl.style.opacity = "1";
+                    }, 50);
+                }, 300);
+            }
+        }
+
+        function resetDeck() {
+            applyFilter();
+        }
+
+        function fireConfetti() {
+            for(let i=0; i<50; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.top = -10 + 'px';
+                conf.style.backgroundColor = ['#ff3b30', '#34c759', '#0071e3', '#ffcc00'][Math.floor(Math.random()*4)];
+                conf.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                document.body.appendChild(conf);
+                setTimeout(() => conf.remove(), 3000);
+            }
+        }
+
+        // Init
+        applyFilter();
+    </script>
+</body>
+</html>
