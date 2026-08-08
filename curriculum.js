@@ -18,8 +18,9 @@ const curriculum = {
             quizzes: [
                 { q: "Which of the following is NOT an IDE?", options: ["A) VS Code", "B) PyCharm", "C) Microsoft Word"], ans: 2 }
             ],
-            exercise: "Print your name to the terminal.",
-            starter_code: "print('Player 1')"
+            exercise: "Use the print function to output exactly: 'Player 1 Ready'",
+            starter_code: "print('Player 1 Ready')",
+            expected_output: "Player 1 Ready"
         },
         {
             title: "2. Variables and Data Types",
@@ -41,8 +42,9 @@ const curriculum = {
                 { q: "Which variable name is invalid in Python?", options: ["A) _score", "B) 1st_player", "C) player_one"], ans: 1 },
                 { q: "What data type is the value 3.14?", options: ["A) String", "B) Integer", "C) Float"], ans: 2 }
             ],
-            exercise: "Create a float variable called 'price' and set it to 9.99.",
-            starter_code: "price = 9.99\nprint(price)"
+            exercise: "Create a variable called 'price' and set it to 9.99. Print it.",
+            starter_code: "price = 9.99\nprint(price)",
+            expected_output: "9.99"
         },
         {
             title: "3. Conditionals & Loops",
@@ -64,8 +66,9 @@ const curriculum = {
                 { q: "What does the modulo (%) operator do?", options: ["A) Calculates percentage", "B) Returns the remainder of division", "C) Divides two numbers"], ans: 1 },
                 { q: "Which keyword skips the current loop iteration?", options: ["A) stop", "B) break", "C) continue"], ans: 2 }
             ],
-            exercise: "Write a for loop that prints the numbers 0 to 4.",
-            starter_code: "for i in range(5):\n    print(i)"
+            exercise: "Write a loop that adds 0, 1, 2, 3, and 4 together. Print the final sum.",
+            starter_code: "total = 0\nfor i in range(5):\n    total += i\nprint(total)",
+            expected_output: "10"
         }
     ],
     "Phase 1.5: Intermediate Python ($500 Masterclass)": [
@@ -92,8 +95,9 @@ const curriculum = {
                 { q: "Which syntax is used for the condition in a List Comprehension?", options: ["A) while condition:", "B) filter(condition)", "C) if condition"], ans: 2 },
                 { q: "True or False: List comprehensions are generally faster than standard for-loops in Python.", options: ["A) True", "B) False", "C) Only for floats"], ans: 0 }
             ],
-            exercise: "Create a list comprehension that converts all names in the list to uppercase.",
-            starter_code: "names = ['karthik', 'john', 'doe']\n# Your code here:\nupper_names = [n.upper() for n in names]\nprint(upper_names)"
+            exercise: "Create a list comprehension that converts all names to uppercase. Print only the first name in the new list.",
+            starter_code: "names = ['karthik', 'john', 'doe']\n# Your code here:\nupper_names = [n.upper() for n in names]\nprint(upper_names[0])",
+            expected_output: "KARTHIK"
         },
         {
             title: "18.2 *args and **kwargs Deep Dive",
@@ -118,8 +122,9 @@ const curriculum = {
                 { q: "What data type does *args compile into?", options: ["A) Tuple", "B) List", "C) Dictionary"], ans: 0 },
                 { q: "Which is the correct order for parameters in a function signature?", options: ["A) *args, normal, **kwargs", "B) normal, *args, **kwargs", "C) **kwargs, *args, normal"], ans: 1 }
             ],
-            exercise: "Write a function using *args that adds an unlimited amount of numbers together and returns the sum.",
-            starter_code: "def add_all(*args):\n    return sum(args)\n\nprint(add_all(10, 20, 30, 40))"
+            exercise: "Write a function using *args that adds an unlimited amount of numbers together and returns the sum. Print the result of passing 10, 20, 30, and 40 into it.",
+            starter_code: "def add_all(*args):\n    return sum(args)\n\nprint(add_all(10, 20, 30, 40))",
+            expected_output: "100"
         }
     ]
 };

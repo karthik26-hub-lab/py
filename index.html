@@ -9,7 +9,6 @@
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 
     <style>
-        /* High-End Apple Aesthetic */
         @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
         
         :root {
@@ -25,178 +24,126 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; background-color: var(--bg-color); color: var(--text-primary); display: flex; height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
+
+        /* --- CINEMATIC INTRO OVERLAY --- */
+        .intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #fff; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
+        }
+        .intro-overlay.hidden { opacity: 0; visibility: hidden; }
         
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+        .intro-content { text-align: center; max-width: 800px; animation: slideUp 1s ease 0.5s both;}
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .intro-content h1 { font-size: 3.5rem; letter-spacing: -1.5px; margin-bottom: 20px; background: linear-gradient(90deg, #fff, #a1a1a6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+        .intro-content p { font-size: 1.2rem; color: #a1a1a6; margin-bottom: 50px; }
 
-        /* Top Navigation Bar */
-        .top-nav {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 50px;
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            z-index: 1000;
-        }
+        .flowchart { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 60px;}
+        .fc-node { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 500; letter-spacing: 1px; transition: all 0.3s;}
+        .fc-node.highlight { background: #0071e3; border-color: #0071e3; color: white; transform: scale(1.05); box-shadow: 0 0 30px rgba(0, 113, 227, 0.4);}
+        .fc-arrow { color: #a1a1a6; font-size: 1.5rem; }
 
-        .menu-toggle {
-            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary);
-            transition: transform 0.2s;
+        .begin-btn {
+            background: #fff; color: #000; border: none; padding: 18px 40px; border-radius: 30px;
+            font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
         }
+        .begin-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+
+        /* --- MAIN UI --- */
+        .top-nav { position: fixed; top: 0; left: 0; width: 100%; height: 50px; background: rgba(255,255,255,0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; }
+        .menu-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary); transition: transform 0.2s; }
         .menu-toggle:hover { transform: scale(1.1); }
-
         .brand { font-weight: 600; font-size: 1.2rem; letter-spacing: -0.5px;}
 
-        /* Player Profile in Nav */
         .player-profile { display: flex; align-items: center; gap: 15px; }
         .level-badge { font-weight: 600; color: var(--accent); font-size: 0.95rem; }
         .xp-bar-container { width: 100px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
         .xp-bar-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
 
-        /* Collapsible Sidebar */
-        .sidebar {
-            width: 320px;
-            height: calc(100vh - 50px);
-            margin-top: 50px;
-            background: var(--bg-color);
-            border-right: 1px solid var(--border);
-            padding: 20px 15px;
-            overflow-y: auto;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: absolute;
-            left: 0;
-            z-index: 900;
-        }
+        .sidebar { width: 320px; height: calc(100vh - 50px); margin-top: 50px; background: var(--bg-color); border-right: 1px solid var(--border); padding: 20px 15px; overflow-y: auto; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; left: 0; z-index: 900; }
         .sidebar.collapsed { transform: translateX(-320px); }
-
         .nav-group { margin-bottom: 20px; }
         .nav-title { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-left: 10px;}
-        
-        .nav-item {
-            padding: 10px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 4px;
-            transition: all 0.2s;
-        }
+        .nav-item { padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; transition: all 0.2s; }
         .nav-item:hover:not(.locked) { background: rgba(0,0,0,0.04); }
         .nav-item.active { background: #e8f2ff; color: var(--accent); font-weight: 600; }
-        
-        .nav-item.locked {
-            color: var(--text-secondary);
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
+        .nav-item.locked { color: var(--text-secondary); cursor: not-allowed; opacity: 0.6; }
         .lock-icon { font-size: 0.8rem; }
 
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            height: calc(100vh - 50px);
-            margin-top: 50px;
-            margin-left: 320px; /* matches sidebar width */
-            padding: 40px;
-            overflow-y: auto;
-            display: flex;
-            justify-content: center;
-            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .main-content { flex: 1; height: calc(100vh - 50px); margin-top: 50px; margin-left: 320px; padding: 40px; overflow-y: auto; display: flex; justify-content: center; transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .main-content.expanded { margin-left: 0; }
-
-        .lesson-container {
-            background: #fff;
-            border-radius: 18px;
-            padding: 50px;
-            max-width: 900px;
-            width: 100%;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-            border: 1px solid var(--border);
-            height: fit-content;
-            margin-bottom: 50px;
-        }
+        .lesson-container { background: #fff; border-radius: 18px; padding: 50px; max-width: 900px; width: 100%; box-shadow: 0 4px 24px rgba(0,0,0,0.04); border: 1px solid var(--border); height: fit-content; margin-bottom: 50px; }
 
         h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 30px; }
         h2 { font-size: 1.5rem; font-weight: 600; margin-top: 30px; margin-bottom: 15px; letter-spacing: -0.5px;}
         p { line-height: 1.6; color: #333; margin-bottom: 15px; font-size: 1.05rem;}
 
-        /* Tabs */
-        .tabs {
-            display: flex; gap: 8px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px;
-        }
-        .tab-btn {
-            background: none; border: none; font-size: 1rem; font-weight: 500; color: var(--text-secondary);
-            padding: 8px 16px; cursor: pointer; border-radius: 8px; transition: all 0.2s;
-        }
+        .tabs { display: flex; gap: 8px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .tab-btn { background: none; border: none; font-size: 1rem; font-weight: 500; color: var(--text-secondary); padding: 8px 16px; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
         .tab-btn:hover { background: rgba(0,0,0,0.04); }
         .tab-btn.active { color: var(--text-primary); font-weight: 600; background: rgba(0,0,0,0.04); }
-        
         .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Code Breakdown Table */
-        .breakdown-box {
-            background: #fbfbfd; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 15px;
-        }
+        .breakdown-box { background: #fbfbfd; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 15px; }
         .breakdown-line { margin-bottom: 10px; font-size: 0.95rem; border-bottom: 1px solid var(--border); padding-bottom: 10px;}
         .breakdown-line:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
         .breakdown-line strong { font-family: monospace; background: rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 4px; color: var(--accent);}
 
-        /* Interview Cards */
-        .interview-card {
-            background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
+        .interview-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
         .interview-q { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); margin-bottom: 10px;}
         .interview-a { color: #444; font-size: 1rem; }
 
-        /* Quiz UI */
         .quiz-card { background: #fbfbfd; border: 1px solid var(--border); border-radius: 12px; padding: 25px; margin-bottom: 25px; }
         .quiz-q { font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; }
-        .quiz-opt {
-            background: #fff; border: 1px solid var(--border); padding: 12px 20px; border-radius: 8px;
-            margin-bottom: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.95rem;
-        }
+        .quiz-opt { background: #fff; border: 1px solid var(--border); padding: 12px 20px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; }
         .quiz-opt:hover { border-color: var(--accent); }
         .quiz-opt.wrong { border-color: var(--error); background: #fff0f0; color: var(--error); animation: shake 0.4s; }
         .quiz-opt.correct { border-color: var(--success); background: #f0fff4; color: var(--success); pointer-events: none;}
         .quiz-opt.disabled { pointer-events: none; opacity: 0.6; }
-        
-        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
 
-        /* Editor */
         .editor-container { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 25px; }
         py-repl { --py-repl-background: #1e1e1e; --py-repl-color: #d4d4d4; }
         .code-block { background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 12px; font-family: monospace; overflow-x: auto; margin-bottom: 20px;}
 
-        /* Submit Button */
-        .submit-btn {
-            background: var(--accent); color: #fff; border: none; padding: 12px 24px; border-radius: 20px;
-            font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; float: right;
-        }
+        /* Verification Box */
+        .verify-box { background: #f0f7ff; border: 1px solid #cce0ff; padding: 25px; border-radius: 12px; margin-bottom: 30px; }
+        .verify-input { width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; font-family: monospace; margin-top: 10px; margin-bottom: 15px; outline: none; transition: border-color 0.2s;}
+        .verify-input:focus { border-color: var(--accent); }
+        .verify-btn { background: #000; color: #fff; padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
+        .verify-btn:hover { background: #333; }
+        #verifyStatus { margin-top: 15px; font-weight: 600; }
+
+        .submit-btn { background: var(--accent); color: #fff; border: none; padding: 12px 24px; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; float: right; }
         .submit-btn:hover { background: #005bb5; }
-        .submit-btn:disabled { background: var(--locked); cursor: not-allowed; }
+        .submit-btn:disabled { background: var(--locked); cursor: not-allowed; color: #888;}
 
     </style>
 </head>
 <body>
+
+    <!-- Cinematic Roadmap Intro -->
+    <div id="introScreen" class="intro-overlay">
+        <div class="intro-content">
+            <h1>Mastering Python</h1>
+            <p>Welcome to the $500 Masterclass. Your journey begins here.</p>
+            
+            <div class="flowchart">
+                <div class="fc-node">Phase 1: Fundamentals</div>
+                <div class="fc-arrow">↓</div>
+                <div class="fc-node highlight">Phase 1.5: Intermediate Masterclass</div>
+                <div class="fc-arrow">↓</div>
+                <div class="fc-node">Phase 2: Databases</div>
+                <div class="fc-arrow">↓</div>
+                <div class="fc-node">Phase 3: Algorithms</div>
+            </div>
+
+            <button class="begin-btn" onclick="startJourney()">Begin Journey</button>
+        </div>
+    </div>
 
     <!-- Top Navigation -->
     <div class="top-nav">
@@ -210,19 +157,29 @@
         </div>
     </div>
 
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar"></div>
 
-    <!-- Main Content -->
     <div class="main-content" id="mainContent">
-        <div class="lesson-container" id="lessonContainer">
-            <h1>Welcome to the Premium Engine</h1>
-            <p>Select Topic 1 from the sidebar to begin your $500-level course experience.</p>
-        </div>
+        <div class="lesson-container" id="lessonContainer"></div>
     </div>
 
     <script src="curriculum.js"></script>
     <script>
+        // --- Cinematic Intro Logic ---
+        if (!localStorage.getItem('roadmap_seen')) {
+            // Show intro (default CSS is visible)
+        } else {
+            document.getElementById('introScreen').style.display = 'none';
+        }
+
+        function startJourney() {
+            localStorage.setItem('roadmap_seen', 'true');
+            document.getElementById('introScreen').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('introScreen').style.display = 'none';
+            }, 1000);
+        }
+
         // --- UI Logic ---
         let sidebarOpen = true;
         function toggleSidebar() {
@@ -235,7 +192,6 @@
         let playerXP = parseInt(localStorage.getItem('pm_xp')) || 0;
         let maxUnlockedIndex = parseInt(localStorage.getItem('pm_max_index')) || 0;
         
-        // Flatten the curriculum topics into a single array to track global progression index
         let flatCurriculum = [];
         for (const phase in curriculum) {
             curriculum[phase].forEach(topic => {
@@ -278,22 +234,22 @@
         }
 
         // --- Lesson Engine ---
-        let currentGlobalIndex = null;
+        let currentGlobalIndex = 0; // Default to 0
         let currentLesson = null;
         let quizzesPassed = 0;
+        let codeVerified = false;
 
         function loadLesson(gIndex) {
             currentGlobalIndex = gIndex;
             currentLesson = flatCurriculum[gIndex];
-            quizzesPassed = 0; // reset quizzes
+            quizzesPassed = 0; 
+            codeVerified = false;
             
-            renderSidebar(); // update active class
+            renderSidebar(); 
 
-            // Build Theory Tab
             let theoryHtml = `<p>${currentLesson.theory}</p>
-                              ${currentLesson.theory_examples ? `<h3>Real-Life Examples</h3><ul>${currentLesson.theory_examples.map(ex => `<li>${ex}</li>`).join('')}</ul>` : ''}`;
+                              ${currentLesson.theory_examples ? `<h3 style="margin-top:20px;">Real-Life Examples</h3><ul>${currentLesson.theory_examples.map(ex => `<li>${ex}</li>`).join('')}</ul>` : ''}`;
 
-            // Build Code Tab
             let codeHtml = `<div class="code-block"><pre>${currentLesson.code}</pre></div>`;
             if (currentLesson.code_breakdown) {
                 codeHtml += `<div class="breakdown-box">
@@ -302,7 +258,6 @@
                              </div>`;
             }
 
-            // Build Interview Tab
             let interviewHtml = '';
             if (currentLesson.interviews) {
                 currentLesson.interviews.forEach(int => {
@@ -316,10 +271,10 @@
                 });
             }
 
-            // Build Mission Tab (Multiple Quizzes + Code Editor)
-            let missionHtml = `<h3>Master Mission Validation</h3><p>You must pass the evaluation before submitting your code.</p>`;
+            let missionHtml = ``;
             
             if (currentLesson.quizzes) {
+                missionHtml += `<h3>Step 1: Concept Verification</h3><p>You must pass the evaluation before writing code.</p>`;
                 currentLesson.quizzes.forEach((qObj, qIdx) => {
                     missionHtml += `
                         <div class="quiz-card" id="quiz-${qIdx}">
@@ -333,11 +288,20 @@
             }
 
             missionHtml += `
-                <h3 style="margin-top:30px;">Interactive Coding Task</h3>
+                <h3 style="margin-top:30px;">Step 2: Interactive Coding Task</h3>
                 <p>${currentLesson.exercise}</p>
                 <div class="editor-container">
                     <py-repl id="repl-${Math.random()}" auto-generate="true">${currentLesson.starter_code}</py-repl>
                 </div>
+                
+                <div class="verify-box">
+                    <h4 style="margin-bottom:5px;">Step 3: Output Verification</h4>
+                    <p style="font-size:0.95rem; color:#555; margin-bottom:0;">Run your code above. What exactly did it print in the terminal?</p>
+                    <input type="text" id="verifyInput" class="verify-input" placeholder="Type terminal output here..." autocomplete="off">
+                    <button class="verify-btn" onclick="verifyOutput()">Verify Code Output</button>
+                    <div id="verifyStatus"></div>
+                </div>
+
                 <button id="submitBtn" class="submit-btn" disabled onclick="submitMission()">Submit Mission 🔒</button>
                 <div style="clear:both;"></div>
             `;
@@ -357,7 +321,7 @@
             `;
             
             document.getElementById('lessonContainer').innerHTML = html;
-            checkMissionUnlock(); // In case there are no quizzes
+            checkMissionUnlock();
         }
 
         // --- Interaction Logic ---
@@ -368,13 +332,11 @@
             btn.classList.add('active');
         }
 
-        // Fix for quiz clicking bug: using direct inline parameters cleanly.
         window.handleQuizClick = function(qIdx, optIdx, correctAns, element) {
             if (element.classList.contains('disabled') || element.classList.contains('correct')) return;
 
             if (optIdx === correctAns) {
                 element.classList.add('correct');
-                // Disable other options in this specific quiz
                 const parent = document.getElementById(`quiz-${qIdx}`);
                 parent.querySelectorAll('.quiz-opt').forEach(opt => {
                     if (opt !== element) opt.classList.add('disabled');
@@ -387,10 +349,26 @@
             }
         };
 
+        window.verifyOutput = function() {
+            const input = document.getElementById('verifyInput').value.trim();
+            const expected = String(currentLesson.expected_output);
+            
+            if (input === expected) {
+                document.getElementById('verifyStatus').innerText = "✅ Output Verified! Great job.";
+                document.getElementById('verifyStatus').style.color = "var(--success)";
+                document.getElementById('verifyInput').disabled = true;
+                codeVerified = true;
+                checkMissionUnlock();
+            } else {
+                document.getElementById('verifyStatus').innerText = "❌ Incorrect output. Run your code in the REPL and check the terminal!";
+                document.getElementById('verifyStatus').style.color = "var(--error)";
+            }
+        }
+
         function checkMissionUnlock() {
             const requiredQuizzes = currentLesson.quizzes ? currentLesson.quizzes.length : 0;
-            // If user passed all quizzes for this topic, unlock submit button
-            if (quizzesPassed >= requiredQuizzes) {
+            // Both Quizzes AND Code Output must be verified
+            if (quizzesPassed >= requiredQuizzes && codeVerified) {
                 const btn = document.getElementById('submitBtn');
                 btn.disabled = false;
                 btn.innerText = "Complete Mission & Unlock Next 🚀";
@@ -398,31 +376,30 @@
         }
 
         function submitMission() {
-            // Give XP
             playerXP += 100;
             localStorage.setItem('pm_xp', playerXP);
             updateProfileUI();
 
-            // Unlock next topic
             if (currentGlobalIndex === maxUnlockedIndex) {
                 maxUnlockedIndex++;
                 localStorage.setItem('pm_max_index', maxUnlockedIndex);
             }
             
-            alert("Mission Accomplished! Next topic unlocked.");
             renderSidebar();
             
-            // Auto-load next topic if available
             if (currentGlobalIndex + 1 < flatCurriculum.length) {
                 loadLesson(currentGlobalIndex + 1);
+            } else {
+                alert("Course Complete! You are a Python Master.");
             }
         }
 
         // Init
         updateProfileUI();
-        // Wait for curriculum to load before rendering
         window.onload = () => {
             renderSidebar();
+            // Auto-load the highest unlocked lesson
+            loadLesson(maxUnlockedIndex >= flatCurriculum.length ? 0 : maxUnlockedIndex);
         };
     </script>
 </body>
