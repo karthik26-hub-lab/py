@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Mastery - The Ultimate Cheat Sheet</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --bg: #f4f5f7;
+            --text: #2d3748;
+            --border: #e2e8f0;
+            --primary: #3182ce;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); padding: 40px; margin: 0; line-height: 1.5; }
+        
+        header { text-align: center; margin-bottom: 40px; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; color: #1a202c; }
+        header p { color: #718096; font-size: 1.1rem; }
+
+        .umpire-box { background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 12px; padding: 25px; margin-bottom: 40px; }
+        .umpire-box h2 { color: #2b6cb0; margin-top: 0; font-size: 1.5rem; border-bottom: 2px solid #bee3f8; padding-bottom: 10px;}
+        .umpire-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; margin-top: 20px;}
+        .umpire-step { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .umpire-step strong { display: block; color: #3182ce; font-size: 1.1rem; margin-bottom: 5px;}
+        .umpire-step p { margin: 0; font-size: 0.85rem; color: #4a5568;}
+
+        .masonry { column-count: 3; column-gap: 25px; }
+        .card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 25px; break-inside: avoid; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .card h3 { margin-top: 0; font-size: 1.2rem; color: #1a202c; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px;}
+        
+        pre { background: var(--code-bg); color: var(--code-text); padding: 12px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 0.8rem; overflow-x: auto; margin-bottom: 15px; }
+        .c { color: #6a9955; font-style: italic;} /* comment */
+        .k { color: #569cd6; } /* keyword */
+        .f { color: #dcdcaa; } /* function */
+        .s { color: #ce9178; } /* string */
+        .n { color: #b5cea8; } /* number */
+
+        .item-list { list-style: none; padding: 0; margin: 0; }
+        .item-list li { font-family: 'Fira Code', monospace; font-size: 0.85rem; padding: 6px 0; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between;}
+        .item-list li:last-child { border-bottom: none; }
+        .item-list li span { font-family: 'Inter', sans-serif; color: #718096; font-size: 0.8rem;}
+
+        @media (max-width: 1200px) { .masonry { column-count: 2; } .umpire-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .masonry { column-count: 1; } .umpire-grid { grid-template-columns: 1fr; } }
+
+        /* PRINT STYLES */
+        @media print {
+            body { padding: 0; background: #fff; font-size: 9pt;}
+            .masonry { column-count: 3; column-gap: 15px; }
+            .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; margin-bottom: 15px; padding: 10px;}
+            pre { background: #f8f9fa; color: #000; border: 1px solid #ddd; }
+            .umpire-box { border: 1px solid #ccc; background: transparent; }
+            .umpire-step { border: 1px solid #eee; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🐍 The Ultimate Python Cheat Sheet</h1>
+        <p>A densely packed reference guide for Intermediate Developers. Press <strong>Ctrl+P</strong> to print.</p>
+    </header>
+
+    <div class="umpire-box">
+        <h2>🛠️ The UMPIRE Problem Solving Framework</h2>
+        <div class="umpire-grid">
+            <div class="umpire-step"><strong>1. Understand</strong><p>Ask clarifying questions. Identify inputs/outputs. Determine edge cases.</p></div>
+            <div class="umpire-step"><strong>2. Match</strong><p>Match problem to known patterns (Hash Map, Two Pointer, Sliding Window).</p></div>
+            <div class="umpire-step"><strong>3. Plan</strong><p>Write out the algorithm steps in plain English pseudo-code.</p></div>
+            <div class="umpire-step"><strong>4. Implement</strong><p>Translate your plan into actual Python code. Keep it clean.</p></div>
+            <div class="umpire-step"><strong>5. Review</strong><p>Trace your code manually line-by-line with a simple test case.</p></div>
+            <div class="umpire-step"><strong>6. Evaluate</strong><p>Analyze Time and Space Complexity (Big O Notation).</p></div>
+        </div>
+    </div>
+
+    <div class="masonry">
+        
+        <div class="card">
+            <h3>1. 🟢 Basics & Syntax</h3>
+            <pre><span class="c"># Variables & Naming (snake_case)</span>
+user_age <span class="k">=</span> <span class="n">25</span>
+
+<span class="c"># I/O & Casting</span>
+name <span class="k">=</span> <span class="f">input</span>(<span class="s">"Name? "</span>) <span class="c"># Always Str</span>
+age <span class="k">=</span> <span class="f">int</span>(user_age)    <span class="c"># String to Int</span>
+
+<span class="c"># f-strings</span>
+<span class="f">print</span>(<span class="s">f"Hi {name}, age {age}"</span>)
+
+<span class="c"># Type & Identity</span>
+<span class="f">print</span>(<span class="f">type</span>(name)) <span class="c"># &lt;class 'str'&gt;</span>
+<span class="f">print</span>(<span class="f">id</span>(name))   <span class="c"># memory address</span></pre>
+        </div>
+
+        <div class="card">
+            <h3>2. 🔢 Data Types</h3>
+            <ul class="item-list">
+                <li><code>int</code> <span>Whole numbers (5)</span></li>
+                <li><code>float</code> <span>Decimals (3.14)</span></li>
+                <li><code>complex</code> <span>Complex (1 + 2j)</span></li>
+                <li><code>str</code> <span>Text ("hello")</span></li>
+                <li><code>bool</code> <span>True or False</span></li>
+                <li><code>None</code> <span>Null value</span></li>
+            </ul>
+            <pre style="margin-top:15px;"><span class="c"># ⭐ Mutable vs Immutable</span>
+<span class="c"># Mutable: Lists, Dicts, Sets</span>
+<span class="c"># Immutable: Int, Float, Str, Tuple</span></pre>
+        </div>
+
+        <div class="card">
+            <h3>3. ➕ Operators</h3>
+            <ul class="item-list">
+                <li><code>+, -, *, /, //, %, **</code> <span>Arithmetic</span></li>
+                <li><code>=, +=, -=, *=</code> <span>Assignment</span></li>
+                <li><code>==, !=, >, <, >=, <=</code> <span>Comparison</span></li>
+                <li><code>and, or, not</code> <span>Logical</span></li>
+                <li><code>in, not in</code> <span>Membership</span></li>
+                <li><code>is, is not</code> <span>Identity (Memory)</span></li>
+                <li><code>&, |, ^, ~, <<, >></code> <span>Bitwise</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>4. 🔀 Conditions</h3>
+            <pre><span class="k">if</span> x > <span class="n">10</span>:
+    <span class="f">print</span>(<span class="s">"High"</span>)
+<span class="k">elif</span> x > <span class="n">5</span>:
+    <span class="f">print</span>(<span class="s">"Mid"</span>)
+<span class="k">else</span>:
+    <span class="f">print</span>(<span class="s">"Low"</span>)
+
+<span class="c"># Ternary Operator</span>
+res <span class="k">=</span> <span class="s">"Yes"</span> <span class="k">if</span> valid <span class="k">else</span> <span class="s">"No"</span></pre>
+        </div>
+
+        <div class="card">
+            <h3>5. 🔁 Loops</h3>
+            <pre><span class="k">for</span> i <span class="k">in</span> <span class="f">range</span>(<span class="n">5</span>): <span class="c"># 0 to 4</span>
+    <span class="k">if</span> i <span class="k">==</span> <span class="n">2</span>:
+        <span class="k">continue</span> <span class="c"># Skips 2</span>
+    <span class="k">if</span> i <span class="k">==</span> <span class="n">4</span>:
+        <span class="k">break</span>    <span class="c"># Exits loop early</span>
+
+<span class="k">while</span> x > <span class="n">0</span>:
+    x <span class="k">-=</span> <span class="n">1</span>
+
+<span class="c"># Enumerate (Index + Value)</span>
+<span class="k">for</span> idx, val <span class="k">in</span> <span class="f">enumerate</span>(lst):
+
+<span class="c"># Zip (Iterate multiple lists)</span>
+<span class="k">for</span> a, b <span class="k">in</span> <span class="f">zip</span>(lst1, lst2):</pre>
+        </div>
+
+        <div class="card">
+            <h3>6. 📦 Lists (Mutable, O(N))</h3>
+            <ul class="item-list">
+                <li><code>l = [1, 2, 3]</code> <span>Create</span></li>
+                <li><code>l[0] / l[-1]</code> <span>Index / Last</span></li>
+                <li><code>l[start:stop:step]</code> <span>Slicing</span></li>
+                <li><code>l.append(4)</code> <span>Add one to end</span></li>
+                <li><code>l.extend([5,6])</code> <span>Merge lists</span></li>
+                <li><code>l.insert(0, 9)</code> <span>Add at index</span></li>
+                <li><code>l.remove(9)</code> <span>Remove by value</span></li>
+                <li><code>l.pop()</code> <span>Remove/Return last</span></li>
+                <li><code>l.sort()</code> <span>In-place sort</span></li>
+                <li><code>l.reverse()</code> <span>In-place reverse</span></li>
+                <li><code>l.count(1)</code> <span>Count occurrences</span></li>
+                <li><code>l.index(2)</code> <span>Find first index</span></li>
+            </ul>
+            <pre style="margin-top:10px;"><span class="c"># List Comprehension ⭐</span>
+sq <span class="k">=</span> [x<span class="k">*</span>x <span class="k">for</span> x <span class="k">in</span> nums <span class="k">if</span> x><span class="n">0</span>]</pre>
+        </div>
+
+        <div class="card">
+            <h3>7. 📌 Tuples (Immutable, Fast)</h3>
+            <ul class="item-list">
+                <li><code>t = (1, 2, 3)</code> <span>Create</span></li>
+                <li><code>a, b, c = t</code> <span>Unpacking</span></li>
+                <li><code>t.count(1)</code> <span>Count occurrences</span></li>
+                <li><code>t.index(2)</code> <span>Find first index</span></li>
+            </ul>
+            <pre style="margin-top:10px;"><span class="c"># ⭐ Tuple vs List</span>
+<span class="c"># Tuples are read-only, which makes</span>
+<span class="c"># them memory efficient and faster.</span></pre>
+        </div>
+
+        <div class="card">
+            <h3>8. 📖 Dictionaries (Hash Map)</h3>
+            <ul class="item-list">
+                <li><code>d = {'a': 1}</code> <span>Create</span></li>
+                <li><code>d['b'] = 2</code> <span>Add / Update</span></li>
+                <li><code>del d['a']</code> <span>Delete key</span></li>
+                <li><code>d.keys()</code> <span>Iterate keys</span></li>
+                <li><code>d.values()</code> <span>Iterate values</span></li>
+                <li><code>d.items()</code> <span>Iterate (k, v)</span></li>
+                <li><code>d.get('a', 0)</code> <span>Safe access</span></li>
+                <li><code>d.update(d2)</code> <span>Merge dicts</span></li>
+                <li><code>d.pop('a')</code> <span>Remove & Return</span></li>
+            </ul>
+            <pre style="margin-top:10px;"><span class="c"># Dict Comprehension ⭐</span>
+sq <span class="k">=</span> {x: x<span class="k">*</span>x <span class="k">for</span> x <span class="k">in</span> <span class="f">range</span>(<span class="n">5</span>)}</pre>
+        </div>
+
+        <div class="card">
+            <h3>9. 🧩 Sets (Unique, O(1))</h3>
+            <ul class="item-list">
+                <li><code>s = {1, 2}</code> <span>Create</span></li>
+                <li><code>s.add(3)</code> <span>Add</span></li>
+                <li><code>s.remove(1)</code> <span>Errors if missing</span></li>
+                <li><code>s.discard(1)</code> <span>Safe remove</span></li>
+                <li><code>s1 | s2</code> <span>Union (Merge)</span></li>
+                <li><code>s1 & s2</code> <span>Intersection (Both)</span></li>
+                <li><code>s1 - s2</code> <span>Difference</span></li>
+                <li><code>s1 ^ s2</code> <span>Symmetric Diff</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>10. 🔤 Strings (Immutable)</h3>
+            <ul class="item-list">
+                <li><code>s[0:3]</code> <span>Slicing</span></li>
+                <li><code>s.upper() / lower()</code> <span>Case</span></li>
+                <li><code>s.strip()</code> <span>Remove space</span></li>
+                <li><code>s.replace('a','b')</code> <span>Find & Replace</span></li>
+                <li><code>s.split(',')</code> <span>String to List</span></li>
+                <li><code>','.join(lst)</code> <span>List to String</span></li>
+                <li><code>s.find('x')</code> <span>Returns index / -1</span></li>
+                <li><code>s.startswith('a')</code> <span>Bool check</span></li>
+                <li><code>s.endswith('z')</code> <span>Bool check</span></li>
+                <li><code>s.count('x')</code> <span>Count chars</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>11. ⚙️ Functions</h3>
+            <pre><span class="k">def</span> <span class="f">func</span>(p1, p2<span class="k">=</span><span class="s">"Default"</span>):
+    <span class="k">return</span> p1 <span class="k">+</span> p2
+
+<span class="c"># Dynamic Arguments</span>
+<span class="k">def</span> <span class="f">dyn</span>(<span class="k">*</span>args, <span class="k">**</span>kwargs):
+    <span class="c"># args = Tuple of positionals</span>
+    <span class="c"># kwargs = Dict of keywords</span>
+
+<span class="c"># ⭐ Lambda (Anonymous Func)</span>
+add <span class="k">=</span> <span class="k">lambda</span> x, y: x <span class="k">+</span> y
+
+<span class="c"># Map / Filter / Reduce</span>
+m <span class="k">=</span> <span class="f">list</span>(<span class="f">map</span>(<span class="k">lambda</span> x: x<span class="k">*</span><span class="n">2</span>, lst))
+f <span class="k">=</span> <span class="f">list</span>(<span class="f">filter</span>(<span class="k">lambda</span> x: x><span class="n">0</span>, lst))
+<span class="k">from</span> functools <span class="k">import</span> reduce
+r <span class="k">=</span> <span class="f">reduce</span>(<span class="k">lambda</span> x,y: x<span class="k">+</span>y, lst)</pre>
+        </div>
+
+        <div class="card">
+            <h3>12. 📁 File Handling</h3>
+            <pre><span class="c"># Context Manager (Auto closes)</span>
+<span class="k">with</span> <span class="f">open</span>(<span class="s">'x.txt'</span>, <span class="s">'r'</span>) <span class="k">as</span> f:
+    text <span class="k">=</span> f.<span class="f">read</span>()      <span class="c"># Whole file</span>
+    line <span class="k">=</span> f.<span class="f">readline</span>()  <span class="c"># One line</span>
+    all  <span class="k">=</span> f.<span class="f">readlines</span>() <span class="c"># List of lines</span>
+
+<span class="k">with</span> <span class="f">open</span>(<span class="s">'x.txt'</span>, <span class="s">'w'</span>) <span class="k">as</span> f:
+    f.<span class="f">write</span>(<span class="s">"Hello"</span>) <span class="c"># Overwrite</span>
+<span class="k">with</span> <span class="f">open</span>(<span class="s">'x.txt'</span>, <span class="s">'a'</span>) <span class="k">as</span> f:
+    f.<span class="f">write</span>(<span class="s">"Appended"</span>)</pre>
+        </div>
+
+        <div class="card">
+            <h3>13. 🚨 Exception Handling</h3>
+            <pre><span class="k">try</span>:
+    x <span class="k">=</span> <span class="n">1</span> <span class="k">/</span> <span class="n">0</span>
+<span class="k">except</span> ZeroDivisionError <span class="k">as</span> e:
+    <span class="f">print</span>(<span class="s">"Math err:"</span>, e)
+<span class="k">except</span> Exception:
+    <span class="f">print</span>(<span class="s">"Catch all"</span>)
+<span class="k">else</span>:
+    <span class="f">print</span>(<span class="s">"Runs if NO errors"</span>)
+<span class="k">finally</span>:
+    <span class="f">print</span>(<span class="s">"Always runs (cleanup)"</span>)
+
+<span class="c"># Raise custom error</span>
+<span class="k">raise</span> <span class="f">ValueError</span>(<span class="s">"Bad input"</span>)</pre>
+        </div>
+
+        <div class="card">
+            <h3>14. 📦 Modules & Venvs</h3>
+            <ul class="item-list">
+                <li><code>import math</code> <span>Import module</span></li>
+                <li><code>from math import pi</code> <span>Specific func</span></li>
+                <li><code>import pandas as pd</code> <span>Alias</span></li>
+                <li><code>python -m venv env</code> <span>Create Venv</span></li>
+                <li><code>pip install reqs</code> <span>Install lib</span></li>
+                <li><code>pip freeze > req.txt</code> <span>Save deps</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>15. 🏗️ OOP</h3>
+            <pre><span class="k">class</span> Animal:
+    <span class="k">def</span> <span class="f">__init__</span>(<span class="k">self</span>, name):
+        <span class="c"># Instance variable (Encapsulation)</span>
+        <span class="k">self</span>.name <span class="k">=</span> name
+        
+    <span class="c"># Method / Abstraction</span>
+    <span class="k">def</span> <span class="f">speak</span>(<span class="k">self</span>):
+        <span class="k">pass</span>
+
+<span class="c"># Inheritance</span>
+<span class="k">class</span> Dog(Animal):
+    <span class="k">def</span> <span class="f">__init__</span>(<span class="k">self</span>, name, breed):
+        <span class="f">super</span>().<span class="f">__init__</span>(name)
+        <span class="k">self</span>.breed <span class="k">=</span> breed
+        
+    <span class="c"># Polymorphism (Override)</span>
+    <span class="k">def</span> <span class="f">speak</span>(<span class="k">self</span>):
+        <span class="k">return</span> <span class="s">"Woof"</span></pre>
+        </div>
+
+        <div class="card" style="background:#e6fffa; border-color:#81e6d9;">
+            <h3>🧠 16. Interview Concepts ⭐</h3>
+            <p style="font-size:0.85rem; margin-top:0;"><strong>Mutable vs Immutable:</strong> Lists/Dicts/Sets change in place. Tuples/Strings recreate in memory.<br><br>
+            <strong>== vs is:</strong> `==` checks Values. `is` checks Memory Address.<br><br>
+            <strong>Shallow vs Deep Copy:</strong> `copy()` copies outer container references. `deepcopy()` creates fully independent clones.<br><br>
+            <strong>Iterator vs Iterable:</strong> Iterable is the container (List). Iterator is the machine looping over it (`__next__`).<br><br>
+            <strong>Generators & yield:</strong> Functions that pause execution and return items one at a time via `yield`. Highly memory efficient for massive datasets.<br><br>
+            <strong>Decorators:</strong> Functions that wrap other functions to modify behavior without changing source code (e.g., `@login_required`).<br><br>
+            <strong>Garbage Collection:</strong> Python auto-deletes memory when reference count hits 0.<br><br>
+            <strong>PEP 8:</strong> The official Python styling guide (snake_case, 4 spaces).</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
