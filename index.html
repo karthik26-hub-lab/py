@@ -342,7 +342,7 @@
 
             // LANGUAGE RESOLUTION
             let theoryData = currentLang === 'ta' && currentLesson.theory_tamil ? currentLesson.theory_tamil : currentLesson.theory;
-            let theoryHtml = `<p>${theoryData}</p>`;
+            let theoryHtml = theoryData.split('\n\n').map(p => `<p>${p}</p>`).join('');
 
             let codeHtml = `<div class="code-block"><pre>${currentLesson.code}</pre></div>`;
             if (currentLesson.code_breakdown) {
